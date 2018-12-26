@@ -1,0 +1,14 @@
+<div class="col-md-10 col-md-offset-4">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Znajdź ekipę</h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <app-game-element *ngFor="let gameElement of gameList" [game]="gameElement" (chosenGameEvent)="chosenGame($event)"></app-game-element>
+    </div>
+  </div>
+
+</div>

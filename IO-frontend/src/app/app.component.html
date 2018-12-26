@@ -1,0 +1,7 @@
+<app-login-panel (loginEmitter)="setLogin()" (registerEmitter)="setRegister()" *ngIf="!isUserLogged"></app-login-panel>
+<app-logged-navbar *ngIf="isUserLogged" (logOutEvent)="logUserOut()" (resetEvent)="resetView()"></app-logged-navbar>
+<app-login-page *ngIf="showLogin" (loginEmitter)="logUserIn()"></app-login-page>
+<app-register-page *ngIf="showRegister"></app-register-page>
+<app-feature-choice-panel *ngIf="showFeatures" (featureEvent)="chooseFeature($event)"></app-feature-choice-panel>
+<app-find-game-panel *ngIf="userIsPlayer"></app-find-game-panel>
+<app-host-game-panel *ngIf="userIsHost"></app-host-game-panel>
