@@ -39,6 +39,11 @@ public class SportObject {
 	@Column(name = "address")
 	private String address;
 
+	@NotNull(message = "is required")
+	@Size(min = 4, message = "must be at least 4 character long")
+	@Column(name = "city")
+	private String city;
+
 	@Column(name = "type")
 	@NotNull(message = "is required")
 	@Enumerated(EnumType.STRING)
@@ -51,9 +56,11 @@ public class SportObject {
 	public SportObject() {
 	}
 
-	public SportObject(String name, String address, SportObjectType type) {
+	public SportObject(String name, String address, String city,
+			SportObjectType type) {
 		this.name = name;
 		this.address = address;
+		this.city = city;
 		this.type = type;
 	}
 
@@ -101,6 +108,14 @@ public class SportObject {
 
 	public void setGames(List<Game> games) {
 		this.games = games;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 }
