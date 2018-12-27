@@ -44,15 +44,16 @@ CREATE TABLE IF NOT EXISTS `sport_object` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL ,
   `address` VARCHAR(45) NOT NULL ,
+  `city` VARCHAR(45) NOT NULL ,
   `type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO `sport_object`(`id`,`name`,`address`,`type`)
+INSERT INTO `sport_object`(`id`,`name`,`address`,`city`,`type`)
 VALUES 
-('1','Sadzawki','Sadzawki 1','ORLIK'),
-('2','Szkolna','Szkolna 2','HALA');
+('1','Sadzawki','Sadzawki 1','Kraków','ORLIK'),
+('2','Szkolna','Szkolna 2','Kraków','HALA');
 -- -----------------------------------------------------
 -- Table `io-project-02`.`user`
 -- -----------------------------------------------------
