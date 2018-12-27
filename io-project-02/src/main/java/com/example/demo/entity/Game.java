@@ -151,7 +151,6 @@ public class Game {
 
 	public void addPlayer(UserGames player) {
 		userGames.add(player);
-		needed -= 1;
 
 	}
 

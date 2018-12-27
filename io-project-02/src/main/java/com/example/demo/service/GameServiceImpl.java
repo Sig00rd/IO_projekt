@@ -105,13 +105,8 @@ public class GameServiceImpl implements GameService {
 			List<GamePriorities> priorities) {
 		Boolean priorityFlag = false;
 
-		if (game.getNeeded() > game.getUserGames().size()) {
-			priorityFlag = true;
-		}
 		for (GamePriorities priority : priorities) {
-			if (priority.getPitchRole().getName().equals(role)
-					&& priority.getNeeded() > 0) {
-				priority.setNeeded(priority.getNeeded() - 1);
+			if (priority.getPitchRole().getName().equals(role)) {
 				priorityFlag = true;
 			}
 		}
