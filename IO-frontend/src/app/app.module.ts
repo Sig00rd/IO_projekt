@@ -15,8 +15,10 @@ import {HttpClientModule} from '@angular/common/http';
 import { GameDetailsComponent } from './forms/find-game-panel/game-details/game-details.component';
 import { GameListComponent } from './forms/find-game-panel/game-list/game-list.component';
 import { GameElementComponent } from './forms/find-game-panel/game-list/game-element/game-element.component';
+import {LoggedUserService} from './services/logged.user.service';
 
 // TODO add routing
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { GameElementComponent } from './forms/find-game-panel/game-list/game-ele
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [HttpClientModule, LoggedUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

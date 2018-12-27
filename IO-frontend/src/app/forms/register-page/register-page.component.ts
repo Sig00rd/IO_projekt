@@ -38,8 +38,7 @@ export class RegisterPageComponent implements OnInit {
     if (this.validate(password, rPassword)) {
       const newUser = new CrmUser(username, password, rPassword, email);
       console.log(newUser);
-      // TODO send request for new user registration
-      // this.registerService.save(newUser).subscribe(value => console.log(value));
+       this.registerService.save(newUser).subscribe(value => console.log(value));
     }
 
   }

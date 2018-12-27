@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {User} from '../../shared/user';
+import {LoggedUserService} from '../../services/logged.user.service';
 
 @Component({
   selector: 'app-logged-navbar',
@@ -11,12 +12,15 @@ export class LoggedNavbarComponent implements OnInit {
   @Output() private logOutEvent = new EventEmitter();
   @Output() private resetEvent = new EventEmitter();
 
-  constructor() {
+  constructor(private loggedUserService: LoggedUserService) {
   }
 
   ngOnInit() {
-    this.user = new User('Tomek', 'tomeczek@tomek.com');
+    this.user = new User(this.loggedUserService.user, 'tomeczek@tomek.com');
+    console.log(this.loggedUserService.user + ' logged service user');
   }
+
+
 
 
   logOutUser() {

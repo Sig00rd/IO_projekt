@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {LoggedUserService} from '../../services/logged.user.service';
 
 @Component({
   selector: 'app-login-panel',

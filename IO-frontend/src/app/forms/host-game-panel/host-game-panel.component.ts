@@ -23,8 +23,10 @@ export class HostGamePanelComponent implements OnInit {
   }
 
   onSubmitButton() {
-    this.newGameEvent.emit(new GameLobby(this.chosenSport, this.address,
-      this.city, this.players, this.date, this.fee, this.level));
+    const newGame = new GameLobby(this.chosenSport, this.address,
+      this.city, this.players, this.date, this.fee, this.level);
+    this.newGameEvent.emit(newGame);
+    console.dir(newGame);
   }
 
 }

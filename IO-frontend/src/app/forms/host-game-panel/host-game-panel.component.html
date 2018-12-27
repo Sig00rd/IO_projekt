@@ -5,11 +5,11 @@
         <h1 style="text-align: center">Zbierz ekipę</h1>
         <div class="btn-group" style="alignment: center" data-toggle="buttons" id="chooseSport">
           <label>Wybierz sport:</label>
-          <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="football" value="piłka nożna">
+          <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="football" value="football">
           <label for="football"> Piłka nożna</label>
-          <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="basketball" value="koszykówka">
+          <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="basketball" value="basketball">
           <label for="basketball"> Koszykówka</label>
-          <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="volleyball" value="siatkówka">
+          <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="volleyball" value="volleyball">
           <label for="volleyball"> Siatkówka</label>
           <input type="radio" [(ngModel)]="chosenSport" name="sport-group" id="others" value="others"
                  *ngIf="chosenSport !== 'others'">
@@ -45,7 +45,7 @@
             <label for="priority">Priorytety</label>
             <input type="checkbox" id="priority" >
           </div>
-          <input type="button" class="btn btn-lg btn-primary" style="alignment: center" value="Dodaj ogłoszenie" (click)="newGameEvent">
+          <input type="button" class="btn btn-lg btn-primary" style="alignment: center" value="Dodaj ogłoszenie" (click)="onSubmitButton()">
         </div>
       </div>
     </div>
