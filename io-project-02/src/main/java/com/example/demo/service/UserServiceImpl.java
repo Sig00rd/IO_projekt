@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
+import com.example.demo.dao.RoleDao;
+import com.example.demo.dao.UserDao;
+import com.example.demo.entity.Role;
+import com.example.demo.entity.User;
+import com.example.demo.user.CrmUser;
+import com.example.demo.user.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.dao.RoleDao;
-import com.example.demo.dao.UserDao;
-import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
-import com.example.demo.user.CrmUser;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -67,6 +67,19 @@ public class UserServiceImpl implements UserService {
 		return new org.springframework.security.core.userdetails.User(
 				user.getUserName(), user.getPassword(),
 				mapRolesToAuthorities(user.getRoles()));
+	}
+
+	@Transactional
+	public String verifyUser(UserLogin userLogin) {
+		User user = userDao.findByUserName(userLogin.getUsername());
+		String username = "";
+		if(user == null )
+			return username;
+		String passEncoded = passwordEncoder.encode(userLogin.getPassword());
+		if(passwordEncoder.matches(userLogin.getPassword(), user.getPassword())){
+			username = userLogin.getUsername();
+		}
+		return username;
 	}
 
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(

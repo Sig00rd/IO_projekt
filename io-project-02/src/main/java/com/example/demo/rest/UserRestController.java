@@ -3,6 +3,7 @@ package com.example.demo.rest;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.example.demo.user.CrmUser;
+import com.example.demo.user.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,12 @@ public class UserRestController {
 		}
 
 		return crmUser;
+	}
+
+	@PostMapping(value = "/api/login", produces = "application/json")
+	public UserLogin loginUser(@RequestBody UserLogin userLogin) {
+		logger.info(">>>>Logging in user: " + userLogin);
+		String username = userService.verifyUser(userLogin);
+		return new UserLogin(username);
 	}
 }
