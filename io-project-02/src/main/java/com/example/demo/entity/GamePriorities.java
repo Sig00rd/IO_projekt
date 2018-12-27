@@ -24,13 +24,6 @@ public class GamePriorities {
 	@JoinColumn(name = "pitch_role_id")
 	private PitchRole pitchRole;
 
-	/*
-	 * @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE,
-	 * CascadeType.PERSIST, CascadeType.REFRESH })
-	 * 
-	 * @JoinColumn(name = "game_id") private Game game;
-	 */
-
 	@Column(name = "needed")
 	private int needed;
 

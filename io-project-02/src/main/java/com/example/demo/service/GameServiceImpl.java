@@ -108,10 +108,7 @@ public class GameServiceImpl implements GameService {
 		if (game.getNeeded() > game.getUserGames().size()) {
 			priorityFlag = true;
 		}
-		logger.info(">>>>Input role: " + role);
 		for (GamePriorities priority : priorities) {
-			logger.info(
-					">>>>Role from DB: " + priority.getPitchRole().getName());
 			if (priority.getPitchRole().getName().equals(role)
 					&& priority.getNeeded() > 0) {
 				priority.setNeeded(priority.getNeeded() - 1);
