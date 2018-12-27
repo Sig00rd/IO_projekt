@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.DisciplineDao;
 import com.example.demo.dao.GameDao;
+import com.example.demo.dao.PitchRoleDao;
 import com.example.demo.dao.SportObjectDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.Discipline;
@@ -40,6 +41,9 @@ public class GameServiceImpl implements GameService {
 	@Autowired
 	private UserDao userDao;
 
+	@Autowired
+	private PitchRoleDao pitchRoleDao;
+
 	@Override
 	public Optional<Game> getGame(Long id) {
 		return gameDao.findById(id);
@@ -63,11 +67,14 @@ public class GameServiceImpl implements GameService {
 		Game game = new Game(gameForm.getCost(), gameForm.getNeeded(),
 				gameForm.getDate(), gameForm.getLevel(), sportObject, owner,
 				discipline);
-		game.setPriorityDate(gameForm.getPriorityDate());
 
+		game.setPriorityDate(gameForm.getPriorityDate());
 		Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
 		for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
-			// GamePriorities gamePriority = new GamePriorities(, needed)
+			GamePriorities gamePriority = new GamePriorities(
+					pitchRoleDao.findPitchRoleByName(entry.getKey()),
+					entry.getValue());
+			game.addPriorityPitchRole(gamePriority);
 		}
 
 		gameDao.save(game);

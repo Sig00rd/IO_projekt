@@ -178,5 +178,8 @@ public class Game {
 	public void setLevel(LevelType level) {
 		this.level = level;
 	}
+	public void addPriorityPitchRole(GamePriorities priorityRole) {
+		gamePriorities.add(priorityRole);
+	}
 
 }
