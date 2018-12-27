@@ -14,4 +14,6 @@ public interface GameService {
 
 	void save(GameForm gameForm);
 
+	void signUpPlayer(Long id, String role);
+
 }

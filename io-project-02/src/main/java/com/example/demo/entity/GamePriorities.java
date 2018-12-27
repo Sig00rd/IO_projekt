@@ -19,13 +19,17 @@ public class GamePriorities {
 	@Column(name = "id")
 	private Long id;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "pitch_role_id")
 	private PitchRole pitchRole;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	@JoinColumn(name = "game_id")
-	private Game game;
+	/*
+	 * @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE,
+	 * CascadeType.PERSIST, CascadeType.REFRESH })
+	 * 
+	 * @JoinColumn(name = "game_id") private Game game;
+	 */
 
 	@Column(name = "needed")
 	private int needed;
@@ -33,8 +37,7 @@ public class GamePriorities {
 	public GamePriorities() {
 	}
 
-	public GamePriorities(Game game, PitchRole pitchRoleId, int needed) {
-		this.game = game;
+	public GamePriorities(PitchRole pitchRoleId, int needed) {
 		this.pitchRole = pitchRoleId;
 		this.needed = needed;
 	}
@@ -55,25 +58,12 @@ public class GamePriorities {
 		this.pitchRole = pitchRole;
 	}
 
-	public Game getGame() {
-		return game;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
-	}
-
 	public int getNeeded() {
 		return needed;
 	}
 
 	public void setNeeded(int needed) {
 		this.needed = needed;
-	}
-
-	@Override
-	public String toString() {
-		return "GamePriorities [id=" + id + ", pitchRole=" + pitchRole + ", game=" + game + ", needed=" + needed + "]";
 	}
 
 }
