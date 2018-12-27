@@ -19,37 +19,39 @@ import com.example.demo.service.UserService;
 @EnableWebSecurity
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth)
-			throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
 
-		auth.authenticationProvider(authenticationProvider());
-	}
+        auth.authenticationProvider(authenticationProvider());
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**")
-				.hasRole("USER").and().httpBasic().and().csrf().disable()
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**")
+                .permitAll().antMatchers(HttpMethod.POST, "/api/**").permitAll()
+                .and().httpBasic().and().csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ;
 
-	}
+    }
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-		auth.setPasswordEncoder(passwordEncoder());
-		auth.setUserDetailsService(userService);
-		return auth;
-	}
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setPasswordEncoder(passwordEncoder());
+        auth.setUserDetailsService(userService);
+        return auth;
+    }
 
 }
