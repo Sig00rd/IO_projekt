@@ -67,7 +67,8 @@ public class Game {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
 	private List<UserGames> userGames = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "game_id")
 	private List<GamePriorities> gamePriorities = new ArrayList<>();
 
 	public Game(Float cost, Integer needed, Date date, LevelType level,
@@ -150,6 +151,7 @@ public class Game {
 
 	public void addPlayer(UserGames player) {
 		userGames.add(player);
+		needed -= 1;
 
 	}
 
