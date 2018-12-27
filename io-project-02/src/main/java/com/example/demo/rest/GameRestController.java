@@ -2,6 +2,7 @@ package com.example.demo.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Game;
 import com.example.demo.form.GameForm;
-import com.example.demo.service.GamePrioritiesService;
 import com.example.demo.service.GameService;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
@@ -22,11 +22,10 @@ import com.example.demo.wrapper.LobbyWrapper;
 @RequestMapping("/api")
 public class GameRestController {
 
-	@Autowired
-	private GameService gameService;
+	private Logger logger = Logger.getLogger(getClass().getName());
 
 	@Autowired
-	private GamePrioritiesService gamePrioritiesService;
+	private GameService gameService;
 
 	@GetMapping("/games/{id}")
 	public GameWrapper getGame(@PathVariable Long id) {
@@ -69,9 +68,17 @@ public class GameRestController {
 	public void createGame(@RequestBody GameForm gameForm) {
 
 		gameService.save(gameForm);
-		if (gameForm.getPriorityDate() != null) {
-			gamePrioritiesService.save(gameForm.getPitchRoles());
-		}
 
 	}
+	@PostMapping("/games/{id}")
+	public void signUpForGame(@PathVariable Long id,
+			@RequestBody(required = false) String role) {
+
+		if (role == null) {
+			role = "";
+		}
+		gameService.signUpPlayer(id, role);
+
+	}
+
 }

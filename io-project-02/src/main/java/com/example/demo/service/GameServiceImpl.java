@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import javax.transaction.Transactional;
 
@@ -15,12 +17,16 @@ import com.example.demo.dao.SportObjectDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.Discipline;
 import com.example.demo.entity.Game;
+import com.example.demo.entity.GamePriorities;
 import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
+import com.example.demo.entity.UserGames;
 import com.example.demo.form.GameForm;
 
 @Service
 public class GameServiceImpl implements GameService {
+
+	private Logger logger = Logger.getLogger(getClass().getName());
 
 	@Autowired
 	private GameDao gameDao;
@@ -59,8 +65,53 @@ public class GameServiceImpl implements GameService {
 				discipline);
 		game.setPriorityDate(gameForm.getPriorityDate());
 
+		Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
+		for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
+			// GamePriorities gamePriority = new GamePriorities(, needed)
+		}
+
 		gameDao.save(game);
 
+	}
+
+	@Override
+	@Transactional
+	public void signUpPlayer(Long id, String role) {
+
+		User player = userDao.findByUserName(SecurityContextHolder.getContext()
+				.getAuthentication().getName());
+		Game game = gameDao.findById(id).orElse(null);
+
+		List<GamePriorities> priorities = game.getGamePriorities();
+
+		Boolean priorityFlag = assignPlayerPriorityFlag(role, game, priorities);
+
+		UserGames userGames = new UserGames(player, game, priorityFlag);
+
+		game.addPlayer(userGames);
+
+		player.addGame(userGames);
+
+	}
+
+	private Boolean assignPlayerPriorityFlag(String role, Game game,
+			List<GamePriorities> priorities) {
+		Boolean priorityFlag = false;
+
+		if (game.getNeeded() > game.getUserGames().size()) {
+			priorityFlag = true;
+		}
+		logger.info(">>>>Input role: " + role);
+		for (GamePriorities priority : priorities) {
+			logger.info(
+					">>>>Role from DB: " + priority.getPitchRole().getName());
+			if (priority.getPitchRole().getName().equals(role)
+					&& priority.getNeeded() > 0) {
+				priority.setNeeded(priority.getNeeded() - 1);
+				priorityFlag = true;
+			}
+		}
+		return priorityFlag;
 	}
 
 }
