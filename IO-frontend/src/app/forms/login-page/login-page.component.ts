@@ -15,6 +15,7 @@ export class LoginPageComponent implements OnInit {
   private LOGIN_API = this.API + '/api/login';
 
   loginForm: FormGroup;
+  loginFailed = false;
 
   constructor(private http: HttpClient, private loggedUserService: LoggedUserService) {
   }
@@ -32,10 +33,16 @@ export class LoginPageComponent implements OnInit {
       (response: HttpEvent<Object>) => {
         console.log(response);
         this.loggedUserService.user = response['username'];
-        console.log(this.loggedUserService.user + ' logged service user');
-        this.loginEmitter.emit();
+        if (this.loggedUserService.user !== '') {
+          this.loginFailed = false;
+          this.loginEmitter.emit();
+        } else {
+          this.loginFailed = true;
+          this.loginForm.get('password').setValue('');
+        }
+
       }
-  );
+    );
 
   }
 
