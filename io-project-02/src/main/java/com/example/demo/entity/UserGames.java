@@ -25,16 +25,20 @@ public class UserGames {
 	@Column(name = "id")
 	private Long id;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "game_id")
 	private Game game;
 
-	@Column(name = "priority")
-	private boolean priority;
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "pitch_role_id")
+	private PitchRole pitchRole;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -44,10 +48,10 @@ public class UserGames {
 	public UserGames() {
 	}
 
-	public UserGames(User user, Game game, boolean priority) {
+	public UserGames(User user, Game game, PitchRole pitchRole) {
 		this.user = user;
 		this.game = game;
-		this.priority = priority;
+		this.pitchRole = pitchRole;
 	}
 
 	public Long getId() {
@@ -74,20 +78,20 @@ public class UserGames {
 		this.game = game;
 	}
 
-	public boolean isPriority() {
-		return priority;
-	}
-
-	public void setPriority(boolean priority) {
-		this.priority = priority;
-	}
-
 	public Date getCreated() {
 		return created;
 	}
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	public PitchRole getPitchRole() {
+		return pitchRole;
+	}
+
+	public void setPitchRole(PitchRole pitchRole) {
+		this.pitchRole = pitchRole;
 	}
 
 }

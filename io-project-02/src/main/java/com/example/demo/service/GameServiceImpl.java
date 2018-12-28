@@ -19,6 +19,7 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.entity.Discipline;
 import com.example.demo.entity.Game;
 import com.example.demo.entity.GamePriorities;
+import com.example.demo.entity.PitchRole;
 import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
@@ -89,28 +90,14 @@ public class GameServiceImpl implements GameService {
 				.getAuthentication().getName());
 		Game game = gameDao.findById(id).orElse(null);
 
-		List<GamePriorities> priorities = game.getGamePriorities();
+		PitchRole pitchRole = pitchRoleDao.findPitchRoleByName(role);
 
-		Boolean priorityFlag = assignPlayerPriorityFlag(role, game, priorities);
-
-		UserGames userGames = new UserGames(player, game, priorityFlag);
+		UserGames userGames = new UserGames(player, game, pitchRole);
 
 		game.addPlayer(userGames);
 
 		player.addGame(userGames);
 
-	}
-
-	private Boolean assignPlayerPriorityFlag(String role, Game game,
-			List<GamePriorities> priorities) {
-		Boolean priorityFlag = false;
-
-		for (GamePriorities priority : priorities) {
-			if (priority.getPitchRole().getName().equals(role)) {
-				priorityFlag = true;
-			}
-		}
-		return priorityFlag;
 	}
 
 }
