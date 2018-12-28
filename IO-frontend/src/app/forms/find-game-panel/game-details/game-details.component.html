@@ -3,11 +3,11 @@
 <div class="row">
   <div class="col-xs-12">
     <img src="https://www.telegraph.co.uk/content/dam/news/2016/11/27/dump-tower-twitter_trans_NvBQzQNjv4BqeY8zn44CJx5co60z9sMGTUWjmulo7wva9c-kqRbE-Zc.jpg?imwidth=450">
-    <h1>{{selectedGame.sport}}</h1>
-    <h3>{{'Adres: ' + selectedGame.address + ' ' + selectedGame.city}}</h3>
+    <h1>{{sportsService.sports[selectedGame.discipline.toLowerCase()]}}</h1>
+    <h3>{{'Adres: ' + selectedGame.sportObject.address + ' ' + selectedGame.sportObject.city}}</h3>
     <h3>{{'Data: ' + selectedGame.date}}</h3>
-    <h4>{{'Aktualnie potrzeba jeszcze ' + selectedGame.players + ' graczy'}}</h4>
-    <h4>{{'Opłata za grę: ' + selectedGame.fee + ' zł'}}</h4>
+    <h4>{{'Aktualnie potrzeba jeszcze ' + selectedGame.needed + ' graczy'}}</h4>
+    <h4>{{'Opłata za grę: ' + selectedGame.cost + ' zł'}}</h4>
 
     <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
 

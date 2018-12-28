@@ -16,6 +16,7 @@ import { GameDetailsComponent } from './forms/find-game-panel/game-details/game-
 import { GameListComponent } from './forms/find-game-panel/game-list/game-list.component';
 import { GameElementComponent } from './forms/find-game-panel/game-list/game-element/game-element.component';
 import {LoggedUserService} from './services/logged.user.service';
+import {SportsService} from './services/sports.service';
 
 // TODO add routing
 
@@ -41,7 +42,7 @@ import {LoggedUserService} from './services/logged.user.service';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [HttpClientModule, LoggedUserService],
+  providers: [HttpClientModule, LoggedUserService, SportsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

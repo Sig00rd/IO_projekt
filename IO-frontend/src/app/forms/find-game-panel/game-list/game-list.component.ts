@@ -8,12 +8,14 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./game-list.component.css']
 })
 export class GameListComponent implements OnInit {
+
+
+  gameList: GameLobby[] = [];
+
   @Output() selectedGameEvent = new EventEmitter<GameLobby>();
-  @Input() gameList: GameLobby[] = [new GameLobby('Siatkówka', 'Zarzecze 12', 'Kraków', 5, '12/12/2012', 15, 'A'),
-    new GameLobby('Piłka nożna', 'Krakowskie Przedmieście 9', 'Warszawa', 8, '07/01/2015', 8, 'CC/B')];
 
   private API = 'http://localhost:8080';
-  private GAMES_API = this.API + '/api/register';
+  private GAMES_API = this.API + '/api/games';
 
   constructor(private http: HttpClient) {
   }
@@ -28,7 +30,7 @@ export class GameListComponent implements OnInit {
 
   getGames() {
     this.http.get(this.GAMES_API).subscribe(
-      (respond) => console.log(respond));
+      (respond: GameLobby[]) => this.gameList = respond);
   }
 
 

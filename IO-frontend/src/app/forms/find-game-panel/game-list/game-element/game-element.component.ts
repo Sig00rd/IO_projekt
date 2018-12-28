@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GameLobby} from '../../../../shared/game.lobby';
+import {SportsService} from '../../../../services/sports.service';
 
 @Component({
   selector: 'app-game-element',
@@ -10,7 +11,7 @@ export class GameElementComponent implements OnInit {
   @Input() game: GameLobby;
   @Output() chosenGameEvent = new EventEmitter<GameLobby>();
 
-  constructor() {
+  constructor(private sportsService: SportsService) {
   }
 
   ngOnInit() {
