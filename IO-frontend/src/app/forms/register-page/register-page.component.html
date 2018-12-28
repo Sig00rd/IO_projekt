@@ -2,8 +2,22 @@
   <div class="row">
     <div class="col-md-16">
       <div class="well login-box">
+
         <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
           <h1 style="text-align: center">Zarejestruj się</h1>
+          <div class="alert alert-danger" *ngIf="invalidForm">
+            <p>Błędne dane:</p>
+            <ul>
+              <li *ngIf="registerForm.get('username').invalid">nazwa użytkownika musi zawierać od 3 do 10 znaków</li>
+              <li *ngIf="userExists">nazwa użytkownika jest już zajęta</li>
+              <li *ngIf="registerForm.get('email').invalid">niepoprawny format adresu email</li>
+              <li *ngIf="!passwordMatch">hasła muszą się zgadzać</li>
+              <li *ngIf="registerForm.get('password').invalid">hasło musi mieć minimalne 5 znaków</li>
+            </ul>
+          </div>
+          <div class="alert alert-success" *ngIf="userRegistered">
+            <p>Rejestracja przebiegła pomyślnie</p>
+          </div>
           <div class="form-group">
             <input placeholder="Nazwa użytkownika" type="text" class="form-control" formControlName="username"/>
           </div>
@@ -15,7 +29,7 @@
           </div>
           <div class="form-group">
             <input placeholder="Powtórz hasło" type="password" class="form-control" formControlName="rPassword"/>
-          </div>
+          </div> <!-- TODO add rules confirmation checkbox -->
           <div class="form-group text-center">
             <button class="btn btn-lg btn-primary" type="submit">Zarejestruj</button>
           </div>
