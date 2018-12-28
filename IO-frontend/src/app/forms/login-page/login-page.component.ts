@@ -31,7 +31,6 @@ export class LoginPageComponent implements OnInit {
     console.log(userLogin);
     this.http.post(this.LOGIN_API, userLogin).subscribe(
       (response: HttpEvent<Object>) => {
-        console.log(response);
         this.loggedUserService.user = response['username'];
         if (this.loggedUserService.user !== '') {
           this.loginFailed = false;

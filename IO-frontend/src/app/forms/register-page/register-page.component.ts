@@ -42,10 +42,9 @@ export class RegisterPageComponent implements OnInit {
     const rPassword = this.registerForm.get('rPassword').value;
 
     this.passwordMatch = this.validate(password, rPassword);
-
-    if (this.invalidForm = this.registerForm.invalid) {
+    this.invalidForm = this.registerForm.invalid;
+    if (!this.invalidForm) {
       const newUser = new CrmUser(username, password, rPassword, email);
-      console.log(newUser);
       this.registerService.save(newUser).subscribe((response: CrmUser) => {
         if (response['userName'] == null) {
           this.userExists = true;
