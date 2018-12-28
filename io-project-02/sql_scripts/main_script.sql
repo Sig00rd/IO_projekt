@@ -163,11 +163,12 @@ CREATE TABLE IF NOT EXISTS `user_games` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `user_id` INT(11) NOT NULL,
   `game_id` INT(11) NOT NULL,
-  `priority` TINYINT NOT NULL,
+  `pitch_role_id` INT DEFAULT NULL,
   `created` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_has_game_game1_idx` (`game_id` ASC) VISIBLE,
   INDEX `fk_user_has_game_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_user_has_game_pitch_role1_idx` (`pitch_role_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_has_game_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)
@@ -176,6 +177,11 @@ CREATE TABLE IF NOT EXISTS `user_games` (
   CONSTRAINT `fk_user_has_game_game1`
     FOREIGN KEY (`game_id`)
     REFERENCES `game` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_game_pitch_role1`
+	FOREIGN KEY (`pitch_role_id`)
+    REFERENCES `pitch_role`(`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
