@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-feature-choice-panel',
@@ -8,14 +9,14 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class FeatureChoicePanelComponent implements OnInit {
   @Output() featureEvent = new EventEmitter<string>();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
   }
 
   chooseFeature(feature: string) {
-    this.featureEvent.emit(feature);
+    this.router.navigate([feature]);
   }
 
 }

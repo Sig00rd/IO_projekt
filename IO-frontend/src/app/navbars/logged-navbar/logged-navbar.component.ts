@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {User} from '../../shared/user';
 import {LoggedUserService} from '../../services/logged.user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-logged-navbar',
@@ -10,14 +11,12 @@ import {LoggedUserService} from '../../services/logged.user.service';
 export class LoggedNavbarComponent implements OnInit {
   private user: User;
   @Output() private logOutEvent = new EventEmitter();
-  @Output() private resetEvent = new EventEmitter();
 
-  constructor(private loggedUserService: LoggedUserService) {
+  constructor(private loggedUserService: LoggedUserService, private router: Router) {
   }
 
   ngOnInit() {
-    this.user = new User(this.loggedUserService.user, 'tomeczek@tomek.com');
-    console.log(this.loggedUserService.user + ' logged service user');
+    this.user = new User(this.loggedUserService.user, 'tomeczek@tomek.com'); // TODO get proper email
   }
 
 
@@ -29,6 +28,6 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   backToFeatures() {
-    this.resetEvent.emit();
+    this.router.navigate(['/home']);
   }
 }

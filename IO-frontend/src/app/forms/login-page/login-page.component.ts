@@ -3,6 +3,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserLogin} from '../../shared/user.login';
 import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
 import {LoggedUserService} from '../../services/logged.user.service';
+import {Router} from '@angular/router';
+
+// TODO add logging with facebook/google
+// TODO add profile view and edit
 
 @Component({
   selector: 'app-login-page',
@@ -17,7 +21,7 @@ export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   loginFailed = false;
 
-  constructor(private http: HttpClient, private loggedUserService: LoggedUserService) {
+  constructor(private http: HttpClient, private loggedUserService: LoggedUserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -35,6 +39,7 @@ export class LoginPageComponent implements OnInit {
         if (this.loggedUserService.user !== '') {
           this.loginFailed = false;
           this.loginEmitter.emit();
+          this.router.navigate(['/home']);
         } else {
           this.loginFailed = true;
           this.loginForm.get('password').setValue('');

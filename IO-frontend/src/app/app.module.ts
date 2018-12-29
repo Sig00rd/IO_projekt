@@ -12,15 +12,26 @@ import {HostGamePanelComponent} from './forms/host-game-panel/host-game-panel.co
 import {FindGamePanelComponent} from './forms/find-game-panel/find-game-panel.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { GameDetailsComponent } from './forms/find-game-panel/game-details/game-details.component';
-import { GameListComponent } from './forms/find-game-panel/game-list/game-list.component';
-import { GameElementComponent } from './forms/find-game-panel/game-list/game-element/game-element.component';
+import {GameDetailsComponent} from './forms/find-game-panel/game-details/game-details.component';
+import {GameListComponent} from './forms/find-game-panel/game-list/game-list.component';
+import {GameElementComponent} from './forms/find-game-panel/game-list/game-element/game-element.component';
 import {LoggedUserService} from './services/logged.user.service';
 import {SportsService} from './services/sports.service';
 import {AgmCoreModule} from '@agm/core';
 import {MapsService} from './services/maps.service';
+import {RouterModule, Routes} from '@angular/router';
 
-// TODO add routing
+// TODO add routing details
+// TODO add routing guards
+
+const appRoutes: Routes = [
+    {path: 'login', component: LoginPageComponent},
+    {path: 'register', component: RegisterPageComponent},
+    {path: 'home', component: FeatureChoicePanelComponent},
+    {path: 'find', component: FindGamePanelComponent},
+    {path: 'host', component: HostGamePanelComponent}
+  ]
+;
 
 
 @NgModule({
@@ -45,7 +56,8 @@ import {MapsService} from './services/maps.service';
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDTcMb9tsqsJSfWymNME76U1Zze1bORsSg'
-    })
+    }),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [HttpClientModule, LoggedUserService, SportsService, MapsService],
   bootstrap: [AppComponent]

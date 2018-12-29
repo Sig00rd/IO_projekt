@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LoggedUserService} from '../../services/logged.user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-panel',
@@ -7,21 +8,19 @@ import {LoggedUserService} from '../../services/logged.user.service';
   styleUrls: ['./login-panel.component.css']
 })
 export class LoginPanelComponent implements OnInit {
-  @Output() loginEmitter = new EventEmitter();
-  @Output() registerEmitter = new EventEmitter();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
   }
 
   switchToLogin() {
-    this.loginEmitter.emit();
+    this.router.navigate(['/login']);
   }
 
   switchToRegister() {
-    this.registerEmitter.emit();
+    this.router.navigate(['/register']);
   }
 
 
