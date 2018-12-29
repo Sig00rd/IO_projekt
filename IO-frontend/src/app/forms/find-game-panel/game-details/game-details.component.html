@@ -2,7 +2,10 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <img src="https://www.telegraph.co.uk/content/dam/news/2016/11/27/dump-tower-twitter_trans_NvBQzQNjv4BqeY8zn44CJx5co60z9sMGTUWjmulo7wva9c-kqRbE-Zc.jpg?imwidth=450">
+    <agm-map [latitude]="this.lat" [longitude]="this.lng">
+      <agm-marker [latitude]="this.lat" [longitude]="this.lng">
+      </agm-marker>
+    </agm-map>
     <h1>{{sportsService.sports[selectedGame.discipline.toLowerCase()]}}</h1>
     <h3>{{'Adres: ' + selectedGame.sportObject.address + ' ' + selectedGame.sportObject.city}}</h3>
     <h3>{{'Data: ' + selectedGame.date}}</h3>

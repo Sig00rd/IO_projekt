@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GameLobby} from '../../../shared/game.lobby';
 import {SportsService} from '../../../services/sports.service';
+import {MapsService} from '../../../services/maps.service';
 
 @Component({
   selector: 'app-game-details',
@@ -10,6 +11,8 @@ import {SportsService} from '../../../services/sports.service';
 export class GameDetailsComponent implements OnInit {
   @Input() selectedGame: GameLobby;
   @Output() buttonClicked = new EventEmitter();
+  @Input() public lat: number;
+  @Input() public lng: number;
 
   constructor(private sportsService: SportsService) {
   }

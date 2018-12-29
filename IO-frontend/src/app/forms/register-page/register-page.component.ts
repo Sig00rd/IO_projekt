@@ -40,7 +40,7 @@ export class RegisterPageComponent implements OnInit {
     const email = this.registerForm.get('email').value;
     const password = this.registerForm.get('password').value;
     const rPassword = this.registerForm.get('rPassword').value;
-
+    // TODO check if email already exist
     this.passwordMatch = this.validate(password, rPassword);
     this.invalidForm = this.registerForm.invalid;
     if (!this.invalidForm) {

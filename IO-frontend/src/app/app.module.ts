@@ -17,6 +17,8 @@ import { GameListComponent } from './forms/find-game-panel/game-list/game-list.c
 import { GameElementComponent } from './forms/find-game-panel/game-list/game-element/game-element.component';
 import {LoggedUserService} from './services/logged.user.service';
 import {SportsService} from './services/sports.service';
+import {AgmCoreModule} from '@agm/core';
+import {MapsService} from './services/maps.service';
 
 // TODO add routing
 
@@ -40,9 +42,12 @@ import {SportsService} from './services/sports.service';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDTcMb9tsqsJSfWymNME76U1Zze1bORsSg'
+    })
   ],
-  providers: [HttpClientModule, LoggedUserService, SportsService],
+  providers: [HttpClientModule, LoggedUserService, SportsService, MapsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
