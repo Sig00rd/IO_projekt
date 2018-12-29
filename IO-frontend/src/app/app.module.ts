@@ -1,5 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
 
 import {AppComponent} from './app.component';
 import {LoginPanelComponent} from './navbars/login-panel/login-panel.component';
@@ -30,9 +32,8 @@ const appRoutes: Routes = [
     {path: 'home', component: FeatureChoicePanelComponent},
     {path: 'find', component: FindGamePanelComponent},
     {path: 'host', component: HostGamePanelComponent}
-  ]
-;
-
+  ];
+registerLocaleData(localePl);
 
 @NgModule({
   declarations: [
@@ -59,7 +60,12 @@ const appRoutes: Routes = [
     }),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [HttpClientModule, LoggedUserService, SportsService, MapsService],
+  providers: [
+    HttpClientModule,
+    LoggedUserService,
+    SportsService,
+    MapsService,
+    {provide: LOCALE_ID, useValue: 'pl'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
