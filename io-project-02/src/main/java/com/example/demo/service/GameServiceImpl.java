@@ -63,8 +63,9 @@ public class GameServiceImpl implements GameService {
 				.getAuthentication().getName());
 		Discipline discipline = disciplineDao
 				.findDisciplineByName(gameForm.getDisciplineName());
-		SportObject sportObject = sportObjectDao
-				.findSportObjectByName(gameForm.getSportObjectName());
+
+		SportObject sportObject = extractSportObject(gameForm);
+
 		Game game = new Game(gameForm.getCost(), gameForm.getNeeded(),
 				gameForm.getDate(), gameForm.getLevel(), sportObject, owner,
 				discipline);
@@ -80,6 +81,24 @@ public class GameServiceImpl implements GameService {
 
 		gameDao.save(game);
 
+	}
+
+	private SportObject extractSportObject(GameForm gameForm) {
+		SportObject sportObject;
+		String sportObjectNameOrAddress = gameForm.getSportObjectName();
+
+		if (sportObjectNameOrAddress.contains(",")) {
+			String[] addressAndCity = sportObjectNameOrAddress.trim()
+					.split("\\s*,\\s*");
+			String address = addressAndCity[0];
+			String city = addressAndCity[1];
+			sportObject = sportObjectDao
+					.findSportObjectByAddressAndCity(address, city);
+		} else {
+			sportObject = sportObjectDao
+					.findSportObjectByName(gameForm.getSportObjectName());
+		}
+		return sportObject;
 	}
 
 	@Override
