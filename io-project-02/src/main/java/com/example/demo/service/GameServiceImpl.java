@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
 import com.example.demo.form.GameForm;
+import com.example.demo.wrapper.LobbyWrapper;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -70,15 +72,18 @@ public class GameServiceImpl implements GameService {
 				gameForm.getDate(), gameForm.getLevel(), sportObject, owner,
 				discipline);
 
-		game.setPriorityDate(gameForm.getPriorityDate());
-		Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
-		for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
-			GamePriorities gamePriority = new GamePriorities(
-					pitchRoleDao.findPitchRoleByName(entry.getKey()),
-					entry.getValue());
-			game.addPriorityPitchRole(gamePriority);
+		if (gameForm.getPriorityDate() != null) {
+			game.setPriorityDate(gameForm.getPriorityDate());
+			game.setPriorityNeeded(0);
+			game.setPriorityEnrolled(0);
+			Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
+			for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
+				GamePriorities gamePriority = new GamePriorities(
+						pitchRoleDao.findPitchRoleByName(entry.getKey()),
+						entry.getValue());
+				game.addPriorityPitchRole(gamePriority);
+			}
 		}
-
 		gameDao.save(game);
 
 	}
@@ -117,6 +122,31 @@ public class GameServiceImpl implements GameService {
 
 		player.addGame(userGames);
 
+	}
+
+	@Override
+	@Transactional
+	public LobbyWrapper getLobby(Long id) {
+
+		Game game = gameDao.findById(id).orElse(null);
+		LobbyWrapper lobbyWrapper = getLobbyWrapperFromGame(game);
+		List<GamePriorities> priorities = game.getGamePriorities();
+		lobbyWrapper.addPrioritiesNeeded(priorities);
+		List<UserGames> players = game.getUserGames();
+		players.sort(Comparator.comparing(UserGames::getCreated));
+		lobbyWrapper.addPlayerRoles(players);
+
+		return lobbyWrapper;
+	}
+
+	private LobbyWrapper getLobbyWrapperFromGame(Game game) {
+		LobbyWrapper lobbyWrapper = new LobbyWrapper(game.getId(),
+				game.getDiscipline().getName(), game.getCost(),
+				game.getNeeded(), game.getPriorityNeeded(), game.getEnrolled(),
+				game.getPriorityEnrolled(), game.getDate(),
+				game.getPriorityDate(), game.getLevel(), game.getSportObject(),
+				game.getUser().getUserName());
+		return lobbyWrapper;
 	}
 
 }

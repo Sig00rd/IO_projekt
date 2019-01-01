@@ -34,8 +34,10 @@ public class GameRestController {
 
 		GameWrapper gameWrapper = new GameWrapper(game.getId(),
 				game.getDiscipline().getName(), game.getCost(),
-				game.getNeeded(), game.getDate(), game.getLevel(),
-				game.getSportObject(), game.getUser().getUserName());
+				game.getNeeded(), game.getPriorityNeeded(), game.getEnrolled(),
+				game.getPriorityEnrolled(), game.getDate(),
+				game.getPriorityDate(), game.getLevel(), game.getSportObject(),
+				game.getUser().getUserName());
 
 		return gameWrapper;
 
@@ -49,7 +51,9 @@ public class GameRestController {
 		for (Game game : games) {
 			gameWrappers.add(new GameWrapper(game.getId(),
 					game.getDiscipline().getName(), game.getCost(),
-					game.getNeeded(), game.getDate(), game.getLevel(),
+					game.getNeeded(), game.getPriorityNeeded(),
+					game.getEnrolled(), game.getPriorityEnrolled(),
+					game.getDate(), game.getPriorityDate(), game.getLevel(),
 					game.getSportObject(), game.getUser().getUserName()));
 		}
 
@@ -59,9 +63,7 @@ public class GameRestController {
 	@GetMapping("/lobby/{id}")
 	public LobbyWrapper getLobby(@PathVariable Long id) {
 
-		// List<String> players = gameService.getPlayers(id);
-
-		return null;
+		return gameService.getLobby(id);
 	}
 
 	@PostMapping("/games")
