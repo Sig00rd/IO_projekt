@@ -37,6 +37,15 @@ public class Game {
 	@Column(name = "needed")
 	private Integer needed;
 
+	@Column(name = "priority_needed")
+	private Integer priorityNeeded;
+
+	@Column(name = "enrolled")
+	private Integer enrolled = 0;
+
+	@Column(name = "priority_enrolled")
+	private Integer priorityEnrolled;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")
 	private Date date;
@@ -150,7 +159,11 @@ public class Game {
 	}
 
 	public void addPlayer(UserGames player) {
-		userGames.add(player);
+		this.userGames.add(player);
+		if (player.getPitchRole() == null) {
+			this.enrolled += 1;
+		} else
+			this.priorityEnrolled += 1;
 
 	}
 
@@ -178,7 +191,32 @@ public class Game {
 		this.level = level;
 	}
 	public void addPriorityPitchRole(GamePriorities priorityRole) {
-		gamePriorities.add(priorityRole);
+		this.priorityNeeded += priorityRole.getNeeded();
+		this.gamePriorities.add(priorityRole);
+	}
+
+	public Integer getEnrolled() {
+		return enrolled;
+	}
+
+	public void setEnrolled(Integer enrolled) {
+		this.enrolled = enrolled;
+	}
+
+	public Integer getPriorityNeeded() {
+		return priorityNeeded;
+	}
+
+	public void setPriorityNeeded(Integer priorityNeeded) {
+		this.priorityNeeded = priorityNeeded;
+	}
+
+	public Integer getPriorityEnrolled() {
+		return priorityEnrolled;
+	}
+
+	public void setPriorityEnrolled(Integer priorityEnrolled) {
+		this.priorityEnrolled = priorityEnrolled;
 	}
 
 }
