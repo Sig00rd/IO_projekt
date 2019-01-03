@@ -27,6 +27,9 @@ public class GamePriorities {
 	@Column(name = "needed")
 	private int needed;
 
+	@Column(name = "enrolled")
+	private int enrolled = 0;
+
 	public GamePriorities() {
 	}
 
@@ -57,6 +60,14 @@ public class GamePriorities {
 
 	public void setNeeded(int needed) {
 		this.needed = needed;
+	}
+
+	public int getEnrolled() {
+		return enrolled;
+	}
+
+	public void setEnrolled(int enrolled) {
+		this.enrolled = enrolled;
 	}
 
 }
