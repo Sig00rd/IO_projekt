@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
 import com.example.demo.form.GameForm;
+import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
 
 @Service
@@ -56,6 +58,38 @@ public class GameServiceImpl implements GameService {
 	public List<Game> getGames() {
 		return gameDao.findAll();
 	}
+	@Override
+	public GameWrapper getGameWrapper(Long id) {
+
+		Game game = this.getGame(id).orElse(null);
+
+		Integer stillNeeded = getStillNeeded(game);
+
+		GameWrapper gameWrapper = new GameWrapper(game.getId(),
+				game.getDiscipline().getName(), game.getCost(), stillNeeded,
+				game.getDate(), game.getPriorityDate(), game.getLevel(),
+				game.getSportObject(), game.getUser().getUserName());
+
+		return gameWrapper;
+	}
+
+	private Integer getStillNeeded(Game game) {
+		Integer stillNeeded;
+		if (game.getPriorityDate() == null) {
+			stillNeeded = Math
+					.max(game.getTotalNeeded() - game.getOrdinaryEnrolled(), 0);
+		} else {
+			stillNeeded = Math
+					.max(game.getTotalNeeded() - game.getOrdinaryEnrolled()
+							- game.getRelevantPriorityEnrolled(), 0);
+			if (new Date().before(game.getPriorityDate())) {
+				stillNeeded += (game.getPriorityNeeded()
+						- game.getRelevantPriorityEnrolled());
+
+			}
+		}
+		return stillNeeded;
+	}
 
 	@Override
 	@Transactional
@@ -75,7 +109,7 @@ public class GameServiceImpl implements GameService {
 		if (gameForm.getPriorityDate() != null) {
 			game.setPriorityDate(gameForm.getPriorityDate());
 			game.setPriorityNeeded(0);
-			game.setPriorityEnrolled(0);
+			game.setRelevantPriorityEnrolled(0);
 			Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
 			for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
 				GamePriorities gamePriority = new GamePriorities(
@@ -134,7 +168,7 @@ public class GameServiceImpl implements GameService {
 		lobbyWrapper.addPrioritiesNeeded(priorities);
 		List<UserGames> players = game.getUserGames();
 		players.sort(Comparator.comparing(UserGames::getCreated));
-		lobbyWrapper.addPlayerRoles(players);
+		lobbyWrapper.addPlayerRolesAndSquadMembership(game, players);
 
 		return lobbyWrapper;
 	}
@@ -142,9 +176,8 @@ public class GameServiceImpl implements GameService {
 	private LobbyWrapper getLobbyWrapperFromGame(Game game) {
 		LobbyWrapper lobbyWrapper = new LobbyWrapper(game.getId(),
 				game.getDiscipline().getName(), game.getCost(),
-				game.getNeeded(), game.getPriorityNeeded(), game.getEnrolled(),
-				game.getPriorityEnrolled(), game.getDate(),
-				game.getPriorityDate(), game.getLevel(), game.getSportObject(),
+				getStillNeeded(game), game.getDate(), game.getPriorityDate(),
+				game.getLevel(), game.getSportObject(),
 				game.getUser().getUserName());
 		return lobbyWrapper;
 	}

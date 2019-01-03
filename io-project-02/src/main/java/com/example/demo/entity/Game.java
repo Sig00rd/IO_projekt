@@ -34,17 +34,17 @@ public class Game {
 	@Column(name = "cost")
 	private Float cost;
 
-	@Column(name = "needed")
-	private Integer needed;
+	@Column(name = "total_needed")
+	private Integer totalNeeded;
 
 	@Column(name = "priority_needed")
 	private Integer priorityNeeded;
 
-	@Column(name = "enrolled")
-	private Integer enrolled = 0;
+	@Column(name = "ordinary_enrolled")
+	private Integer ordinaryEnrolled = 0;
 
 	@Column(name = "priority_enrolled")
-	private Integer priorityEnrolled;
+	private Integer relevantPriorityEnrolled = 0;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")
@@ -83,7 +83,7 @@ public class Game {
 	public Game(Float cost, Integer needed, Date date, LevelType level,
 			SportObject sportObject, User user, Discipline discipline) {
 		this.cost = cost;
-		this.needed = needed;
+		this.totalNeeded = needed;
 		this.date = date;
 		this.level = level;
 		this.sportObject = sportObject;
@@ -118,12 +118,12 @@ public class Game {
 		this.cost = cost;
 	}
 
-	public Integer getNeeded() {
-		return needed;
+	public Integer getTotalNeeded() {
+		return totalNeeded;
 	}
 
-	public void setNeeded(Integer needed) {
-		this.needed = needed;
+	public void setTotalNeeded(Integer needed) {
+		this.totalNeeded = needed;
 	}
 
 	public Date getDate() {
@@ -161,9 +161,20 @@ public class Game {
 	public void addPlayer(UserGames player) {
 		this.userGames.add(player);
 		if (player.getPitchRole() == null) {
-			this.enrolled += 1;
+			this.ordinaryEnrolled += 1;
 		} else
-			this.priorityEnrolled += 1;
+			for (GamePriorities gamePriority : this.getGamePriorities()) {
+				if (gamePriority.getPitchRole() == player.getPitchRole()) {
+					gamePriority.setEnrolled(gamePriority.getEnrolled() + 1);
+					if (gamePriority.getEnrolled() <= gamePriority
+							.getNeeded()) {
+						this.setRelevantPriorityEnrolled(
+								this.getRelevantPriorityEnrolled() + 1);
+					}
+					break;
+				}
+
+			}
 
 	}
 
@@ -195,12 +206,12 @@ public class Game {
 		this.gamePriorities.add(priorityRole);
 	}
 
-	public Integer getEnrolled() {
-		return enrolled;
+	public Integer getOrdinaryEnrolled() {
+		return ordinaryEnrolled;
 	}
 
-	public void setEnrolled(Integer enrolled) {
-		this.enrolled = enrolled;
+	public void setOrdinaryEnrolled(Integer ordinaryEnrolled) {
+		this.ordinaryEnrolled = ordinaryEnrolled;
 	}
 
 	public Integer getPriorityNeeded() {
@@ -211,12 +222,12 @@ public class Game {
 		this.priorityNeeded = priorityNeeded;
 	}
 
-	public Integer getPriorityEnrolled() {
-		return priorityEnrolled;
+	public Integer getRelevantPriorityEnrolled() {
+		return relevantPriorityEnrolled;
 	}
 
-	public void setPriorityEnrolled(Integer priorityEnrolled) {
-		this.priorityEnrolled = priorityEnrolled;
+	public void setRelevantPriorityEnrolled(Integer priorityEnrolled) {
+		this.relevantPriorityEnrolled = priorityEnrolled;
 	}
 
 }

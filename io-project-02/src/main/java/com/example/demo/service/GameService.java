@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.example.demo.entity.Game;
 import com.example.demo.form.GameForm;
+import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
 
 public interface GameService {
@@ -18,5 +19,7 @@ public interface GameService {
 	void signUpPlayer(Long id, String role);
 
 	LobbyWrapper getLobby(Long id);
+
+	GameWrapper getGameWrapper(Long id);
 
 }
