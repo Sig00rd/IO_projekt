@@ -1,29 +1,17 @@
 package com.example.demo.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import javax.transaction.Transactional;
-
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
+import com.example.demo.form.GameForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dao.DisciplineDao;
-import com.example.demo.dao.GameDao;
-import com.example.demo.dao.PitchRoleDao;
-import com.example.demo.dao.SportObjectDao;
-import com.example.demo.dao.UserDao;
-import com.example.demo.entity.Discipline;
-import com.example.demo.entity.Game;
-import com.example.demo.entity.GamePriorities;
-import com.example.demo.entity.PitchRole;
-import com.example.demo.entity.SportObject;
-import com.example.demo.entity.User;
-import com.example.demo.entity.UserGames;
-import com.example.demo.form.GameForm;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -58,6 +46,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	@Transactional
 	public void save(GameForm gameForm) {
+		logger.info(gameForm.toString());
 
 		User owner = userDao.findByUserName(SecurityContextHolder.getContext()
 				.getAuthentication().getName());

@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 
 import {AppComponent} from './app.component';
@@ -27,12 +27,12 @@ import {RouterModule, Routes} from '@angular/router';
 // TODO add routing guards
 
 const appRoutes: Routes = [
-    {path: 'login', component: LoginPageComponent},
-    {path: 'register', component: RegisterPageComponent},
-    {path: 'home', component: FeatureChoicePanelComponent},
-    {path: 'find', component: FindGamePanelComponent},
-    {path: 'host', component: HostGamePanelComponent}
-  ];
+  {path: 'login', component: LoginPageComponent},
+  {path: 'register', component: RegisterPageComponent},
+  {path: 'home', component: FeatureChoicePanelComponent},
+  {path: 'find', component: FindGamePanelComponent},
+  {path: 'host', component: HostGamePanelComponent}
+];
 registerLocaleData(localePl);
 
 @NgModule({

@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +39,21 @@ public class UserServiceImpl implements UserService {
 	public User findByUserName(String userName) {
 		// check the database if the user already exists
 		return userDao.findByUserName(userName);
+	}
+
+	public UserDetails _loadUserByUsername(String username) {
+		User user = userDao.findByUserName(username);
+		if(user == null)
+			return null;
+		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), getAuthority(user));
+	}
+
+	private Set<SimpleGrantedAuthority> getAuthority(User user) {
+		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+		user.getRoles().forEach(role -> {
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+		});
+		return authorities;
 	}
 
 	@Override
@@ -75,7 +92,6 @@ public class UserServiceImpl implements UserService {
 		String username = "";
 		if(user == null )
 			return username;
-		String passEncoded = passwordEncoder.encode(userLogin.getPassword());
 		if(passwordEncoder.matches(userLogin.getPassword(), user.getPassword())){
 			username = userLogin.getUsername();
 		}
