@@ -1,11 +1,16 @@
 package com.example.demo.dao;
 
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import com.example.demo.entity.User;
 
-public interface UserDao {
-
-	User findByUserName(String userName);
-
-	void save(User user);
+@Repository
+public interface UserDao extends JpaRepository<User, Long> {
+	Optional<User> findByUserName(String username);
+	Boolean existsByUserName(String username);
+	Boolean existsByEmail(String email);
 
 }
