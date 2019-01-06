@@ -1,8 +1,9 @@
 package com.example.demo.entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,9 +36,9 @@ public class User {
 	@Column(name = "email")
 	private String email;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Collection<Role> roles;
+	private Set<Role> roles = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<UserGames> games;
@@ -45,19 +46,10 @@ public class User {
 	public User() {
 	}
 
-	public User(String userName, String password, String firstName,
-			String lastName, String email) {
+	public User(String userName, String password, String email) {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
-	}
-
-	public User(String userName, String password, String firstName,
-			String lastName, String email, Collection<Role> roles) {
-		this.userName = userName;
-		this.password = password;
-		this.email = email;
-		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -92,14 +84,6 @@ public class User {
 		this.email = email;
 	}
 
-	public Collection<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
-	}
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", password="
@@ -113,6 +97,22 @@ public class User {
 		}
 		games.add(userGames);
 
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public List<UserGames> getGames() {
+		return games;
+	}
+
+	public void setGames(List<UserGames> games) {
+		this.games = games;
 	}
 
 }

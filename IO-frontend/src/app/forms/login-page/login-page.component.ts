@@ -37,6 +37,7 @@ export class LoginPageComponent implements OnInit {
       (response: HttpEvent<Object>) => {
         this.loggedUserService.user = response['username'];
         if (this.loggedUserService.user !== '') {
+          this.loggedUserService.password = this.loginForm.get('password').value; // TODO ugly
           this.loginFailed = false;
           this.loginEmitter.emit();
           this.router.navigate(['/home']);

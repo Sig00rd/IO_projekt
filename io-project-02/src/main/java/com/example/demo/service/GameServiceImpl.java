@@ -60,7 +60,7 @@ public class GameServiceImpl implements GameService {
 	public void save(GameForm gameForm) {
 
 		User owner = userDao.findByUserName(SecurityContextHolder.getContext()
-				.getAuthentication().getName());
+				.getAuthentication().getName()).orElse(null);
 		Discipline discipline = disciplineDao
 				.findDisciplineByName(gameForm.getDisciplineName());
 
@@ -106,7 +106,8 @@ public class GameServiceImpl implements GameService {
 	public void signUpPlayer(Long id, String role) {
 
 		User player = userDao.findByUserName(SecurityContextHolder.getContext()
-				.getAuthentication().getName());
+				.getAuthentication().getName()).orElse(null);
+
 		Game game = gameDao.findById(id).orElse(null);
 
 		PitchRole pitchRole = pitchRoleDao.findPitchRoleByName(role);
