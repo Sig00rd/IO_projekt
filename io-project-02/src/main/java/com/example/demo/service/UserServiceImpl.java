@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService {
 		String username = "";
 		if(user == null )
 			return username;
-		String passEncoded = passwordEncoder.encode(userLogin.getPassword());
 		if(passwordEncoder.matches(userLogin.getPassword(), user.getPassword())){
 			username = userLogin.getUsername();
 		}
