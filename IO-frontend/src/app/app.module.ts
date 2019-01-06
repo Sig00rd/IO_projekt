@@ -13,7 +13,7 @@ import {FeatureChoicePanelComponent} from './feature-choice-panel/feature-choice
 import {HostGamePanelComponent} from './forms/host-game-panel/host-game-panel.component';
 import {FindGamePanelComponent} from './forms/find-game-panel/find-game-panel.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {GameDetailsComponent} from './forms/find-game-panel/game-details/game-details.component';
 import {GameListComponent} from './forms/find-game-panel/game-list/game-list.component';
 import {GameElementComponent} from './forms/find-game-panel/game-list/game-element/game-element.component';
@@ -22,6 +22,7 @@ import {SportsService} from './services/sports.service';
 import {AgmCoreModule} from '@agm/core';
 import {MapsService} from './services/maps.service';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthInterceptor} from './auth/auth.interceptor';
 
 // TODO add routing details
 // TODO add routing guards
@@ -65,7 +66,8 @@ registerLocaleData(localePl);
     LoggedUserService,
     SportsService,
     MapsService,
-    {provide: LOCALE_ID, useValue: 'pl'}],
+    {provide: LOCALE_ID, useValue: 'pl'},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

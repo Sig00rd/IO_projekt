@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CrmUser} from '../shared/CrmUser';
+import {SignUpForm} from '../shared/SignUpForm';
+import {catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
   API = 'http://localhost:8080';
-  REGISTER_API = this.API + '/api/register';
+  REGISTER_API = this.API + '/api/auth/signup';
+  message: string;
 
   constructor(private http: HttpClient) {
   }
 
-  save(userRegistration: CrmUser): Observable<CrmUser> {
-    return this.http.post<CrmUser>(this.REGISTER_API, userRegistration);
+  save(userRegistration: SignUpForm): Observable<SignUpForm> {
+    return this.http.post<SignUpForm>(this.REGISTER_API, userRegistration);
   }
 }

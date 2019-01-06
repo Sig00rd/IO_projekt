@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {CrmUser} from '../../shared/CrmUser';
+import {SignUpForm} from '../../shared/SignUpForm';
 import {RegisterService} from '../../services/register.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpEvent, HttpResponse} from '@angular/common/http';
@@ -14,6 +14,7 @@ export class RegisterPageComponent implements OnInit {
   registerForm: FormGroup;
   invalidForm = false;
   userExists: boolean;
+  emailExist: boolean;
   passwordMatch: boolean;
   userRegistered = false;
 
@@ -35,25 +36,52 @@ export class RegisterPageComponent implements OnInit {
     return password === rPassword;
   }
 
+  // registerUser() {
+  //   const username = this.registerForm.get('username').value;
+  //   const email = this.registerForm.get('email').value;
+  //   const password = this.registerForm.get('password').value;
+  //   const rPassword = this.registerForm.get('rPassword').value;
+  //   // TODO check if email already exist
+  //   this.passwordMatch = this.validate(password, rPassword);
+  //   this.invalidForm = this.registerForm.invalid;
+  //   if (!this.invalidForm) {
+  //     const newUser = new CrmUser(username, password, rPassword, email);
+  //     this.registerService.save(newUser).subscribe((response: CrmUser) => {
+  //       if (response['userName'] == null) {
+  //         this.userExists = true;
+  //         this.invalidForm = true;
+  //       } else {
+  //         this.userExists = false;
+  //         this.userRegistered = true;
+  //       }
+  //     });
+  //   }
+  // }
+
   registerUser() {
     const username = this.registerForm.get('username').value;
     const email = this.registerForm.get('email').value;
     const password = this.registerForm.get('password').value;
     const rPassword = this.registerForm.get('rPassword').value;
-    // TODO check if email already exist
     this.passwordMatch = this.validate(password, rPassword);
     this.invalidForm = this.registerForm.invalid;
     if (!this.invalidForm) {
-      const newUser = new CrmUser(username, password, rPassword, email);
-      this.registerService.save(newUser).subscribe((response: CrmUser) => {
-        if (response['userName'] == null) {
-          this.userExists = true;
-          this.invalidForm = true;
-        } else {
+      const newUser = new SignUpForm(username, password, rPassword, email);
+      this.registerService.save(newUser).subscribe(
+        data => {
           this.userExists = false;
           this.userRegistered = true;
+        },
+        error => {
+          if (error.error.message === 'Fail -> Username is already taken!') {
+            this.userExists = true;
+            this.invalidForm = true;
+          } else if (error.error.message === 'Fail -> Email is already in use!') {
+            this.emailExist = true;
+            this.invalidForm = true;
+            }
         }
-      });
+      );
     }
   }
 
