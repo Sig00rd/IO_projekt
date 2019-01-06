@@ -31,7 +31,7 @@
           </div>
           <div class="form-group">
             <label for="date">Data</label>
-            <input type="date" placeholder="" id="date" [(ngModel)]="date">
+            <input type="datetime-local" placeholder="" id="date" [(ngModel)]="date">
           </div>
           <div class="form-group">
             <label for="fee">Opłata</label>
@@ -41,9 +41,18 @@
             <label for="level">Poziom</label>
             <input type="text" placeholder="*" id="level" [(ngModel)]="level">
           </div>
-          <div class="form-group">
-            <label for="priority">Priorytety</label>
-            <input type="checkbox" id="priority">
+          <div class="form-group" *ngIf="!showPriorities">
+            <button class="btn btn-default" (click)="adjustPriorities()">Dodaj priorytety</button>
+          </div>
+          <div *ngIf="showPriorities">
+            <div class="form-group" *ngIf="showPriorities">
+              <label>Data wygaśnięcia</label>
+              <input type="datetime-local" [(value)]="priorityDate">
+            </div>
+            <div class="form-group" *ngFor="let role of Object.keys(pitchRoles)">
+              <label [for]="pitchRoles[role]">{{capitalizeFirstLetter(role)}}</label>
+              <input type="text" [(value)]="pitchRoles[role]">
+            </div>
           </div>
           <input type="button" class="btn btn-lg btn-primary" style="alignment: center" value="Dodaj ogłoszenie"
                  (click)="onSubmitButton()">

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from '../../shared/user';
-import {LoggedUserService} from '../../services/logged.user.service';
 import {Router} from '@angular/router';
+import {TokenStorage} from '../../auth/token.storage';
 
 @Component({
   selector: 'app-logged-navbar',
@@ -12,18 +12,19 @@ export class LoggedNavbarComponent implements OnInit {
   private user: User;
   @Output() private logOutEvent = new EventEmitter();
 
-  constructor(private loggedUserService: LoggedUserService, private router: Router) {
+  constructor(private tokenStorage: TokenStorage, private router: Router) {
   }
 
   ngOnInit() {
-    this.user = new User(this.loggedUserService.user, 'tomeczek@tomek.com'); // TODO get proper email
+    this.user = new User(this.tokenStorage.getUsername(), 'tomeczek@tomek.com'); // TODO get proper email
   }
 
 
 
 
   logOutUser() {
-    this.logOutEvent.emit();
+    this.tokenStorage.logout();
+    window.location.reload();
 
   }
 

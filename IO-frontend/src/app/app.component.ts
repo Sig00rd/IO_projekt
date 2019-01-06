@@ -1,6 +1,6 @@
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {LoggedUserService} from './services/logged.user.service';
+import {TokenStorage} from './auth/token.storage';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +8,11 @@ import {LoggedUserService} from './services/logged.user.service';
   styleUrls: ['./CrmUser.css']
 })
 export class AppComponent {
-  constructor(private router: Router, private loggedUserService: LoggedUserService) {
+  constructor(private router: Router, private tokenStorage: TokenStorage) {
   }
 
   logUserOut() {
-    this.loggedUserService.user = null;
+    // TODO logout
     this.router.navigate(['/']);
   }
 }

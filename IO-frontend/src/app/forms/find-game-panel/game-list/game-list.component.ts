@@ -1,16 +1,20 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GameLobby} from '../../../shared/game.lobby';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-game-list',
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css']
 })
+
+
+
 export class GameListComponent implements OnInit {
-
-
   gameList: GameLobby[] = [];
+  private httpOptions = {
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  };
 
   @Output() selectedGameEvent = new EventEmitter<GameLobby>();
 
@@ -29,8 +33,10 @@ export class GameListComponent implements OnInit {
   }
 
   getGames() {
-    this.http.get(this.GAMES_API).subscribe(
-      (respond: GameLobby[]) => this.gameList = respond);
+    this.http.get<GameLobby[]>(this.GAMES_API, this.httpOptions).subscribe(
+      data =>  {
+        this.gameList = data;
+      });
   }
 
 

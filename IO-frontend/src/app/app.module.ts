@@ -17,12 +17,12 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {GameDetailsComponent} from './forms/find-game-panel/game-details/game-details.component';
 import {GameListComponent} from './forms/find-game-panel/game-list/game-list.component';
 import {GameElementComponent} from './forms/find-game-panel/game-list/game-element/game-element.component';
-import {LoggedUserService} from './services/logged.user.service';
 import {SportsService} from './services/sports.service';
 import {AgmCoreModule} from '@agm/core';
 import {MapsService} from './services/maps.service';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthInterceptor} from './auth/auth.interceptor';
+import {TokenStorage} from './auth/token.storage';
 
 // TODO add routing details
 // TODO add routing guards
@@ -63,9 +63,9 @@ registerLocaleData(localePl);
   ],
   providers: [
     HttpClientModule,
-    LoggedUserService,
     SportsService,
     MapsService,
+    TokenStorage,
     {provide: LOCALE_ID, useValue: 'pl'},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
