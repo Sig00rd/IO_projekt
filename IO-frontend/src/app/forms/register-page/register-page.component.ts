@@ -44,7 +44,6 @@ export class RegisterPageComponent implements OnInit {
     this.invalidForm = this.registerForm.invalid;
     if (!this.invalidForm) {
       const newUser = new SignUpForm(username, password, rPassword, email);
-      console.log(newUser);
       this.registerService.save(newUser).subscribe(
         data => {
           this.userExists = false;
