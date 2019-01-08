@@ -34,8 +34,17 @@ public class Game {
 	@Column(name = "cost")
 	private Float cost;
 
-	@Column(name = "needed")
-	private Integer needed;
+	@Column(name = "total_needed")
+	private Integer totalNeeded;
+
+	@Column(name = "priority_needed")
+	private Integer priorityNeeded;
+
+	@Column(name = "ordinary_enrolled")
+	private Integer ordinaryEnrolled = 0;
+
+	@Column(name = "priority_enrolled")
+	private Integer relevantPriorityEnrolled = 0;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")
@@ -74,7 +83,7 @@ public class Game {
 	public Game(Float cost, Integer needed, Date date, LevelType level,
 			SportObject sportObject, User user, Discipline discipline) {
 		this.cost = cost;
-		this.needed = needed;
+		this.totalNeeded = needed;
 		this.date = date;
 		this.level = level;
 		this.sportObject = sportObject;
@@ -109,12 +118,12 @@ public class Game {
 		this.cost = cost;
 	}
 
-	public Integer getNeeded() {
-		return needed;
+	public Integer getTotalNeeded() {
+		return totalNeeded;
 	}
 
-	public void setNeeded(Integer needed) {
-		this.needed = needed;
+	public void setTotalNeeded(Integer needed) {
+		this.totalNeeded = needed;
 	}
 
 	public Date getDate() {
@@ -150,7 +159,22 @@ public class Game {
 	}
 
 	public void addPlayer(UserGames player) {
-		userGames.add(player);
+		this.userGames.add(player);
+		if (player.getPitchRole() == null) {
+			this.ordinaryEnrolled += 1;
+		} else
+			for (GamePriorities gamePriority : this.getGamePriorities()) {
+				if (gamePriority.getPitchRole() == player.getPitchRole()) {
+					gamePriority.setEnrolled(gamePriority.getEnrolled() + 1);
+					if (gamePriority.getEnrolled() <= gamePriority
+							.getNeeded()) {
+						this.setRelevantPriorityEnrolled(
+								this.getRelevantPriorityEnrolled() + 1);
+					}
+					break;
+				}
+
+			}
 
 	}
 
@@ -178,7 +202,32 @@ public class Game {
 		this.level = level;
 	}
 	public void addPriorityPitchRole(GamePriorities priorityRole) {
-		gamePriorities.add(priorityRole);
+		this.priorityNeeded += priorityRole.getNeeded();
+		this.gamePriorities.add(priorityRole);
+	}
+
+	public Integer getOrdinaryEnrolled() {
+		return ordinaryEnrolled;
+	}
+
+	public void setOrdinaryEnrolled(Integer ordinaryEnrolled) {
+		this.ordinaryEnrolled = ordinaryEnrolled;
+	}
+
+	public Integer getPriorityNeeded() {
+		return priorityNeeded;
+	}
+
+	public void setPriorityNeeded(Integer priorityNeeded) {
+		this.priorityNeeded = priorityNeeded;
+	}
+
+	public Integer getRelevantPriorityEnrolled() {
+		return relevantPriorityEnrolled;
+	}
+
+	public void setRelevantPriorityEnrolled(Integer priorityEnrolled) {
+		this.relevantPriorityEnrolled = priorityEnrolled;
 	}
 
 }

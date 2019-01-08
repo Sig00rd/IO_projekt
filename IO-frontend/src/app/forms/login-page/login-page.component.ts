@@ -53,14 +53,14 @@ export class LoginPageComponent implements OnInit {
 
   logIn(userLogin: UserLogin) {
     this.http.post<JwtResponse>(this.LOGIN_API, userLogin).subscribe(
-        data => {
-          this.tokenStorage.saveToken(data.accessToken);
-          this.tokenStorage.saveUsername(data.username);
-          this.tokenStorage.saveAuthorities(data.authorities);
+      data => {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUsername(data.username);
+        this.tokenStorage.saveAuthorities(data.authorities);
 
-          this.loginFailed = false;
-          this.loginEmitter.emit();
-          this.router.navigate(['/home']);
+        this.loginFailed = false;
+        this.loginEmitter.emit();
+        this.router.navigate(['/home']);
 
       },
       error => {

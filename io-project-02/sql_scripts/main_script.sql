@@ -120,7 +120,10 @@ DROP TABLE IF EXISTS `game` ;
 CREATE TABLE IF NOT EXISTS `game` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cost` FLOAT NOT NULL,
-  `needed` INT NOT NULL,
+  `total_needed` INT NOT NULL,
+  `priority_needed` INT DEFAULT NULL,
+  `ordinary_enrolled` INT NOT NULL DEFAULT 0,
+  `priority_enrolled` INT DEFAULT NULL,
   `date` DATETIME NOT NULL,
   `level` SMALLINT NOT NULL,
   `priority_date` DATETIME DEFAULT NULL,
@@ -148,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `game` (
     ON UPDATE NO ACTION )
 ENGINE = InnoDB;
 
-INSERT INTO `game` (`id`, `cost`, `needed`, `date`, `level`,`sport_object_id`, `user_id`, `discipline_id`) 
+INSERT INTO `game` (`id`, `cost`, `total_needed`, `date`, `level`,`sport_object_id`, `user_id`, `discipline_id`) 
 VALUES 
 ('1', '10', '5', '2018-01-06 11:00:00','2', '2', '3', '2'),
 ('2', '0', '3', '2018-01-06 13:00:00','3', '1', '1', '1');
@@ -220,6 +223,7 @@ DROP TABLE IF EXISTS `game_priorities` ;
 CREATE TABLE IF NOT EXISTS `game_priorities` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `needed` INT NOT NULL,
+  `enrolled` INT NOT NULL DEFAULT 0,
   `game_id` INT(11) DEFAULT NULL,
   `pitch_role_id` INT NOT NULL,
   PRIMARY KEY (`id`),

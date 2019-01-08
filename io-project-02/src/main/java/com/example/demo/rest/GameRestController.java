@@ -25,14 +25,7 @@ public class GameRestController {
 	@GetMapping("/games/{id}")
 	public GameWrapper getGame(@PathVariable Long id) {
 
-		Game game = gameService.getGame(id).orElse(null);
-
-		GameWrapper gameWrapper = new GameWrapper(game.getId(),
-				game.getDiscipline().getName(), game.getCost(),
-				game.getNeeded(), game.getDate(), game.getLevel(),
-				game.getSportObject(), game.getUser().getUserName());
-
-		return gameWrapper;
+		return gameService.getGameWrapper(id);
 
 	}
 	@GetMapping("/games")
@@ -42,10 +35,7 @@ public class GameRestController {
 		List<GameWrapper> gameWrappers = new ArrayList<>();
 
 		for (Game game : games) {
-			gameWrappers.add(new GameWrapper(game.getId(),
-					game.getDiscipline().getName(), game.getCost(),
-					game.getNeeded(), game.getDate(), game.getLevel(),
-					game.getSportObject(), game.getUser().getUserName()));
+			gameWrappers.add(this.getGame(game.getId()));
 		}
 
 		return gameWrappers;
@@ -54,9 +44,7 @@ public class GameRestController {
 	@GetMapping("/lobby/{id}")
 	public LobbyWrapper getLobby(@PathVariable Long id) {
 
-		// List<String> players = gameService.getPlayers(id);
-
-		return null;
+		return gameService.getLobby(id);
 	}
 
 	@PostMapping("/games")
@@ -67,15 +55,14 @@ public class GameRestController {
 	}
 
 	@PostMapping("/games/{id}")
-	public String signUpForGame(@PathVariable Long id,
+	public GameWrapper signUpForGame(@PathVariable Long id,
 			@RequestBody(required = false) String role) {
 
 		if (role == null) {
 			role = "";
 		}
 		gameService.signUpPlayer(id, role);
-
-		return "success!";
+		return this.getGame(id);
 	}
 
 }
