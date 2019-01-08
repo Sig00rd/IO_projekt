@@ -10,19 +10,22 @@ public class GameWrapper {
 	private Long id;
 	private String discipline;
 	private Float cost;
-	private Integer needed;
+	private Integer stillNeeded;
 	private Date date;
+	private Date priorityDate;
 	private LevelType level;
 	private SportObject sportObject;
 	private String owner;
 
-	public GameWrapper(Long id, String discipline, Float cost, Integer needed,
-			Date date, LevelType level, SportObject sportObject, String owner) {
+	public GameWrapper(Long id, String discipline, Float cost,
+			Integer stillNeeded, Date date, Date priorityDate, LevelType level,
+			SportObject sportObject, String owner) {
 		this.id = id;
 		this.discipline = discipline;
 		this.cost = cost;
-		this.needed = needed;
+		this.stillNeeded = stillNeeded;
 		this.date = date;
+		this.priorityDate = priorityDate;
 		this.level = level;
 		this.sportObject = sportObject;
 		this.owner = owner;
@@ -39,12 +42,7 @@ public class GameWrapper {
 	public void setCost(Float cost) {
 		this.cost = cost;
 	}
-	public Integer getNeeded() {
-		return needed;
-	}
-	public void setNeeded(Integer needed) {
-		this.needed = needed;
-	}
+
 	public Date getDate() {
 		return date;
 	}
@@ -74,6 +72,19 @@ public class GameWrapper {
 	}
 	public void setDiscipline(String discipline) {
 		this.discipline = discipline;
+	}
+
+	public Date getPriorityDate() {
+		return priorityDate;
+	}
+	public void setPriorityDate(Date priorityDate) {
+		this.priorityDate = priorityDate;
+	}
+	public Integer getStillNeeded() {
+		return stillNeeded;
+	}
+	public void setStillNeeded(Integer stillNeeded) {
+		this.stillNeeded = stillNeeded;
 	}
 
 }

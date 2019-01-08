@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +26,8 @@ import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
 import com.example.demo.form.GameForm;
+import com.example.demo.wrapper.GameWrapper;
+import com.example.demo.wrapper.LobbyWrapper;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -54,6 +58,38 @@ public class GameServiceImpl implements GameService {
 	public List<Game> getGames() {
 		return gameDao.findAll();
 	}
+	@Override
+	public GameWrapper getGameWrapper(Long id) {
+
+		Game game = this.getGame(id).orElse(null);
+
+		Integer stillNeeded = getStillNeeded(game);
+
+		GameWrapper gameWrapper = new GameWrapper(game.getId(),
+				game.getDiscipline().getName(), game.getCost(), stillNeeded,
+				game.getDate(), game.getPriorityDate(), game.getLevel(),
+				game.getSportObject(), game.getUser().getUserName());
+
+		return gameWrapper;
+	}
+
+	private Integer getStillNeeded(Game game) {
+		Integer stillNeeded;
+		if (game.getPriorityDate() == null) {
+			stillNeeded = Math
+					.max(game.getTotalNeeded() - game.getOrdinaryEnrolled(), 0);
+		} else {
+			stillNeeded = Math
+					.max(game.getTotalNeeded() - game.getOrdinaryEnrolled()
+							- game.getRelevantPriorityEnrolled(), 0);
+			if (new Date().before(game.getPriorityDate())) {
+				stillNeeded += (game.getPriorityNeeded()
+						- game.getRelevantPriorityEnrolled());
+
+			}
+		}
+		return stillNeeded;
+	}
 
 	@Override
 	@Transactional
@@ -70,15 +106,18 @@ public class GameServiceImpl implements GameService {
 				gameForm.getDate(), gameForm.getLevel(), sportObject, owner,
 				discipline);
 
-		game.setPriorityDate(gameForm.getPriorityDate());
-		Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
-		for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
-			GamePriorities gamePriority = new GamePriorities(
-					pitchRoleDao.findPitchRoleByName(entry.getKey()),
-					entry.getValue());
-			game.addPriorityPitchRole(gamePriority);
+		if (gameForm.getPriorityDate() != null) {
+			game.setPriorityDate(gameForm.getPriorityDate());
+			game.setPriorityNeeded(0);
+			game.setRelevantPriorityEnrolled(0);
+			Map<String, Integer> priorityRoles = gameForm.getPitchRoles();
+			for (Map.Entry<String, Integer> entry : priorityRoles.entrySet()) {
+				GamePriorities gamePriority = new GamePriorities(
+						pitchRoleDao.findPitchRoleByName(entry.getKey()),
+						entry.getValue());
+				game.addPriorityPitchRole(gamePriority);
+			}
 		}
-
 		gameDao.save(game);
 
 	}
@@ -118,6 +157,30 @@ public class GameServiceImpl implements GameService {
 
 		player.addGame(userGames);
 
+	}
+
+	@Override
+	@Transactional
+	public LobbyWrapper getLobby(Long id) {
+
+		Game game = gameDao.findById(id).orElse(null);
+		LobbyWrapper lobbyWrapper = getLobbyWrapperFromGame(game);
+		List<GamePriorities> priorities = game.getGamePriorities();
+		lobbyWrapper.addPrioritiesNeeded(priorities);
+		List<UserGames> players = game.getUserGames();
+		players.sort(Comparator.comparing(UserGames::getCreated));
+		lobbyWrapper.addPlayerRolesAndSquadMembership(game, players);
+
+		return lobbyWrapper;
+	}
+
+	private LobbyWrapper getLobbyWrapperFromGame(Game game) {
+		LobbyWrapper lobbyWrapper = new LobbyWrapper(game.getId(),
+				game.getDiscipline().getName(), game.getCost(),
+				getStillNeeded(game), game.getDate(), game.getPriorityDate(),
+				game.getLevel(), game.getSportObject(),
+				game.getUser().getUserName());
+		return lobbyWrapper;
 	}
 
 }
