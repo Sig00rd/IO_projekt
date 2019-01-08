@@ -65,8 +65,9 @@ public class GameRestController {
 		gameService.save(gameForm);
 
 	}
+
 	@PostMapping("/games/{id}")
-	public void signUpForGame(@PathVariable Long id,
+	public String signUpForGame(@PathVariable Long id,
 			@RequestBody(required = false) String role) {
 
 		if (role == null) {
@@ -74,6 +75,7 @@ public class GameRestController {
 		}
 		gameService.signUpPlayer(id, role);
 
+		return "success!";
 	}
 
 }

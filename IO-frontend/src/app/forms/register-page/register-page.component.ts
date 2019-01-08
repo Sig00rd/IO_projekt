@@ -48,6 +48,7 @@ export class RegisterPageComponent implements OnInit {
         data => {
           this.userExists = false;
           this.userRegistered = true;
+          this.registerForm.reset();
         },
         error => {
           if (error.error.message === 'Fail -> Username is already taken!') {

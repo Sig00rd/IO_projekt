@@ -80,7 +80,7 @@ export class HostGamePanelComponent implements OnInit {
 
   onSubmitButton() {
     if (this.hostGameForm.valid) {
-      this.fee = Math.round(this.hostGameForm.get('fee').value);
+      this.fee = this.hostGameForm.get('fee').value;
       this.players = Math.round(this.hostGameForm.get('players').value);
       this.date = this.hostGameForm.get('date').value;
       this.priorityDate = this.hostGameForm.get('priorityDate').value;
