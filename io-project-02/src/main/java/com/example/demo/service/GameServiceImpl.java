@@ -83,8 +83,10 @@ public class GameServiceImpl implements GameService {
 					.max(game.getTotalNeeded() - game.getOrdinaryEnrolled()
 							- game.getRelevantPriorityEnrolled(), 0);
 			if (new Date().before(game.getPriorityDate())) {
-				stillNeeded += (game.getPriorityNeeded()
-						- game.getRelevantPriorityEnrolled());
+				stillNeeded = Math.max(
+						(game.getPriorityNeeded()
+								- game.getRelevantPriorityEnrolled()),
+						stillNeeded);
 
 			}
 		}
@@ -93,7 +95,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	@Transactional
-	public void save(GameForm gameForm) {
+	public Long save(GameForm gameForm) {
 
 		User owner = userDao.findByUserName(SecurityContextHolder.getContext()
 				.getAuthentication().getName()).orElse(null);
@@ -119,6 +121,7 @@ public class GameServiceImpl implements GameService {
 			}
 		}
 		gameDao.save(game);
+		return game.getId();
 
 	}
 
