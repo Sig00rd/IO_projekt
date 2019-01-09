@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GameLobby} from '../../shared/game.lobby';
+import {GameInfo} from '../../shared/game.info';
 import {MapsService} from '../../services/maps.service';
+import {GameLobby} from '../../shared/game.lobby';
 
 @Component({
   selector: 'app-find-game-panel',
@@ -8,7 +9,7 @@ import {MapsService} from '../../services/maps.service';
   styleUrls: ['./find-game-panel.component.css']
 })
 export class FindGamePanelComponent implements OnInit {
-  selectedGame: GameLobby;
+  selectedGame: GameInfo;
 
   message = 'Wybierz grę, aby poznać szczegóły';
 

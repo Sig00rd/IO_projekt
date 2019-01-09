@@ -9,8 +9,17 @@
     <h1>{{sportsService.sports[selectedGame.discipline.toLowerCase()]}}</h1>
     <h3>{{'Adres: ' + selectedGame.sportObject.address + ' ' + selectedGame.sportObject.city}}</h3>
     <h3>{{'Data: '}}{{selectedGame.date | date:'EEEE, dd-MM-yyyy hh:mm'}}</h3>
-    <h4>{{'Aktualnie potrzeba jeszcze ' + selectedGame.needed + ' graczy'}}</h4>
+    <h4>{{'Aktualnie potrzeba jeszcze ' + selectedGame.stillNeeded + ' graczy'}}</h4>
     <h4>{{'Opłata za grę: ' + selectedGame.cost + ' zł'}}</h4>
+    <div *ngIf="selectedGame.firstSquad.length > 0">
+      <h4>Aktualnie w pierwszym składzie grają: </h4>
+      <h5 *ngFor="let player of selectedGame.firstSquad">{{player}}</h5>
+    </div>
+    <div *ngIf="selectedGame.reserve.length > 0">
+      <h4>Aktualna rezerwa: </h4>
+      <h5 *ngFor="let player of selectedGame.reserve">{{player}}</h5>
+
+    </div>
 
     <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
 

@@ -23,6 +23,7 @@ import {MapsService} from './services/maps.service';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {TokenStorage} from './auth/token.storage';
+import { FilterComponent } from './forms/find-game-panel/game-list/filter/filter.component';
 
 // TODO add routing details
 // TODO add routing guards
@@ -49,7 +50,8 @@ registerLocaleData(localePl);
     FindGamePanelComponent,
     GameDetailsComponent,
     GameListComponent,
-    GameElementComponent
+    GameElementComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,

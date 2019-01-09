@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {GameLobby} from '../../shared/game.lobby';
+import {GameInfo} from '../../shared/game.info';
 import {SportObject} from '../../shared/sport.object';
 import {HttpClient} from '@angular/common/http';
 import {TokenStorage} from '../../auth/token.storage';

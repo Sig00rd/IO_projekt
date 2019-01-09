@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {GameLobby} from '../../../shared/game.lobby';
+import {GameInfo} from '../../../shared/game.info';
 import {SportsService} from '../../../services/sports.service';
 import {MapsService} from '../../../services/maps.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {GameLobby} from '../../../shared/game.lobby';
 
 @Component({
   selector: 'app-game-details',
@@ -21,16 +22,20 @@ export class GameDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.selectedGame);
   }
 
   onButtonClicked() {
     const gameId = this.selectedGame.id;
     const GAME_API = this.API + gameId;
     this.http.post<any>(GAME_API, {}).subscribe(
-      data => console.log(data),
+      data => {
+        this.selectedGame = data;
+        this.buttonClicked.emit();
+      },
       error => console.log(error)
     );
-    this.buttonClicked.emit();
+
   }
 
 }
