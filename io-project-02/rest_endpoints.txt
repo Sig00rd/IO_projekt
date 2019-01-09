@@ -1,0 +1,82 @@
+REST ENDPOINTS:
+
+1.Rejestracja POST
+http://localhost:8080/api/auth/signup
+
+body:
+{
+    "userName": "bartek",
+    "password": "bartek",
+    "matchingPassword": "bartek",
+    "email": "bartek@gmail.com"
+}
+
+2.Logowanie POST
+http://localhost:8080/api/auth/signin
+
+body:
+{
+	"username": "kuba",
+	"password": "julo"
+}
+
+3.Dodawanie gry wersja bez priorytetu POST
+http://localhost:8080/api/games
+
+body:
+{
+	"cost": 5,
+	"needed": 3,
+	"date": "2018-04-04T14:00:00.000+0000",
+	"sportObjectName": "Sadzawki",
+	"disciplineName": "FOOTBALL",
+	"level":"GOOD"
+}
+
+4.Dodawanie gry wersja z priorytetem POST
+http://localhost:8080/api/games
+
+body:
+{
+	"cost": 8.5,
+	"needed": 7,
+	"date": "2018-04-04T14:00:00.000+0000",
+	"sportObjectName": "Sadzawki 1, Kraków",
+	"disciplineName": "FOOTBALL",
+	"priorityDate": "2019-04-04T14:00:00.000+0000",
+	"pitchRoles":{"GOALKEEPER":1,"DEFENDER":2},
+	"level":"RECREATION"
+}
+
+5.Zapisywanie się na grę bez wyboru roli POST
+http://localhost:8080/api/games/5
+
+body puste
+
+6.Zapisywanie się na grę z wyborem roli POST
+http://localhost:8080/api/games/5
+
+body: GOALKEEPER
+
+7.Wyświetlenie listy gier GET
+http://localhost:8080/api/games
+
+8.Wyświetlenie lobby gry GET
+http://localhost:8080/api/lobby/4
+
+9.Wyświetlenie danych o graczu GET
+http://localhost:8080/api/users/bodzio
+
+10.Wyświetlenie listy dostępnych obiektów GET
+http://localhost:8080/api/sportObjects
+
+11.Dodanie obiektu POST
+http://localhost:8080/api/sportObjects
+
+body:
+{
+        "name": "Widno",
+        "address": "Widno 1",
+        "city": "Kraków",
+        "type": "ORLIK"
+}
