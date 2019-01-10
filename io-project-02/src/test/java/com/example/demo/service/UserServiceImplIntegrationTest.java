@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
+import com.example.demo.test_utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +36,7 @@ public class UserServiceImplIntegrationTest
 
     @Before
     public void setUp() {
-        User seba = new User(
-                "sebaPL", "123456", "seba.galecki@gmail.com");
+        User seba = TestUtils.sampleValidUser();
 
         Mockito.when(userDao.findByUserName(seba.getUserName()))
                 .thenReturn(Optional.of(seba));
