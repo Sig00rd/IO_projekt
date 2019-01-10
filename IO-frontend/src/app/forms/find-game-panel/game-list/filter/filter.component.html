@@ -1,48 +1,62 @@
 <button class="btn-lg btn-primary" *ngIf="showButton" (click)="onButtonClick()">Filtruj</button>
 <form [formGroup]="filterForm" *ngIf="!showButton" (ngSubmit)="submitFilter()">
-  <div class="btn-group" style="alignment: center" data-toggle="buttons" id="chooseSport">
-    <label>Wybierz sport:</label>
-    <input type="radio" formControlName="chosenSport" name="chosenSport"
-           id="football" value="football">
-    <label for="football"> Piłka nożna</label>
-    <input type="radio" formControlName="chosenSport" name="chosenSport"
-           id="basketball" value="basketball">
-    <label for="basketball"> Koszykówka</label>
-    <input type="radio" formControlName="chosenSport" name="chosenSport"
-           id="volleyball" value="volleyball">
-    <label for="volleyball"> Siatkówka</label>
-    <!-- TODO add other sports -->
-  </div>
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="btn-group" style="alignment: center" data-toggle="buttons" id="chooseSport">
+        <label>Wybierz sport:</label>
+        <input type="radio" formControlName="chosenSport" name="chosenSport"
+               id="football" value="football">
+        <label for="football"> Piłka nożna</label>
+        <input type="radio" formControlName="chosenSport" name="chosenSport"
+               id="basketball" value="basketball">
+        <label for="basketball"> Koszykówka</label>
+        <input type="radio" formControlName="chosenSport" name="chosenSport"
+               id="volleyball" value="volleyball">
+        <label for="volleyball"> Siatkówka</label>
+        <!-- TODO add other sports -->
+      </div>
 
 
-  <div class="col-md-offset-3">
-    <div class="form-group">
-      <label for="address">Adres</label>
-      <input type="text" id="address"
-             formControlName="address">
-    </div>
-    <div class="form-group">
-      <label for="city">Miasto</label>
-      <input type="text" id="city"
-             formControlName="city">
-    </div>
-    <div class="form-group">
-      <label for="players">Liczba graczy</label>
-      <input type="text" id="players"
-             formControlName="players">
-    </div>
-    <div class="form-group">
-      <label for="date">Data</label>
-      <input type="datetime-local" id="date"
-             formControlName="date">
-    </div>
-    <div class="form-group">
-      <label for="level">Poziom</label>
-      <input type="text" id="level"
-             formControlName="level">
+      <div>
+        <div class="form-group form-inline">
+          <label for="address">Adres</label>
+          <input type="text" id="address"
+                 formControlName="address">
+        </div>
+        <div class="form-group form-inline">
+          <label for="city">Miasto</label>
+          <input type="text" id="city"
+                 formControlName="city">
+        </div>
+        <div class="form-group">
+          <label for="distance">Maksymalna odległość</label>
+          <input type="text" id="distance"
+                 formControlName="distance">
+        </div>
+        <div class="form-group">
+          <label for="players">Liczba graczy</label>
+          <input type="text" id="players"
+                 formControlName="players">
+        </div>
+        <div class="form-group">
+          <label for="date">Data</label>
+          <input type="datetime-local" id="date"
+                 formControlName="date">
+        </div>
+        <div class="form-group">
+          <label for="minLevel">Minimalny poziom</label>
+          <input type="text" id="minLevel"
+                 formControlName="minLevel">
+        </div>
+        <div class="form-group">
+          <label for="maxLevel">Maksymalny poziom</label>
+          <input type="text" id="maxLevel"
+                 formControlName="maxLevel">
+        </div>
+      </div>
+      <button type="button" class="btn-lg btn-default" (click)="cancelForm()">Anuluj</button>
+      <button class="btn-lg btn-primary" type="submit">Filtruj</button>
     </div>
   </div>
-  <button type="button" class="btn-lg btn-default" (click)="cancelForm()">Anuluj</button>
-  <button class="btn-lg btn-primary" type="submit">Filtruj</button>
 </form>
 
