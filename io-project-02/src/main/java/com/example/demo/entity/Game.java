@@ -44,7 +44,7 @@ public class Game {
 	private Integer ordinaryEnrolled = 0;
 
 	@Column(name = "priority_enrolled")
-	private Integer relevantPriorityEnrolled = 0;
+	private Integer relevantPriorityEnrolled;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")

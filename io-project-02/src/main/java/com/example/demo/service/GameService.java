@@ -14,7 +14,7 @@ public interface GameService {
 
 	List<Game> getGames();
 
-	void save(GameForm gameForm);
+	Long save(GameForm gameForm);
 
 	void signUpPlayer(Long id, String role);
 
