@@ -20,10 +20,12 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
     this.filterForm = new FormGroup({
       'chosenSport': new FormControl(''),
-      'level': new FormControl(''),
+      'minLevel': new FormControl(''),
       'players': new FormControl(''),
       'address': new FormControl(''),
       'city': new FormControl(''),
+      'distance': new FormControl(''),
+      'maxLevel': new FormControl(''),
       'date': new FormControl('') // TODO add filter roles
     });
   }
@@ -45,8 +47,10 @@ export class FilterComponent implements OnInit {
     }
     const request = {
       'discipline': (this.filterForm.get('chosenSport').value).toUpperCase(),
-      'level': this.filterForm.get('level').value,
+      'minLevel': this.filterForm.get('minLevel').value,
+      'maxLevel': this.filterForm.get('maxLevel').value,
       'address': address,
+      'distance': this.filterForm.get('distance').value,
       'date': this.filterForm.get('date').value,
       'needed': this.filterForm.get('players').value
     };
