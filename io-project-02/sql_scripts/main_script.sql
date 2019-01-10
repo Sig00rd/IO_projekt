@@ -46,14 +46,16 @@ CREATE TABLE IF NOT EXISTS `sport_object` (
   `address` VARCHAR(45) NOT NULL ,
   `city` VARCHAR(45) NOT NULL ,
   `type` VARCHAR(45) NOT NULL,
+  `latitude` double not null,
+  `longitude` double not null,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO `sport_object`(`id`,`name`,`address`,`city`,`type`)
+INSERT INTO `sport_object`(`id`,`name`,`address`,`city`,`type`,`latitude`,`longitude`)
 VALUES 
-('1','Sadzawki','Sadzawki 1','Kraków','ORLIK'),
-('2','Szkolna','Szkolna 2','Kraków','HALA');
+('1','Sadzawki','Sadzawki 1','Kraków','ORLIK','50.082365','19.974494'),
+('2','Szkolna','Szkolna 2','Kraków','HALA','50.022997','19.965535');
 -- -----------------------------------------------------
 -- Table `io-project-02`.`user`
 -- -----------------------------------------------------
@@ -111,7 +113,7 @@ ENGINE = InnoDB;
 
 INSERT INTO `discipline`(name)
 VALUES 
-('FOOTBALL'),('VOLLEYBALL');
+('FOOTBALL'),('VOLLEYBALL'),('BASKETBALL');
 -- -----------------------------------------------------
 -- Table `game`
 -- -----------------------------------------------------
@@ -213,7 +215,8 @@ VALUES
 ('1', 'GOALKEEPER', '1'),
 ('2', 'DEFENDER', '1'),
 ('3', 'STRIKER', '1'),
-('4', 'LIBERO', '2');
+('4', 'LIBERO', '2'),
+('5', 'MIDFIELDER', '1');
 
 -- -----------------------------------------------------
 -- Table `games_priorities`
