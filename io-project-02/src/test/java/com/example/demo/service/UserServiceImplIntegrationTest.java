@@ -48,4 +48,13 @@ public class UserServiceImplIntegrationTest extends SpringBootRestRegistrationAp
         assertThat(found.getUserName())
                 .isEqualTo(userName);
     }
+
+    @Test
+    public void whenInvalidUserName_thenReturnNull() {
+        String userName = "matiRU";
+        User found = userService.findUserByUserName(userName);
+
+        assertThat(found)
+                .isEqualTo(null);
+    }
 }
