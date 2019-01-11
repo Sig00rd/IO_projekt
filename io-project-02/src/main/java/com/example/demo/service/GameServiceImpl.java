@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.logging.Logger;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +23,14 @@ import com.example.demo.dao.SportObjectDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.Discipline;
 import com.example.demo.entity.Game;
+import com.example.demo.entity.GameMessage;
 import com.example.demo.entity.GamePriorities;
 import com.example.demo.entity.PitchRole;
 import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
 import com.example.demo.form.GameForm;
+import com.example.demo.response.ResponseMessage;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
 
@@ -184,6 +189,42 @@ public class GameServiceImpl implements GameService {
 				game.getLevel(), game.getSportObject(),
 				game.getUser().getUserName());
 		return lobbyWrapper;
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<?> sendMessageToLobby(Long id, String message) {
+		Game game = gameDao.findById(id).orElse(null);
+		if (game == null) {
+			return new ResponseEntity<>(
+					new ResponseMessage(
+							"Failed! - Game of such id does not exists."),
+					HttpStatus.BAD_REQUEST);
+		}
+
+		if (!SecurityContextHolder.getContext().getAuthentication().getName()
+				.equals(game.getUser().getUserName())) {
+			return new ResponseEntity<>(
+					new ResponseMessage(
+							"Failed! - You are not owner of this game."),
+					HttpStatus.UNAUTHORIZED);
+		}
+		game.addMessage(new GameMessage(message));
+		return new ResponseEntity<>(
+				new ResponseMessage(
+						"Successfully added message to game lobby."),
+				HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public List<String> showLobbyMessages(Long id) {
+		Game game = gameDao.findById(id).orElse(null);
+		List<String> messages = new ArrayList<>();
+		for (GameMessage message : game.getGameMessages()) {
+			messages.add(message.getMessage());
+		}
+		return messages;
 	}
 
 }

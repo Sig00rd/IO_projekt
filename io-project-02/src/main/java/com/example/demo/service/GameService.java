@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 import com.example.demo.entity.Game;
 import com.example.demo.form.GameForm;
 import com.example.demo.wrapper.GameWrapper;
@@ -21,5 +23,9 @@ public interface GameService {
 	LobbyWrapper getLobby(Long id);
 
 	GameWrapper getGameWrapper(Long id);
+
+	ResponseEntity<?> sendMessageToLobby(Long id, String message);
+
+	List<String> showLobbyMessages(Long id);
 
 }

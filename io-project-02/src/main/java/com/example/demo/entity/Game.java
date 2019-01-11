@@ -80,6 +80,10 @@ public class Game {
 	@JoinColumn(name = "game_id")
 	private List<GamePriorities> gamePriorities = new ArrayList<>();
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "game_id")
+	private List<GameMessage> gameMessages;
+
 	public Game(Float cost, Integer needed, Date date, LevelType level,
 			SportObject sportObject, User user, Discipline discipline) {
 		this.cost = cost;
@@ -228,6 +232,22 @@ public class Game {
 
 	public void setRelevantPriorityEnrolled(Integer priorityEnrolled) {
 		this.relevantPriorityEnrolled = priorityEnrolled;
+	}
+
+	public void addMessage(GameMessage gameMessage) {
+		if (gameMessages == null) {
+			gameMessages = new ArrayList<>();
+		}
+		gameMessages.add(gameMessage);
+
+	}
+
+	public List<GameMessage> getGameMessages() {
+		return gameMessages;
+	}
+
+	public void setGameMessages(List<GameMessage> gameMessages) {
+		this.gameMessages = gameMessages;
 	}
 
 }

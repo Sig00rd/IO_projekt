@@ -3,6 +3,7 @@ package com.example.demo.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +25,10 @@ public class InvitationRestController {
 	private UserService userService;
 
 	@PostMapping("/invitations/{id}") // parametr id to identyfikator gry
-	public void sendInvitation(@PathVariable Long id,
+	public ResponseEntity<?> sendInvitation(@PathVariable Long id,
 			@RequestBody InvitationForm invitationForm) {
 
-		userService.sendInvitation(id, invitationForm);
+		return userService.sendInvitation(id, invitationForm);
 
 	}
 	@GetMapping("/invitations/{id}") // parametr id to identyfikator uzytkownika
