@@ -32,7 +32,6 @@ public class UserDaoIntegrationTest
         return seba;
     }
 
-    @Transactional
     @Test
     public void whenFindByUserName_thenReturnUser() {
         // given
@@ -44,6 +43,19 @@ public class UserDaoIntegrationTest
         // then
         assertThat(found.get().getUserName())
                 .isEqualTo(seba.getUserName());
+    }
+
+    @Test
+    public void whenFindByUserNameAndNoSuchUser_thenReturnEmpty() {
+        // given
+        String absentUserName = "someUser";
+
+        // when
+        Optional<User> found = userDao.findByUserName(absentUserName);
+
+        // then
+        assertThat(found.isPresent())
+                .isFalse();
     }
 
     @Test
