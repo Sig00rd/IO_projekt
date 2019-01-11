@@ -48,6 +48,10 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<UserGames> games;
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "receiver")
+	private List<Invitation> invitationsReceived;
+
 	public User() {
 	}
 
@@ -101,6 +105,15 @@ public class User {
 			games = new ArrayList<>();
 		}
 		games.add(userGames);
+
+	}
+
+	public void addInvitiation(Invitation invitation) {
+
+		if (invitationsReceived == null) {
+			invitationsReceived = new ArrayList<>();
+		}
+		invitationsReceived.add(invitation);
 
 	}
 

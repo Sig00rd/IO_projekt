@@ -80,3 +80,24 @@ body:
         "city": "Kraków",
         "type": "ORLIK"
 }
+
+13. Pobierz zaproszenia GET
+http://localhost:8080/api/invitations/{id} // id receivera
+
+
+14. Wyślij zaproszenie POST
+http://localhost:8080/api/invitations/{id} //id gry
+
+body:
+{
+	"receiver": 6,
+	"read": true
+}
+
+15. Pobierz komunikaty w grze GET
+http://localhost:8080/api/messages/lobby/{id} // id gry
+
+16. Dodaj komunikat do lobby POST
+http://localhost:8080/api/messages/lobby/{id}
+
+body:Weźcie buty z jasną podeszwą
