@@ -200,6 +200,8 @@ public class GameServiceImpl implements GameService {
 
 		String minLevel = handleMinLevelNull(gameFilterForm);
 		String maxLevel = handleMaxLevelNull(gameFilterForm);
+		String pitchRole = gameFilterForm.getPitchRole();
+
 		List<SportObject> acceptedObjects = getAcceptedObjects(gameFilterForm);
 
 		if (acceptedObjects.isEmpty()) {
@@ -207,7 +209,7 @@ public class GameServiceImpl implements GameService {
 		}
 
 		List<Game> games = getFilteredGames(gameFilterForm, minLevel, maxLevel,
-				acceptedObjects);
+				acceptedObjects, pitchRole);
 
 		return getFilteredGameWrappers(gameFilterForm, gameWrappers, games);
 	}
@@ -228,13 +230,31 @@ public class GameServiceImpl implements GameService {
 	}
 
 	private List<Game> getFilteredGames(GameFilterForm gameFilterForm,
-			String minLevel, String maxLevel,
-			List<SportObject> acceptedObjects) {
+			String minLevel, String maxLevel, List<SportObject> acceptedObjects,
+			String pitchRole) {
 		List<Game> games = gameDao.getFilteredGames(acceptedObjects,
 				gameFilterForm.getChosenSport(), LevelType.valueOf(minLevel),
 				LevelType.valueOf(maxLevel), gameFilterForm.getFromDate(),
 				gameFilterForm.getToDate());
+
+		if (pitchRole != null) {
+			return handleSpecifiedPitchRole(pitchRole, games);
+		}
 		return games;
+	}
+
+	private List<Game> handleSpecifiedPitchRole(String pitchRole,
+			List<Game> games) {
+		List<Game> gamesAfterRoleFiltering = new ArrayList<>();
+		for (Game game : games) {
+			List<GamePriorities> gamePriorities = game.getGamePriorities();
+			for (GamePriorities gamePriority : gamePriorities) {
+				if (gamePriority.getPitchRole().getName().equals(pitchRole)) {
+					gamesAfterRoleFiltering.add(game);
+				}
+			}
+		}
+		return gamesAfterRoleFiltering;
 	}
 
 	private String handleMaxLevelNull(GameFilterForm gameFilterForm) {
@@ -259,6 +279,11 @@ public class GameServiceImpl implements GameService {
 			throws ApiException, InterruptedException, IOException {
 		List<SportObject> sportObjects = sportObjectDao.findAll();
 		List<SportObject> acceptedObjects = new ArrayList<>();
+
+		if (gameFilterForm.getAddress() == null
+				|| gameFilterForm.getRadius() == null) {
+			return sportObjects;
+		}
 
 		Double[] coords = EarthDist.lookupCoord(gameFilterForm.getAddress());
 		for (SportObject sportObject : sportObjects) {
