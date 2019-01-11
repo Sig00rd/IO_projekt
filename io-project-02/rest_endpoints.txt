@@ -115,6 +115,6 @@ body:
 http://localhost:8080/api/messages/lobby/{id} // id gry
 
 16. Dodaj komunikat do lobby POST
-http://localhost:8080/api/messages/lobby/{id}
+http://localhost:8080/api/messages/lobby/{id}// id gry
 
 body:Weźcie buty z jasną podeszwą

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 import com.example.demo.entity.Game;
 import com.example.demo.form.GameFilterForm;
 import com.example.demo.form.GameForm;
@@ -25,7 +27,13 @@ public interface GameService {
 
 	GameWrapper getGameWrapper(Long id);
 
+<<<<<<< HEAD
 	List<GameWrapper> getFilteredGames(GameFilterForm gameFilterForm)
 			throws ApiException, InterruptedException, IOException;
+=======
+	ResponseEntity<?> sendMessageToLobby(Long id, String message);
+
+	List<String> showLobbyMessages(Long id);
+>>>>>>> owner of game can now send message to lobby, users can view messages
 
 }
