@@ -16,7 +16,7 @@ public interface GameDao extends JpaRepository<Game, Long> {
 
 	@Query("select g from Game g where g.sportObject in ?1"
 			+ " and (g.discipline.name = ?2 or ?2=null)  and (g.level between ?3 and ?4) "
-			+ "and ((g.date>=?5 and null=?6) or (g.date between ?5 and ?6))")
+			+ "and ((g.date>=?5 and null=?6) or (g.date between ?5 and ?6) or (null=?5 and null=?6))")
 	List<Game> getFilteredGames(List<SportObject> acceptedObjects,
 			String chosenSport, LevelType levelType, LevelType levelType2,
 			Date date, Date date2);
