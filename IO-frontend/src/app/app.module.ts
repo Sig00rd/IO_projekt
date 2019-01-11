@@ -24,6 +24,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {TokenStorage} from './auth/token.storage';
 import { FilterComponent } from './forms/find-game-panel/game-list/filter/filter.component';
+import { UserComponent } from './user/user.component';
+import {UserService} from './services/user.service';
+import {User} from './shared/user';
+import {NotificationDirective} from './shared/notification.directive';
 
 // TODO add routing details
 // TODO add routing guards
@@ -33,7 +37,8 @@ const appRoutes: Routes = [
     {path: 'register', component: RegisterPageComponent},
     {path: 'home', component: FeatureChoicePanelComponent},
     {path: 'find', component: FindGamePanelComponent},
-    {path: 'host', component: HostGamePanelComponent}
+    {path: 'host', component: HostGamePanelComponent},
+    {path: 'user', component: UserComponent}
   ];
 registerLocaleData(localePl);
 
@@ -45,13 +50,15 @@ registerLocaleData(localePl);
     RegisterPageComponent,
     LoggedNavbarComponent,
     SettingsDirective,
+    NotificationDirective,
     FeatureChoicePanelComponent,
     HostGamePanelComponent,
     FindGamePanelComponent,
     GameDetailsComponent,
     GameListComponent,
     GameElementComponent,
-    FilterComponent
+    FilterComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +75,7 @@ registerLocaleData(localePl);
     SportsService,
     MapsService,
     TokenStorage,
+    UserService,
     {provide: LOCALE_ID, useValue: 'pl'},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

@@ -24,8 +24,11 @@ export class HostGamePanelComponent implements OnInit {
   priorityDateAfterDate = false;
   gameWasAdded = false;
 
+
+  prioritiesForm: FormGroup;
   hostGameForm: FormGroup;
 
+  preparePriorites = false;
   showPriorities = false;
   priorityDate: string;
 
@@ -52,7 +55,6 @@ export class HostGamePanelComponent implements OnInit {
       'środkowy': 'CENTER'
     }
   };
-
   Object = Object;
 
 
@@ -73,17 +75,18 @@ export class HostGamePanelComponent implements OnInit {
       'address': new FormControl(null, [Validators.required]),
       'city': new FormControl(null, [Validators.required]),
       'date': new FormControl(null, [Validators.required]), // TODO refuse if time is past
-      'priorityDate': new FormControl(null, []),
+
     });
   }
 
 
   onSubmitButton() {
+    console.log(this.pitchRoles);
     if (this.hostGameForm.valid) {
       this.fee = this.hostGameForm.get('fee').value;
       this.players = Math.round(this.hostGameForm.get('players').value);
       this.date = this.hostGameForm.get('date').value;
-      this.priorityDate = this.hostGameForm.get('priorityDate').value;
+      this.priorityDate = this.prioritiesForm.get('priorityDate').value;
       this.address = this.hostGameForm.get('address').value;
       this.city = this.hostGameForm.get('city').value;
       this.level = this.hostGameForm.get('level').value;
@@ -99,19 +102,23 @@ export class HostGamePanelComponent implements OnInit {
         this.priorityDateAfterDate = false;
       }
       if (!this.priorityDateAfterDate) {
-        const newGame = new GameForm(this.fee, this.players, this.date, this.priorityDate,
-          (this.address + ', ' + this.city), this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
-        Object.keys(this.pitchRoles).forEach(
+        this.showPriorities = false;
+        Object.keys(this.roles[this.chosenSport.toUpperCase()]).forEach(
           key => {
-            if (this.pitchRoles[key] <= 0) {
-              delete this.pitchRoles[key];
+            const value = this.prioritiesForm.get(this.roles[this.chosenSport.toUpperCase()][key]).value;
+            if (value > 0) {
+              this.pitchRoles[this.roles[this.chosenSport.toUpperCase()][key]] = value;
             }
           }
         );
+        const newGame = new GameForm(this.fee, this.players, this.date, this.priorityDate,
+          (this.address + ', ' + this.city), this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
         this.http.post(this.GAMES_API, newGame).subscribe(
           () => {
-            this.hostGameForm.reset();
+            console.log(newGame);
             this.gameWasAdded = true;
+            this.hostGameForm.reset();
+            this.prioritiesForm.reset();
           });
 
       }
@@ -129,7 +136,7 @@ export class HostGamePanelComponent implements OnInit {
 
   onClickPriorities() {
     if (this.hostGameForm.get('chosenSport').valid) {
-      this.showPriorities = true;
+      this.preparePriorites = true;
       this.adjustPriorities();
     } else {
       this.sportIsChosen = false;
@@ -137,12 +144,17 @@ export class HostGamePanelComponent implements OnInit {
   }
 
   adjustPriorities() {
-    if (this.showPriorities) {
+    if (this.preparePriorites) {
       this.sportIsChosen = true;
+      this.prioritiesForm = new FormGroup({'priorityDate': new FormControl(null, [])});
       this.chosenSport = this.hostGameForm.get('chosenSport').value;
       Object.keys(this.roles[this.chosenSport.toUpperCase()]).forEach(
-        key => this.pitchRoles[this.roles[this.chosenSport.toUpperCase()][key]] = 0
-      );
+        key => {
+          this.prioritiesForm.addControl(
+            this.roles[this.chosenSport.toUpperCase()][key], new FormControl(0, []));
+        });
+      this.showPriorities = true;
+      this.preparePriorites = false;
     }
 
   }
