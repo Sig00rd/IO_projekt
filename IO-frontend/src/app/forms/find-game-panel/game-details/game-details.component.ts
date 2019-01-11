@@ -32,6 +32,7 @@ export class GameDetailsComponent implements OnInit {
       data => {
         this.selectedGame = data;
         this.buttonClicked.emit();
+        console.log(data);
       },
       error => console.log(error)
     );

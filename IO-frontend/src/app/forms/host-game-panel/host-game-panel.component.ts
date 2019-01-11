@@ -108,6 +108,7 @@ export class HostGamePanelComponent implements OnInit {
             }
           }
         );
+
         this.http.post(this.GAMES_API, newGame).subscribe(
           () => {
             this.hostGameForm.reset();
@@ -128,6 +129,7 @@ export class HostGamePanelComponent implements OnInit {
   }
 
   onClickPriorities() {
+    console.log();
     if (this.hostGameForm.get('chosenSport').valid) {
       this.showPriorities = true;
       this.adjustPriorities();
