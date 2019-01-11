@@ -10,8 +10,68 @@
     <div class="navbar-header">
       <a class="navbar-brand " (click)="backToFeatures()">Meczyki</a>
     </div>
+
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><i class="glyphicon glyphicon-user"></i> {{user.name}}</a></li>
+
+      <li><a (click)="showUserInfo()"><i class="glyphicon glyphicon-user"></i> {{user.name}}</a></li>
+      <li  appNotificationDirective> <a class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i>
+        <span class="badge badge-notify">1</span>
+      </a>
+
+        <!------------>
+        <ul class="dropdown-menu dropdown-cart" role="menu">
+          <li>
+                  <span class="item">
+                    <span class="item-left">
+                        <span class="item-info">
+                            <span>Item name</span>
+                            <span>23$</span>
+                        </span>
+                    </span>
+                </span>
+          </li>
+          <li>
+                  <span class="item">
+                    <span class="item-left">
+                        <span class="item-info">
+                            <span>Item name</span>
+                            <span>23$</span>
+                        </span>
+                    </span>
+                </span>
+          </li>
+          <li>
+                  <span class="item">
+                    <span class="item-left">
+                        <span class="item-info">
+                            <span>Item name</span>
+                            <span>23$</span>
+                        </span>
+                    </span>
+                </span>
+          </li>
+          <li>
+                  <span class="item">
+                    <span class="item-left">
+                        <span class="item-info">
+                            <span>Item name</span>
+                            <span>23$</span>
+                        </span>
+                    </span>
+                </span>
+          </li>
+          <li class="divider"></li>
+          <li><a class="text-center" href="">Pokaż wszystkie powiadomienia</a></li>
+        </ul>
+
+<!---------------->
+
+
+
+
+
+
+      </li>
       <li class="dropdown" appSettingsDirective>
         <a class="dropdown-toggle" data-toggle="dropdown">Więcej <span class="caret"></span></a>
         <ul class="dropdown-menu">
