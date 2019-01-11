@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -25,9 +27,13 @@ import com.example.demo.entity.PitchRole;
 import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
+import com.example.demo.form.GameFilterForm;
 import com.example.demo.form.GameForm;
+import com.example.demo.utils.EarthDist;
+import com.example.demo.utils.LevelType;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
+import com.google.maps.errors.ApiException;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -184,6 +190,89 @@ public class GameServiceImpl implements GameService {
 				game.getLevel(), game.getSportObject(),
 				game.getUser().getUserName());
 		return lobbyWrapper;
+	}
+
+	@Override
+	@Transactional
+	public List<GameWrapper> getFilteredGames(GameFilterForm gameFilterForm)
+			throws ApiException, InterruptedException, IOException {
+		List<GameWrapper> gameWrappers = new ArrayList<>();
+
+		String minLevel = handleMinLevelNull(gameFilterForm);
+		String maxLevel = handleMaxLevelNull(gameFilterForm);
+		List<SportObject> acceptedObjects = getAcceptedObjects(gameFilterForm);
+
+		if (acceptedObjects.isEmpty()) {
+			return gameWrappers;
+		}
+
+		List<Game> games = getFilteredGames(gameFilterForm, minLevel, maxLevel,
+				acceptedObjects);
+
+		return getFilteredGameWrappers(gameFilterForm, gameWrappers, games);
+	}
+
+	private List<GameWrapper> getFilteredGameWrappers(
+			GameFilterForm gameFilterForm, List<GameWrapper> gameWrappers,
+			List<Game> games) {
+		for (Game game : games) {
+			GameWrapper gameWrapper = this.getGameWrapper(game.getId());
+			if (gameFilterForm.getMinStillNeeded() != null && gameWrapper
+					.getStillNeeded() < gameFilterForm.getMinStillNeeded()) {
+				continue;
+			}
+			gameWrappers.add(gameWrapper);
+
+		}
+		return gameWrappers;
+	}
+
+	private List<Game> getFilteredGames(GameFilterForm gameFilterForm,
+			String minLevel, String maxLevel,
+			List<SportObject> acceptedObjects) {
+		List<Game> games = gameDao.getFilteredGames(acceptedObjects,
+				gameFilterForm.getChosenSport(), LevelType.valueOf(minLevel),
+				LevelType.valueOf(maxLevel), gameFilterForm.getFromDate(),
+				gameFilterForm.getToDate());
+		return games;
+	}
+
+	private String handleMaxLevelNull(GameFilterForm gameFilterForm) {
+
+		String maxLevel = gameFilterForm.getMaxLevel();
+		if (maxLevel == null) {
+			maxLevel = "ADVANCED";
+		}
+		return maxLevel;
+	}
+
+	private String handleMinLevelNull(GameFilterForm gameFilterForm) {
+
+		String minLevel = gameFilterForm.getMinLevel();
+		if (minLevel == null) {
+			minLevel = "RECREATION";
+		}
+		return minLevel;
+	}
+
+	private List<SportObject> getAcceptedObjects(GameFilterForm gameFilterForm)
+			throws ApiException, InterruptedException, IOException {
+		List<SportObject> sportObjects = sportObjectDao.findAll();
+		List<SportObject> acceptedObjects = new ArrayList<>();
+
+		Double[] coords = EarthDist.lookupCoord(gameFilterForm.getAddress());
+		for (SportObject sportObject : sportObjects) {
+			if (sportObject.distanceBetween(coords) <= gameFilterForm
+					.getRadius()) {
+				if (gameFilterForm.getPitchType() != null
+						&& !sportObject.getType().name()
+								.equals(gameFilterForm.getPitchType())) {
+					continue;
+				}
+				acceptedObjects.add(sportObject);
+			}
+		}
+		return acceptedObjects;
 	}
 
 }
