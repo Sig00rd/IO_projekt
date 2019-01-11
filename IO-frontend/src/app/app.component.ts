@@ -12,7 +12,6 @@ export class AppComponent {
   }
 
   logUserOut() {
-    // TODO logout
     this.router.navigate(['/']);
   }
 }

@@ -8,7 +8,7 @@
           <div class="alert alert-danger" *ngIf="invalidForm">
             <p>Błędne dane:</p>
             <ul>
-              <li *ngIf="registerForm.get('username').invalid">nazwa użytkownika musi zawierać od 3 do 10 znaków</li>
+              <li *ngIf="registerForm.get('username').invalid">nazwa użytkownika musi zawierać od 3 do 10 liter lub cyfr</li>
               <li *ngIf="userExists">nazwa użytkownika jest już zajęta</li>
               <li *ngIf="emailExist">adres email jest już zajęty</li>
               <li *ngIf="registerForm.get('email').invalid">niepoprawny format adresu email</li>
