@@ -2,14 +2,14 @@ package com.example.demo.form;
 
 public class InvitationForm {
 
-	private Long userId;
+	private Long receiverId;
 	private Boolean read;
 
-	public Long getUserId() {
-		return userId;
+	public Long getReceiverId() {
+		return receiverId;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setReceiverId(Long userId) {
+		this.receiverId = userId;
 	}
 	public Boolean getRead() {
 		return read;

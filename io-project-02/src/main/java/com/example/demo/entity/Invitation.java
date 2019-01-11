@@ -19,6 +19,8 @@ public class Invitation {
 	private Long id;
 
 	@JoinColumn(name = "sender_id")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH})
 	private User sender;
 
 	@JoinColumn(name = "receiver_id")
@@ -27,9 +29,11 @@ public class Invitation {
 	private User receiver;
 
 	@JoinColumn(name = "game_id")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH})
 	private Game game;
 
-	@Column(name = "read")
+	@Column(name = "read_flag")
 	private Boolean read;
 
 	public Invitation() {

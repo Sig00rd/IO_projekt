@@ -133,4 +133,12 @@ public class User {
 		this.games = games;
 	}
 
+	public List<Invitation> getInvitationsReceived() {
+		return invitationsReceived;
+	}
+
+	public void setInvitationsReceived(List<Invitation> invitationsReceived) {
+		this.invitationsReceived = invitationsReceived;
+	}
+
 }

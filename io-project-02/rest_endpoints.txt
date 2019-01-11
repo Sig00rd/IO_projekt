@@ -90,7 +90,7 @@ http://localhost:8080/api/invitations/{id} //id gry
 
 body:
 {
-	"receiver": 6,
+	"receiver": 2,
 	"read": true
 }
 
