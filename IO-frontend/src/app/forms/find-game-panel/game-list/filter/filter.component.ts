@@ -19,14 +19,14 @@ export class FilterComponent implements OnInit {
 
   ngOnInit() {
     this.filterForm = new FormGroup({
-      'chosenSport': new FormControl(null),
-      'minLevel': new FormControl(null),
-      'players': new FormControl(null),
-      'address': new FormControl(null),
-      'city': new FormControl(null),
-      'distance': new FormControl(null),
-      'maxLevel': new FormControl(null),
-      'date': new FormControl(null) // TODO add filter roles
+      'chosenSport': new FormControl(''),
+      'minLevel': new FormControl(''),
+      'players': new FormControl(''),
+      'address': new FormControl(''),
+      'city': new FormControl(''),
+      'distance': new FormControl(''),
+      'maxLevel': new FormControl(''),
+      'date': new FormControl('') // TODO add filter roles
     });
   }
 
@@ -42,7 +42,7 @@ export class FilterComponent implements OnInit {
   submitFilter() {
     let address = this.filterForm.get('address').value;
     const city = this.filterForm.get('city').value;
-    if (address !== null && city !== null) {
+    if (address !== '' && city !== '') {
       address = address + ', ' + city;
     }
     const request = {

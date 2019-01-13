@@ -22,7 +22,7 @@ export class RegisterPageComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = new FormGroup({
-      'username': new FormControl(null, [Validators.required, Validators.min(3), Validators.max(10), this.lettersAndNumbers.bind(this)]), // TODO accept only letters / numbers
+      'username': new FormControl(null, [Validators.required, Validators.min(3), Validators.max(10), this.lettersAndNumbers.bind(this)]),
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'password': new FormControl(null, [Validators.required, Validators.min(5)]),
       'rPassword': new FormControl(null, [Validators.required])
