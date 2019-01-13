@@ -80,3 +80,19 @@ body:
         "city": "Kraków",
         "type": "ORLIK"
 }
+12.Filtrowanie obiektów POST
+http://localhost:8080/api/games/filter
+
+body: 
+{
+	"address":"Sokołowskiego 2, Kraków",
+	"radius": 12.2,
+	"chosenSport":"FOOTBALL",
+	"pitchType":"ORLIK",
+	"minLevel":"RECREATION",
+	"maxLevel":"GOOD",
+	"fromDate":"2017-01-06T09:30",
+	"toDate":"2019-01-06T12:40",
+	"minStillNeeded":3,
+	"pitchRole":null
+}
