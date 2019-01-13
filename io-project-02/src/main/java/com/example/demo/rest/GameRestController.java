@@ -20,12 +20,6 @@ import com.example.demo.form.GameForm;
 import com.example.demo.service.GameService;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 import com.google.maps.errors.ApiException;
 
 @RestController
