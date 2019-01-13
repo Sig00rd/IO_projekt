@@ -10,7 +10,7 @@
   <hr>
   <div class="row">
     <div class="col-xs-12">
-      <app-game-element *ngFor="let gameElement of gameList" [game]="gameElement" (chosenGameEvent)="chosenGame($event)"></app-game-element>
+      <app-game-element *ngFor="let gameElement of gamesService.gameList" [game]="gameElement" (chosenGameEvent)="chosenGame($event)"></app-game-element>
     </div>
   </div>
 

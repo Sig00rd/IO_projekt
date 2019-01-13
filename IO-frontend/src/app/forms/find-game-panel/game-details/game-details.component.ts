@@ -4,6 +4,7 @@ import {SportsService} from '../../../services/sports.service';
 import {MapsService} from '../../../services/maps.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GameLobby} from '../../../shared/game.lobby';
+import {GamesService} from '../../../services/games.service';
 
 @Component({
   selector: 'app-game-details',
@@ -18,7 +19,7 @@ export class GameDetailsComponent implements OnInit {
   @Input() public lat: number;
   @Input() public lng: number;
 
-  constructor(private sportsService: SportsService, private http: HttpClient) {
+  constructor(private sportsService: SportsService, private gamesService: GamesService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -31,8 +32,8 @@ export class GameDetailsComponent implements OnInit {
     this.http.post<any>(GAME_API, {}).subscribe(
       data => {
         this.selectedGame = data;
+        this.gamesService.updateGames();
         this.buttonClicked.emit();
-        console.log(data);
       },
       error => console.log(error)
     );

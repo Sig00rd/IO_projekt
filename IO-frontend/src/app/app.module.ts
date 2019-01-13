@@ -28,6 +28,7 @@ import { UserComponent } from './user/user.component';
 import {UserService} from './services/user.service';
 import {User} from './shared/user';
 import {NotificationDirective} from './shared/notification.directive';
+import {GamesService} from './services/games.service';
 
 // TODO add routing details
 // TODO add routing guards
@@ -74,6 +75,7 @@ registerLocaleData(localePl);
     HttpClientModule,
     SportsService,
     MapsService,
+    GamesService,
     TokenStorage,
     UserService,
     {provide: LOCALE_ID, useValue: 'pl'},

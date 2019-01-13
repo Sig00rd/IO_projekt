@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GameInfo} from '../../../shared/game.info';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GameLobby} from '../../../shared/game.lobby';
+import {GamesService} from '../../../services/games.service';
 
 @Component({
   selector: 'app-game-list',
@@ -12,34 +13,21 @@ import {GameLobby} from '../../../shared/game.lobby';
 
 
 export class GameListComponent implements OnInit {
-  gameList: GameInfo[] = [];
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
 
   @Output() selectedGameEvent = new EventEmitter<GameLobby>();
 
-  private API = 'http://localhost:8080';
-  private GAMES_API = this.API + '/api/games';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private gamesService: GamesService) {
   }
 
   ngOnInit() {
-    this.getGames();
+    this.gamesService.updateGames();
   }
 
   chosenGame(gameLobby: GameLobby) {
     this.selectedGameEvent.emit(gameLobby);
   }
 
-  getGames() {
-    this.http.get<GameInfo[]>(this.GAMES_API, this.httpOptions).subscribe(
-      data =>  {
-        this.gameList = data;
-        console.log(data);
-      });
-  }
 
 
 }

@@ -86,5 +86,12 @@ public class GameWrapper {
 	public void setStillNeeded(Integer stillNeeded) {
 		this.stillNeeded = stillNeeded;
 	}
+	@Override
+	public String toString() {
+		return "GameWrapper [id=" + id + ", discipline=" + discipline
+				+ ", cost=" + cost + ", stillNeeded=" + stillNeeded + ", date="
+				+ date + ", priorityDate=" + priorityDate + ", level=" + level
+				+ ", sportObject=" + sportObject + ", owner=" + owner + "]";
+	}
 
 }
