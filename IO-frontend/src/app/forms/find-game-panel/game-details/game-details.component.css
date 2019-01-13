@@ -2,3 +2,11 @@ agm-map {
   width: 450px;
   height: 400px;
 }
+
+#host {
+  width: 50%;
+}
+
+label {
+  padding-right: 20px;
+}

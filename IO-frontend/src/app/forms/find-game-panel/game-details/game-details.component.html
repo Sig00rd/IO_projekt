@@ -11,13 +11,36 @@
     <h3>{{'Data: '}}{{selectedGame.date | date:'EEEE, dd-MM-yyyy HH:mm' : '+0000'}}</h3>
     <h4>{{'Aktualnie potrzeba jeszcze ' + selectedGame.stillNeeded + ' graczy'}}</h4>
     <h4>{{'Opłata za grę: ' + selectedGame.cost + ' zł'}}</h4>
-    <div *ngIf="selectedGame.firstSquad.length > 0">
+    <div *ngIf="selectedGame.firstSquad.length > 0 && !priorities">
       <h4>Aktualnie w pierwszym składzie grają: </h4>
       <h5 *ngFor="let player of selectedGame.firstSquad">{{player}}</h5>
+    </div>
+    <div *ngIf="selectedGame.firstSquad.length > 0 && priorities">
+      <h4>Aktualnie w pierwszym składzie grają: </h4>
+      <h5 *ngFor="let role of prioritiesNeeded">{{roles[role]}} {{selectedGame.playerRoles[role]}}</h5>
     </div>
     <div *ngIf="selectedGame.reserve.length > 0">
       <h4>Aktualna rezerwa: </h4>
       <h5 *ngFor="let player of selectedGame.reserve">{{player}}</h5>
+    </div>
+    <div *ngIf="priorities">
+      <!--<h4>Potrzebni zawodnicy na pozycje</h4>-->
+      <!--<form [formGroup]="prioritiesForm">-->
+      <!--<div class="form-group" *ngFor="let role of prioritiesNeeded">-->
+      <!--<label for="role">{{capitalizeFirstLetter(roles[role])}} ({{selectedGame.prioritiesNeeded[role]}})</label>-->
+      <!--<input type="text" id="role"-->
+      <!--formControlName="{{role}}">-->
+      <!--</div>-->
+      <!--</form>-->
+      <h4>Wybierz pozycję</h4>
+      <form [formGroup]="prioritiesForm">
+        <div class="form-group" *ngFor="let role of prioritiesNeeded">
+          <label for="{{role}}">{{capitalizeFirstLetter(roles[role])}} ({{selectedGame.prioritiesNeeded[role]}})</label>
+          <input type="radio" name="priority" id="{{role}}" value="{{role}}"
+                 formControlName="priority">
+        </div>
+      </form>
+
 
     </div>
 
