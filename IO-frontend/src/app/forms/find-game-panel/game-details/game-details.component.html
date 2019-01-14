@@ -24,18 +24,10 @@
       <h5 *ngFor="let player of selectedGame.reserve">{{player}}</h5>
     </div>
     <div *ngIf="priorities">
-      <!--<h4>Potrzebni zawodnicy na pozycje</h4>-->
-      <!--<form [formGroup]="prioritiesForm">-->
-      <!--<div class="form-group" *ngFor="let role of prioritiesNeeded">-->
-      <!--<label for="role">{{capitalizeFirstLetter(roles[role])}} ({{selectedGame.prioritiesNeeded[role]}})</label>-->
-      <!--<input type="text" id="role"-->
-      <!--formControlName="{{role}}">-->
-      <!--</div>-->
-      <!--</form>-->
       <h4>Wybierz pozycję</h4>
       <form [formGroup]="prioritiesForm">
         <div class="form-group" *ngFor="let role of prioritiesNeeded">
-          <label for="{{role}}">{{capitalizeFirstLetter(roles[role])}} ({{selectedGame.prioritiesNeeded[role]}})</label>
+          <label for="{{role}}">{{capitalizeFirstLetter(roles[role])}} (potrzeba {{selectedGame.prioritiesNeeded[role]}})</label>
           <input type="radio" name="priority" id="{{role}}" value="{{role}}"
                  formControlName="priority">
         </div>
