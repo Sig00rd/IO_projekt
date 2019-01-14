@@ -6,7 +6,7 @@ export class User {
   description: string;
   photo_url: string;
   games: any[];
-  messages: ['Użytkownik julo zaprasza cię do gry', 'Użytkownik bodek zaprasza cię do gry']
+  messages = ['Użytkownik julo zaprasza cię do gry', 'Użytkownik bodek zaprasza cię do gry'];
 
 
   constructor(name: string, email: string, description: string, photo_url: string, games: any[]) {

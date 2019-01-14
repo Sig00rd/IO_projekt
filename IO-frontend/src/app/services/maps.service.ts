@@ -7,7 +7,7 @@ export class MapsService {
   private API = 'https://maps.googleapis.com/maps/api/geocode/json?';
   private API_KEY = 'AIzaSyDTcMb9tsqsJSfWymNME76U1Zze1bORsSg';
 
-  public location: object;
+  public location: object = {lat: 0, lng: 0};
 
   constructor(private http: HttpClient) {
 

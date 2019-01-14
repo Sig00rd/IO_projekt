@@ -286,6 +286,9 @@ public class GameServiceImpl implements GameService {
 		return acceptedObjects;
 	}
 
+
+	@Override
+	@Transactional
 	public ResponseEntity<?> sendMessageToLobby(Long id, String message) {
 		Game game = gameDao.findById(id).orElse(null);
 		if (game == null) {

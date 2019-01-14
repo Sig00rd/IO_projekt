@@ -26,7 +26,6 @@ import {TokenStorage} from './auth/token.storage';
 import { FilterComponent } from './forms/find-game-panel/game-list/filter/filter.component';
 import { UserComponent } from './user/user.component';
 import {UserService} from './services/user.service';
-import {User} from './shared/user';
 import {NotificationDirective} from './shared/notification.directive';
 import {GamesService} from './services/games.service';
 

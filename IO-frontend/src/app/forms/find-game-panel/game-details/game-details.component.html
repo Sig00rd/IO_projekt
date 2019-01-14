@@ -1,6 +1,4 @@
 <div class="row">
-</div>
-<div class="row">
   <div class="col-xs-12">
     <agm-map [latitude]="this.lat" [longitude]="this.lng">
       <agm-marker [latitude]="this.lat" [longitude]="this.lng">
@@ -23,21 +21,45 @@
       <h4>Aktualna rezerwa: </h4>
       <h5 *ngFor="let player of selectedGame.reserve">{{player}}</h5>
     </div>
-    <div *ngIf="priorities">
-      <h4>Wybierz pozycję</h4>
-      <form [formGroup]="prioritiesForm">
-        <div class="form-group" *ngFor="let role of prioritiesNeeded">
-          <label for="{{role}}">{{capitalizeFirstLetter(roles[role])}} (potrzeba {{selectedGame.prioritiesNeeded[role]}})</label>
-          <input type="radio" name="priority" id="{{role}}" value="{{role}}"
-                 formControlName="priority">
+
+    <div class="container">
+      <div class="row">
+        <div id="chat">
+          <div class="panel panel-default">
+            <div class="panel-heading">Komunikaty</div>
+            <div class="panel-body">
+              <div class="row message-bubble" *ngFor="let message of messages">
+                <!-- TODO add sender <p class="text-muted" style="margin-left: 10px"></p> -->
+                <p style="margin-left: 10px">{{message}}</p>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="message">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" (click)="sendMessage()">Wyślij</button>
+                  </span>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-
-
+      </div>
     </div>
-
-    <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
-
   </div>
+
+  <div *ngIf="priorities">
+    <h4>Wybierz pozycję</h4>
+    <form [formGroup]="prioritiesForm">
+      <div class="form-group" *ngFor="let role of prioritiesNeeded">
+        <label for="{{role}}">{{capitalizeFirstLetter(roles[role])}} (potrzeba {{selectedGame.prioritiesNeeded[role]}}
+          )</label>
+        <input type="radio" name="priority" id="{{role}}" value="{{role}}"
+               formControlName="priority">
+      </div>
+    </form>
+  </div>
+
+  <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
+
 </div>
 

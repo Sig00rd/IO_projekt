@@ -14,6 +14,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class GameDetailsComponent implements OnInit, OnChanges {
   private API = 'http://localhost:8080/api/games/';
+  private MESSAGES_API = 'http://localhost:8080/api/messages/lobby/';
 
   @Input() selectedGame: GameLobby;
   @Output() buttonClicked = new EventEmitter();
@@ -22,7 +23,10 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   Object = Object;
   prioritiesForm: FormGroup;
 
-  prioritiesNeeded = [];
+  prioritiesNeeded: string[] = [];
+
+  message = '';
+  messages = [];
 
   priorities = false;
   roles = {
@@ -58,7 +62,6 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   // }
 
   ngOnInit() {
-    console.log(this.selectedGame);
     if (Object.keys(this.selectedGame.prioritiesNeeded).length !== 0) {
       this.priorities = true;
       this.prioritiesForm = new FormGroup({'priority': new FormControl(null)});
@@ -71,6 +74,7 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     } else {
       this.priorities = false;
     }
+    this.refreshMessages();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -97,5 +101,19 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
+  sendMessage() {
+    this.http.post<string>(this.MESSAGES_API + this.selectedGame.id, this.message).subscribe(
+      data => this.refreshMessages(),
+      error => console.log(error)
+    );
+    this.message = '';
+  }
+
+  refreshMessages() {
+    this.http.get<string[]>(this.MESSAGES_API + this.selectedGame.id).subscribe(
+      data => this.messages = data,
+      error => console.log(error)
+    );
+  }
 
 }

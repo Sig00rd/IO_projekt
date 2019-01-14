@@ -28,6 +28,7 @@ public interface GameService {
 
 	List<GameWrapper> getFilteredGames(GameFilterForm gameFilterForm)
 			throws ApiException, InterruptedException, IOException;
+
 	ResponseEntity<?> sendMessageToLobby(Long id, String message);
 
 
