@@ -118,3 +118,4 @@ http://localhost:8080/api/messages/lobby/{id} // id gry
 http://localhost:8080/api/messages/lobby/{id}// id gry
 
 body:Weźcie buty z jasną podeszwą
+

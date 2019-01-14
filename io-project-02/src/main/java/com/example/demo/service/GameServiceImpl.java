@@ -1,49 +1,25 @@
 package com.example.demo.service;
 
-<<<<<<< HEAD
-import java.io.IOException;
-=======
->>>>>>> owner of game can now send message to lobby, users can view messages
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import javax.transaction.Transactional;
-
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
+import com.example.demo.form.GameFilterForm;
+import com.example.demo.form.GameForm;
+import com.example.demo.response.ResponseMessage;
+import com.example.demo.utils.EarthDist;
+import com.example.demo.utils.LevelType;
+import com.example.demo.wrapper.GameWrapper;
+import com.example.demo.wrapper.LobbyWrapper;
+import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dao.DisciplineDao;
-import com.example.demo.dao.GameDao;
-import com.example.demo.dao.PitchRoleDao;
-import com.example.demo.dao.SportObjectDao;
-import com.example.demo.dao.UserDao;
-import com.example.demo.entity.Discipline;
-import com.example.demo.entity.Game;
-import com.example.demo.entity.GameMessage;
-import com.example.demo.entity.GamePriorities;
-import com.example.demo.entity.PitchRole;
-import com.example.demo.entity.SportObject;
-import com.example.demo.entity.User;
-import com.example.demo.entity.UserGames;
-import com.example.demo.form.GameFilterForm;
-import com.example.demo.form.GameForm;
-<<<<<<< HEAD
-import com.example.demo.utils.EarthDist;
-import com.example.demo.utils.LevelType;
-=======
-import com.example.demo.response.ResponseMessage;
->>>>>>> owner of game can now send message to lobby, users can view messages
-import com.example.demo.wrapper.GameWrapper;
-import com.example.demo.wrapper.LobbyWrapper;
-import com.google.maps.errors.ApiException;
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -204,7 +180,6 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	@Transactional
-<<<<<<< HEAD
 	public List<GameWrapper> getFilteredGames(GameFilterForm gameFilterForm)
 			throws ApiException, InterruptedException, IOException {
 		List<GameWrapper> gameWrappers = new ArrayList<>();
@@ -302,14 +277,15 @@ public class GameServiceImpl implements GameService {
 					.getRadius()) {
 				if (gameFilterForm.getPitchType() != null
 						&& !sportObject.getType().name()
-								.equals(gameFilterForm.getPitchType())) {
+						.equals(gameFilterForm.getPitchType())) {
 					continue;
 				}
 				acceptedObjects.add(sportObject);
 			}
 		}
 		return acceptedObjects;
-=======
+	}
+
 	public ResponseEntity<?> sendMessageToLobby(Long id, String message) {
 		Game game = gameDao.findById(id).orElse(null);
 		if (game == null) {
@@ -342,7 +318,6 @@ public class GameServiceImpl implements GameService {
 			messages.add(message.getMessage());
 		}
 		return messages;
->>>>>>> owner of game can now send message to lobby, users can view messages
 	}
 
 }

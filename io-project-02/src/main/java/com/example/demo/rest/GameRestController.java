@@ -1,36 +1,20 @@
 package com.example.demo.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.entity.Game;
 import com.example.demo.form.GameFilterForm;
 import com.example.demo.form.GameForm;
 import com.example.demo.service.GameService;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
-<<<<<<< HEAD
 import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-=======
->>>>>>> owner of game can now send message to lobby, users can view messages
 
 @RestController
 @RequestMapping("/api")
@@ -48,6 +32,7 @@ public class GameRestController {
 		return gameService.getGameWrapper(id);
 
 	}
+
 	@GetMapping("/games")
 	public List<GameWrapper> getGames() {
 
@@ -77,7 +62,7 @@ public class GameRestController {
 
 	@PostMapping("/games/{id}")
 	public LobbyWrapper signUpForGame(@PathVariable Long id,
-			@RequestBody(required = false) String role) {
+									  @RequestBody(required = false) String role) {
 
 		if (role == null) {
 			role = "";
@@ -86,7 +71,6 @@ public class GameRestController {
 		return this.getLobby(id);
 	}
 
-<<<<<<< HEAD
 	@PostMapping("/games/filter")
 	public List<GameWrapper> getFilteredGames(
 			@RequestBody GameFilterForm gameFilterForm)
@@ -97,19 +81,19 @@ public class GameRestController {
 				.getFilteredGames(gameFilterForm);
 
 		return filteredGames;
-=======
-	@PostMapping("/messages/lobby/{id}")
-	public ResponseEntity<?> sendMessageToLobby(@PathVariable Long id,
-			@RequestBody String message) {
-
-		return gameService.sendMessageToLobby(id, message);
 	}
 
-	@GetMapping("/messages/lobby/{id}")
-	public List<String> showLobbyMessages(@PathVariable Long id) {
+		@PostMapping("/messages/lobby/{id}")
+		public ResponseEntity<?> sendMessageToLobby (@PathVariable Long id,
+				@RequestBody String message){
 
-		return gameService.showLobbyMessages(id);
->>>>>>> owner of game can now send message to lobby, users can view messages
+			return gameService.sendMessageToLobby(id, message);
+		}
+
+		@GetMapping("/messages/lobby/{id}")
+		public List<String> showLobbyMessages (@PathVariable Long id){
+
+			return gameService.showLobbyMessages(id);
+		}
+
 	}
-
-}
