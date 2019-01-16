@@ -1,11 +1,26 @@
 package com.example.demo.entity;
 
-import com.example.demo.utils.LevelType;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.example.demo.utils.LevelType;
 
 @Entity
 @Table(name = "game")
@@ -58,10 +73,10 @@ public class Game {
 	@JoinColumn(name = "discipline_id")
 	private Discipline discipline;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game", orphanRemoval = true)
 	private List<UserGames> userGames = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "game_id")
 	private List<GamePriorities> gamePriorities = new ArrayList<>();
 
@@ -233,6 +248,24 @@ public class Game {
 
 	public void setGameMessages(List<GameMessage> gameMessages) {
 		this.gameMessages = gameMessages;
+	}
+
+	public void remove(UserGames player) {
+		userGames.remove(player);
+		if (player.getPitchRole() == null) {
+			ordinaryEnrolled -= 1;
+		} else {
+			for (GamePriorities gamePriority : gamePriorities) {
+				if (gamePriority.getPitchRole().getName()
+						.equals(player.getPitchRole().getName())) {
+					gamePriority.setEnrolled(gamePriority.getEnrolled() - 1);
+					if (gamePriority.getEnrolled() < gamePriority.getNeeded()) {
+						relevantPriorityEnrolled -= 1;
+					}
+				}
+			}
+		}
+
 	}
 
 }

@@ -141,4 +141,9 @@ public class User {
 		this.invitationsReceived = invitationsReceived;
 	}
 
+	public void remove(UserGames player) {
+		games.remove(player);
+
+	}
+
 }
