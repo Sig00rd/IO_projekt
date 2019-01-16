@@ -19,11 +19,6 @@ export class FindGamePanelComponent implements OnInit {
   ngOnInit() {
   }
 
-  playerJoined() {
-    this.selectedGame = null;
-    this.message = 'Do zobaczenia!';
-  }
-
   selectGame(gameLobby: GameLobby) {
     this.selectedGame = gameLobby;
     this.mapsService.getLocation(this.selectedGame.sportObject.address, this.selectedGame.sportObject.city).subscribe(

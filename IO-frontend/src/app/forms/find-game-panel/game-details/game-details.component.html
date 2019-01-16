@@ -1,5 +1,14 @@
 <div class="row">
   <div class="col-xs-12">
+    <div class="alert alert-success" style="width: 450px" *ngIf="registeredToGame">
+      <p>Pomyślnie zapisano do gry</p>
+    </div>
+
+    <div class="alert alert-danger" style="width: 450px" *ngIf="roleNotChosen">
+      <p>Należy wybrać rolę</p>
+    </div>
+
+
     <agm-map [latitude]="this.lat" [longitude]="this.lng">
       <agm-marker [latitude]="this.lat" [longitude]="this.lng">
       </agm-marker>

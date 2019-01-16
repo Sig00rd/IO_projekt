@@ -17,11 +17,12 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   private MESSAGES_API = 'http://localhost:8080/api/messages/lobby/';
 
   @Input() selectedGame: GameLobby;
-  @Output() buttonClicked = new EventEmitter();
   @Input() public lat: number;
   @Input() public lng: number;
-  Object = Object;
   prioritiesForm: FormGroup;
+
+  roleNotChosen = false;
+  registeredToGame = false;
 
   prioritiesNeeded: string[] = [];
 
@@ -47,21 +48,9 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   constructor(private sportsService: SportsService, private gamesService: GamesService, private http: HttpClient) {
   }
 
-  // ngOnInit() {
-  //   if (Object.keys(this.selectedGame.prioritiesNeeded).length !== 0) {
-  //     this.priorities = true;
-  //     this.prioritiesForm = new FormGroup({});
-  //     Object.keys(this.selectedGame.prioritiesNeeded).forEach(
-  //       key => {
-  //         this.prioritiesForm.addControl(key, new FormControl(null));
-  //         this.prioritiesNeeded.push(key);
-  //       }
-  //     );
-  //     this.prioritiesNeeded = Array.from(new Set(this.prioritiesNeeded.map((item: any) => item)));
-  //   }
-  // }
 
   ngOnInit() {
+    this.registeredToGame = false;
     if (Object.keys(this.selectedGame.prioritiesNeeded).length !== 0) {
       this.priorities = true;
       this.prioritiesForm = new FormGroup({'priority': new FormControl(null)});
@@ -86,15 +75,22 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     const gameId = this.selectedGame.id;
     const GAME_API = this.API + gameId;
     const body = this.priorities ? this.prioritiesForm.get('priority').value : {};
-    this.http.post<any>(GAME_API, body).subscribe(
-      data => {
-        this.selectedGame = data;
-        this.gamesService.updateGames();
-        this.buttonClicked.emit();
-      },
-      error => console.log(error)
-    );
-
+    if (this.priorities && !this.prioritiesForm.dirty) {
+      this.roleNotChosen = true;
+      this.registeredToGame = false;
+      window.scroll(0, 0);
+    } else {
+      this.roleNotChosen = false;
+      this.http.post<any>(GAME_API, body).subscribe(
+        data => {
+          this.selectedGame = data;
+          this.gamesService.updateGames();
+          window.scroll(0, 0);
+          this.registeredToGame = true;
+        },
+        error => console.log(error)
+      );
+    }
   }
 
   capitalizeFirstLetter(word: string) {

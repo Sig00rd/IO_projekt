@@ -6,14 +6,43 @@ export class User {
   description: string;
   photo_url: string;
   games: any[];
-  messages = ['Użytkownik julo zaprasza cię do gry', 'Użytkownik bodek zaprasza cię do gry'];
+  id: string;
+  messages = [];
+  // messages = ['Użytkownik julo zaprasza cię do gry', 'Użytkownik bodek zaprasza cię do gry'];
 
-
-  constructor(name: string, email: string, description: string, photo_url: string, games: any[]) {
+  constructor(name: string) {
     this.name = name;
-    this.email = email;
-    this.description = description;
-    this.photo_url = photo_url;
-    this.games = games;
+
   }
+
+  setEmail(email: string): User {
+    this.email = email;
+    return this;
+  }
+
+  setDescription(description: string): User {
+    this.description = description;
+    return this;
+  }
+
+  setPhotoUrl(photo_url: string): User {
+    this.photo_url = photo_url;
+    return this;
+  }
+
+  setGames(games: any[]): User {
+    this.games = games;
+    return this;
+  }
+
+  setID(id: string): User {
+    this.id = id;
+    return this;
+  }
+
+  setMessages(messages: string[]): User {
+    this.messages = messages;
+    return this;
+  }
+
 }
