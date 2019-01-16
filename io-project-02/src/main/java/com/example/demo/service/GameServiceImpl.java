@@ -32,6 +32,7 @@ import com.example.demo.entity.User;
 import com.example.demo.entity.UserGames;
 import com.example.demo.exception.BadPitchRoleSpecifiedException;
 import com.example.demo.exception.GameNotFoundException;
+import com.example.demo.exception.UserNotOwnerOfGameException;
 import com.example.demo.exception.UserNotSignedUpForGameException;
 import com.example.demo.form.GameFilterForm;
 import com.example.demo.form.GameForm;
@@ -371,6 +372,50 @@ public class GameServiceImpl implements GameService {
 		return new ResponseEntity<>(
 				new ResponseMessage("Successfully signed off from the game."),
 				HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<?> removeGame(Long gameId) {
+		Game game = gameDao.findById(gameId)
+				.orElseThrow(() -> new GameNotFoundException());
+
+		if (!SecurityContextHolder.getContext().getAuthentication().getName()
+				.equals(game.getUser().getUserName())) {
+			throw new UserNotOwnerOfGameException();
+		}
+		gameDao.delete(game);
+
+		return new ResponseEntity<>(
+				new ResponseMessage("Successfully deleted the game."),
+				HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public List<GameWrapper> getMyGames() {
+		List<Game> games = getGames();
+		List<GameWrapper> gameWrappers = new ArrayList<>();
+		User user = userDao.findByUserName(SecurityContextHolder.getContext()
+				.getAuthentication().getName()).orElse(null);
+		games.removeIf(
+				n -> (!n.getUser().getUserName().equals(user.getUserName())));
+		for (Game game : games) {
+			gameWrappers.add(getGameWrapper(game.getId()));
+		}
+		return gameWrappers;
+	}
+
+	@Override
+	@Transactional
+	public List<GameWrapper> getGamesISignedUp() {
+		User user = userDao.findByUserName(SecurityContextHolder.getContext()
+				.getAuthentication().getName()).orElse(null);
+		List<GameWrapper> gameWrappers = new ArrayList<>();
+		for (UserGames userGame : user.getGames()) {
+			gameWrappers.add(getGameWrapper(userGame.getGame().getId()));
+		}
+		return gameWrappers;
 	}
 
 }

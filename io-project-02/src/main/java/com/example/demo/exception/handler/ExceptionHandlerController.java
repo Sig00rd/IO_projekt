@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.demo.exception.BadPitchRoleSpecifiedException;
 import com.example.demo.exception.GameNotFoundException;
+import com.example.demo.exception.UserNotOwnerOfGameException;
 import com.example.demo.exception.UserNotSignedUpForGameException;
 import com.example.demo.response.ResponseMessage;
 
@@ -32,5 +33,13 @@ public class ExceptionHandlerController {
 		return new ResponseEntity<>(new ResponseMessage(
 				"Failed! - You have not signed for such game with such role"),
 				HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(UserNotOwnerOfGameException.class)
+	public ResponseEntity<?> handleUserNotOwnerOfGame() {
+		return new ResponseEntity<>(
+				new ResponseMessage(
+						"Failed! - You are not owner of this game."),
+				HttpStatus.UNAUTHORIZED);
 	}
 }

@@ -36,4 +36,10 @@ public interface GameService {
 
 	ResponseEntity<?> signOffFromTheGame(Long gameId, String role);
 
+	ResponseEntity<?> removeGame(Long gameId);
+
+	List<GameWrapper> getMyGames();
+
+	List<GameWrapper> getGamesISignedUp();
+
 }

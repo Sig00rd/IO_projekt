@@ -110,5 +110,19 @@ public class GameRestController {
 
 		return gameService.signOffFromTheGame(gameId, role);
 	}
+	@DeleteMapping("/mygames/{gameId}")
+	public ResponseEntity<?> removeGame(@PathVariable("gameId") Long gameId) {
 
+		return gameService.removeGame(gameId);
+	}
+	@GetMapping("/mygames")
+	public List<GameWrapper> getMyGames() {
+
+		return gameService.getMyGames();
+	}
+	@GetMapping("/games/signedUp")
+	public List<GameWrapper> getGamesISignedUp() {
+
+		return gameService.getGamesISignedUp();
+	}
 }
