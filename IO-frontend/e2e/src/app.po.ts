@@ -6,6 +6,30 @@ export class AppPage {
   }
 
   getTitleText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('a.navbar-brand')).getText();
+  }
+
+  getRegisterLink() {
+    return element(by.linkText('Rejestracja'));
+  }
+
+  getLoginLink() {
+    return element(by.linkText('Login'));
+  }
+
+  getLoginWindow() {
+    return element(by.css('login'));
+  }
+
+  getRegisterWindow() {
+    return element(by.css('register'));
+  }
+
+  getRegisterButton() {
+    return element(by.css('button.btn-primary'));
+  }
+
+  getLoginButton() {
+    return element(by.css('button.btn-primary'));
   }
 }

@@ -56,6 +56,6 @@ public class GameDaoIntegrationTest
         );
 
         assertThat(found.get(0).getUser().getUserName()).isEqualTo(seba.getUserName());
-        
+
     }
 }
