@@ -39,6 +39,7 @@ import com.example.demo.form.GameForm;
 import com.example.demo.response.ResponseMessage;
 import com.example.demo.utils.EarthDist;
 import com.example.demo.utils.LevelType;
+import com.example.demo.wrapper.GameWithMyRoleWrapper;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
 import com.google.maps.errors.ApiException;
@@ -408,14 +409,15 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	@Transactional
-	public List<GameWrapper> getGamesISignedUp() {
+	public List<GameWithMyRoleWrapper> getGamesISignedUp() {
 		User user = userDao.findByUserName(SecurityContextHolder.getContext()
 				.getAuthentication().getName()).orElse(null);
-		List<GameWrapper> gameWrappers = new ArrayList<>();
+		List<GameWithMyRoleWrapper> gameWithMyRoleWrappers = new ArrayList<>();
 		for (UserGames userGame : user.getGames()) {
-			gameWrappers.add(getGameWrapper(userGame.getGame().getId()));
+			gameWithMyRoleWrappers.add(new GameWithMyRoleWrapper(
+					userGame.getGame().getId(), userGame.getPitchRole()));
 		}
-		return gameWrappers;
+		return gameWithMyRoleWrappers;
 	}
 
 }

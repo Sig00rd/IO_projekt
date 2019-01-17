@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import com.example.demo.entity.Game;
 import com.example.demo.form.GameFilterForm;
 import com.example.demo.form.GameForm;
+import com.example.demo.wrapper.GameWithMyRoleWrapper;
 import com.example.demo.wrapper.GameWrapper;
 import com.example.demo.wrapper.LobbyWrapper;
 import com.google.maps.errors.ApiException;
@@ -40,6 +41,6 @@ public interface GameService {
 
 	List<GameWrapper> getMyGames();
 
-	List<GameWrapper> getGamesISignedUp();
+	List<GameWithMyRoleWrapper> getGamesISignedUp();
 
 }
