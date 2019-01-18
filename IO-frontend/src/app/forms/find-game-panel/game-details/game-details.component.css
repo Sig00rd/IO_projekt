@@ -10,3 +10,7 @@ agm-map {
 label {
   padding-right: 20px;
 }
+
+#chat {
+  width: 450px;
+}

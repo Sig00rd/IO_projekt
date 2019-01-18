@@ -14,61 +14,28 @@
     <ul class="nav navbar-nav navbar-right">
 
       <li><a (click)="showUserInfo()"><i class="glyphicon glyphicon-user"></i> {{user.name}}</a></li>
-      <li  appNotificationDirective> <a class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i>
-        <span class="badge badge-notify">1</span>
+      <li appNotificationDirective><a class="dropdown-toggle" data-toggle="dropdown"><i
+        class="glyphicon glyphicon-comment"></i>
+        <span class="badge badge-notify">{{user.messages.length}}</span>
       </a>
 
         <!------------>
+
         <ul class="dropdown-menu dropdown-cart" role="menu">
-          <li>
-                  <span class="item">
-                    <span class="item-left">
-                        <span class="item-info">
-                            <span>Item name</span>
-                            <span>23$</span>
-                        </span>
-                    </span>
-                </span>
+          <li *ngFor="let message of user.messages">
+
+            <a
+              class="list-group-item clearfix" [routerLink]="['/find', message.gameId]">
+              <div class="pull-left">
+                <h4 class="list-group-item-heading">{{message.header}}</h4>
+                <p class="list-group-item-text">{{message.body}}</p>
+              </div>
+            </a>
           </li>
-          <li>
-                  <span class="item">
-                    <span class="item-left">
-                        <span class="item-info">
-                            <span>Item name</span>
-                            <span>23$</span>
-                        </span>
-                    </span>
-                </span>
-          </li>
-          <li>
-                  <span class="item">
-                    <span class="item-left">
-                        <span class="item-info">
-                            <span>Item name</span>
-                            <span>23$</span>
-                        </span>
-                    </span>
-                </span>
-          </li>
-          <li>
-                  <span class="item">
-                    <span class="item-left">
-                        <span class="item-info">
-                            <span>Item name</span>
-                            <span>23$</span>
-                        </span>
-                    </span>
-                </span>
-          </li>
-          <li class="divider"></li>
           <li><a class="text-center" href="">Pokaż wszystkie powiadomienia</a></li>
         </ul>
 
-<!---------------->
-
-
-
-
+        <!---------------->
 
 
       </li>

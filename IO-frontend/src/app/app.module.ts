@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 
 import {AppComponent} from './app.component';
@@ -23,24 +23,29 @@ import {MapsService} from './services/maps.service';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {TokenStorage} from './auth/token.storage';
-import { FilterComponent } from './forms/find-game-panel/game-list/filter/filter.component';
-import { UserComponent } from './user/user.component';
+import {FilterComponent} from './forms/find-game-panel/game-list/filter/filter.component';
+import {UserComponent} from './user/user.component';
 import {UserService} from './services/user.service';
-import {User} from './shared/user';
 import {NotificationDirective} from './shared/notification.directive';
 import {GamesService} from './services/games.service';
+import {SportObjectComponent} from './forms/sport-object/sport-object.component';
+import { HostedGamesComponent } from './user/hosted-games/hosted-games.component';
+import { JoinedGamesComponent } from './user/joined-games/joined-games.component';
+import { GamesElementComponent } from './user/games-element/games-element.component';
 
 // TODO add routing details
 // TODO add routing guards
 
 const appRoutes: Routes = [
-    {path: 'login', component: LoginPageComponent},
-    {path: 'register', component: RegisterPageComponent},
-    {path: 'home', component: FeatureChoicePanelComponent},
-    {path: 'find', component: FindGamePanelComponent},
-    {path: 'host', component: HostGamePanelComponent},
-    {path: 'user', component: UserComponent}
-  ];
+  {path: 'login', component: LoginPageComponent},
+  {path: 'register', component: RegisterPageComponent},
+  {path: 'home', component: FeatureChoicePanelComponent},
+  {path: 'find', component: FindGamePanelComponent, children: [
+      {path: ':id', component: GameDetailsComponent}
+    ]},
+  {path: 'host', component: HostGamePanelComponent},
+  {path: 'user', component: UserComponent}
+];
 registerLocaleData(localePl);
 
 @NgModule({
@@ -59,7 +64,11 @@ registerLocaleData(localePl);
     GameListComponent,
     GameElementComponent,
     FilterComponent,
-    UserComponent
+    UserComponent,
+    SportObjectComponent,
+    HostedGamesComponent,
+    JoinedGamesComponent,
+    GamesElementComponent
   ],
   imports: [
     BrowserModule,

@@ -73,12 +73,19 @@ public class Game {
 	@JoinColumn(name = "discipline_id")
 	private Discipline discipline;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game", orphanRemoval = true)
 	private List<UserGames> userGames = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "game_id")
 	private List<GamePriorities> gamePriorities = new ArrayList<>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "game_id")
+	private List<GameMessage> gameMessages;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game", orphanRemoval = true)
+	private List<Notification> notifications;
 
 	public Game(Float cost, Integer needed, Date date, LevelType level,
 			SportObject sportObject, User user, Discipline discipline) {
@@ -228,6 +235,48 @@ public class Game {
 
 	public void setRelevantPriorityEnrolled(Integer priorityEnrolled) {
 		this.relevantPriorityEnrolled = priorityEnrolled;
+	}
+
+	public void addMessage(GameMessage gameMessage) {
+		if (gameMessages == null) {
+			gameMessages = new ArrayList<>();
+		}
+		gameMessages.add(gameMessage);
+
+	}
+
+	public List<GameMessage> getGameMessages() {
+		return gameMessages;
+	}
+
+	public void setGameMessages(List<GameMessage> gameMessages) {
+		this.gameMessages = gameMessages;
+	}
+
+	public void remove(UserGames player) {
+		userGames.remove(player);
+		if (player.getPitchRole() == null) {
+			ordinaryEnrolled -= 1;
+		} else {
+			for (GamePriorities gamePriority : gamePriorities) {
+				if (gamePriority.getPitchRole().getName()
+						.equals(player.getPitchRole().getName())) {
+					gamePriority.setEnrolled(gamePriority.getEnrolled() - 1);
+					if (gamePriority.getEnrolled() < gamePriority.getNeeded()) {
+						relevantPriorityEnrolled -= 1;
+					}
+				}
+			}
+		}
+
+	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 
 }

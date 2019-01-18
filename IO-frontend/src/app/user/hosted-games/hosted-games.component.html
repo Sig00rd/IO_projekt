@@ -1,0 +1,15 @@
+<div class="col-md-6">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Zorganizowane</h2>
+    </div>
+    <div class="col-xs-12">
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12" *ngIf="games && games.length > 0">
+      <app-games-element *ngFor="let gameElement of games" [game]="gameElement"></app-games-element>
+    </div>
+  </div>
+</div>

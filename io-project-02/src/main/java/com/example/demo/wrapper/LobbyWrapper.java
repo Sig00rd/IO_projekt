@@ -113,9 +113,11 @@ public class LobbyWrapper extends GameWrapper {
 			UserGames player) {
 		if (playerNames.size() <= this.prioritiesNeeded
 				.get(player.getPitchRole().getName())) {
-			this.firstSquad.add(player.getUser().getUserName());
+			this.firstSquad.add(player.getUser().getUserName() + "("
+					+ player.getPitchRole().getName() + ")");
 		} else {
-			this.reserve.add(player.getUser().getUserName());
+			this.reserve.add(player.getUser().getUserName() + "("
+					+ player.getPitchRole().getName() + ")");
 		}
 	}
 

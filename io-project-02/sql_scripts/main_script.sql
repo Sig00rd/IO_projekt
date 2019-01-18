@@ -244,6 +244,57 @@ CREATE TABLE IF NOT EXISTS `game_priorities` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `invitations`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `notification` ;
+
+CREATE TABLE IF NOT EXISTS `notification`(
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sender_id` INT(11) NOT NULL,
+  `receiver_id` INT(11) NOT NULL,
+  `game_id` INT(11) DEFAULT NULL,
+  `type` VARCHAR(45) NOT NULL,
+  `message_body` VARCHAR(100) DEFAULT NULL,
+  `read_flag` BOOLEAN NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_notification_sender1_idx` (`sender_id` ASC) VISIBLE,
+  INDEX `fk_notification_receiver1_idx` (`receiver_id` ASC) VISIBLE,
+  INDEX `fk_notification_game1_idx` (`game_id` ASC) VISIBLE,
+  CONSTRAINT `fk_invitation_sender1`
+    FOREIGN KEY (`sender_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_receiver1`
+    FOREIGN KEY (`receiver_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_game1`
+    FOREIGN KEY (`game_id`)
+    REFERENCES `game` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)  
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `game_messages`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `game_messages` ;
+
+CREATE TABLE IF NOT EXISTS `game_messages`(
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `game_id` INT(11) DEFAULT NULL,
+  `message` VARCHAR(100),
+  PRIMARY KEY (`id`),
+  INDEX `fk_game_messages_game1_idx` (`game_id` ASC) VISIBLE,
+  CONSTRAINT `fk_game_messages_game1`
+    FOREIGN KEY (`game_id`)
+    REFERENCES `game` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)  
+ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
