@@ -1,7 +1,7 @@
 import { AppPage } from './app.po';
 import {browser} from 'protractor';
 
-describe('welcome page content', () => {
+describe('welcome page', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -95,8 +95,11 @@ describe('after entering valid credentials in login form', () => {
     page.getLoginButton().click();
   });
 
-
   it('should show user navbar after entering valid credentials and logging in', () => {
     expect(page.getLoggedNavbar);
+  });
+
+  it('should show correct username on the navbar', () => {
+    expect(page.);
   });
 });
