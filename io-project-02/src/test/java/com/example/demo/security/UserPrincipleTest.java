@@ -45,6 +45,23 @@ public class UserPrincipleTest
         UserPrinciple sebaPrinciple = UserPrinciple.build(seba);
 
         // then
-        System.out.print(sebaPrinciple.getAuthorities());
+        assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_USER));
+        assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void whenBuildUserPrinciple_andUsersRoleIsROLE_ADMIN_thenGrantHimCorrectAuthorities() {
+        // given
+        User seba = TestUtils.sampleValidUser();
+        Set<Role> role_admin = new HashSet<Role>();
+        role_admin.add(new Role(RoleName.ROLE_ADMIN));
+        seba.setRoles(role_admin);
+
+        // when
+        UserPrinciple sebaPrinciple = UserPrinciple.build(seba);
+
+        // then
+        assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_ADMIN));
+        assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
     }
 }
