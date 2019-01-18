@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ import com.example.demo.wrapper.NotificationWrapper;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class InvitationRestController {
+public class NotificationRestController {
 
 	@Autowired
 	private UserService userService;
@@ -31,12 +32,18 @@ public class InvitationRestController {
 		return userService.sendNotification(notificationForm);
 
 	}
-	@GetMapping("/notifications/{id}") // parametr id to identyfikator
-										// uzytkownika
-	public List<NotificationWrapper> showNotificationWrappers(
-			@PathVariable Long id) {
+	@GetMapping("/notifications")
+	public List<NotificationWrapper> showNotificationWrappers() {
 
-		return userService.showNotificationWrappers(id);
+		return userService.showNotificationWrappers();
+
+	}
+	@PutMapping("/notifications/{id}")
+	public ResponseEntity<?> markNotificationAsReaded(
+			@PathVariable("id") Long id) // notification id
+	{
+
+		return userService.markNotificationAsReaded(id);
 
 	}
 

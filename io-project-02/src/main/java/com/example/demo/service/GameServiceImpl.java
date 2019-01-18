@@ -370,6 +370,11 @@ public class GameServiceImpl implements GameService {
 			if (players.isEmpty()) {
 				throw new BadPitchRoleSpecifiedException();
 			}
+		} else {
+			players.removeIf(n -> (n.getPitchRole() != null));
+			if (players.isEmpty()) {
+				throw new UserNotSignedUpForGameException();
+			}
 		}
 		player = players.get(players.size() - 1);
 		game.remove(player);

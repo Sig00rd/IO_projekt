@@ -12,8 +12,10 @@ public interface UserService {
 
 	User findUserByUserName(String userName);
 
-	List<NotificationWrapper> showNotificationWrappers(Long id);
+	List<NotificationWrapper> showNotificationWrappers();
 
 	ResponseEntity<?> sendNotification(NotificationForm notificationForm);
+
+	ResponseEntity<?> markNotificationAsReaded(Long id);
 
 }

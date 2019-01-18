@@ -2,14 +2,16 @@ package com.example.demo.wrapper;
 
 public class NotificationWrapper {
 
+	private Long id;
 	private Long game;
 	private String sender;
 	private String type;
 	private String body;
 	private Boolean read;
 
-	public NotificationWrapper(Long game, String sender, String type,
+	public NotificationWrapper(Long id, Long game, String sender, String type,
 			String body, Boolean read) {
+		this.id = id;
 		this.game = game;
 		this.sender = sender;
 		this.type = type;
@@ -45,5 +47,11 @@ public class NotificationWrapper {
 	}
 	public void setBody(String body) {
 		this.body = body;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

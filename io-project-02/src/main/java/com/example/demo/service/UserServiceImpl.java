@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.GameDao;
+import com.example.demo.dao.NotificationDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.Game;
 import com.example.demo.entity.Notification;
@@ -29,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private GameDao gameDao;
+
+	@Autowired
+	private NotificationDao notificationDao;
 
 	@Override
 	@Transactional
@@ -59,8 +63,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public List<NotificationWrapper> showNotificationWrappers(Long id) {
-		User receiver = userDao.findById(id).orElse(null);
+	public List<NotificationWrapper> showNotificationWrappers() {
+		User receiver = userDao.findByUserName(SecurityContextHolder
+				.getContext().getAuthentication().getName()).orElse(null);
 		List<Notification> notifications = receiver.getNotificationsReceived();
 		List<NotificationWrapper> notificationWrappers = new ArrayList<>();
 		Long gameId;
@@ -71,12 +76,25 @@ public class UserServiceImpl implements UserService {
 			} else {
 				gameId = notification.getGame().getId();
 			}
-			notificationWrappers.add(new NotificationWrapper(gameId,
+			notificationWrappers.add(new NotificationWrapper(
+					notification.getId(), gameId,
 					notification.getSender().getUserName(),
 					notification.getType().name(),
 					notification.getMessageBody(), notification.getRead()));
 		}
 		return notificationWrappers;
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<?> markNotificationAsReaded(Long id) {
+
+		Notification notification = notificationDao.findById(id).orElse(null);
+		notification.setRead(true);
+
+		return new ResponseEntity<>(
+				new ResponseMessage("Notification marked as read!"),
+				HttpStatus.OK);
 	}
 
 }
