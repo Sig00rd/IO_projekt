@@ -9,9 +9,9 @@
   </div>
   <hr>
   <div class="row">
-    <div class="col-xs-12">
-      <app-game-element *ngFor="let gameElement of gamesService.gameList" [game]="gameElement" (chosenGameEvent)="chosenGame($event)"></app-game-element>
+    <div class="col-xs-12" *ngIf="gamesService.gameList && gamesService.gameList.length > 0">
+      <app-game-element *ngFor="let gameElement of gamesService.gameList" [game]="gameElement"
+                        (chosenGameEvent)="chosenGame($event)"></app-game-element>
     </div>
   </div>
-
 </div>

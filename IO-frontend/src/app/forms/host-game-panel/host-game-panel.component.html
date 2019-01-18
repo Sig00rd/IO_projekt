@@ -11,39 +11,57 @@
               <li *ngIf="hostGameForm.get('players').invalid">nieprawidłowa liczba graczy</li>
               <li *ngIf="hostGameForm.get('fee').invalid">nieprawidłowa opłata za grę</li>
               <li *ngIf="hostGameForm.get('players').invalid">określenie poziomu jest wymagane</li>
-              <li *ngIf="hostGameForm.get('address').invalid || hostGameForm.get('city').invalid">błędny adres</li>
               <li *ngIf="priorityDateAfterDate">data wygaśnięcia priorytetu następuje po dacie gry</li>
             </ul>
           </div>
           <div class="alert alert-success" *ngIf="gameWasAdded">
             <p>Pomyślnie dodano grę</p> <!-- TODO redirect to game -->
           </div>
-          <div class="btn-group" style="alignment: center" data-toggle="buttons" id="chooseSport">
-            <label>Wybierz sport:</label>
-            <input type="radio" formControlName="chosenSport" name="chosenSport"
-                   id="football" value="football" (ngModelChange)="adjustPriorities()">
-            <label for="football"> Piłka nożna</label>
-            <input type="radio" formControlName="chosenSport" name="chosenSport"
-                   id="basketball" value="basketball" (ngModelChange)="adjustPriorities()">
-            <label for="basketball"> Koszykówka</label>
-            <input type="radio" formControlName="chosenSport" name="chosenSport"
-                   id="volleyball" value="volleyball" (ngModelChange)="adjustPriorities()">
-            <label for="volleyball"> Siatkówka</label>
-            <!-- TODO add other sports -->
+          <div class="col-md-offset-1">
+            <div class="btn-group" style="alignment: center" data-toggle="buttons" id="chooseSport">
+              <label>Wybierz sport:</label>
+              <input type="radio" formControlName="chosenSport" name="chosenSport"
+                     id="football" value="football" (ngModelChange)="adjustPriorities()">
+              <label for="football"> Piłka nożna</label>
+              <input type="radio" formControlName="chosenSport" name="chosenSport"
+                     id="basketball" value="basketball" (ngModelChange)="adjustPriorities()">
+              <label for="basketball"> Koszykówka</label>
+              <input type="radio" formControlName="chosenSport" name="chosenSport"
+                     id="volleyball" value="volleyball" (ngModelChange)="adjustPriorities()">
+              <label for="volleyball"> Siatkówka</label>
+              <!-- TODO add other sports -->
+            </div>
           </div>
 
 
           <div class="col-md-offset-3">
-            <div class="form-group">
-              <label for="address">Adres</label>
-              <input type="text" placeholder="np. Babińskiego 10" id="address"
-                     formControlName="address">
+
+            <div *ngIf="!(addByName || addByAddress)">
+              <button class="btn btn-default" (click)="addByAddress = !addByAddress">Dodaj po adresie</button>
+              <button class="btn btn-default" (click)="addByName = !addByName">Dodaj po nazwie</button>
             </div>
-            <div class="form-group">
-              <label for="city">Miasto</label>
-              <input type="text" placeholder="np. Kraków" id="city"
-                     formControlName="city">
+
+            <div *ngIf="addByAddress">
+              <label>Adres
+                <input list="address" name="myBrowser" placeholder="np. Babińskiego 10, Kraków"
+                       formControlName="address"/></label>
+              <datalist id="address">
+                <option *ngFor="let sportObject of sportObjects"
+                        value="{{sportObject.address + ', ' + sportObject.city}}">
+              </datalist>
             </div>
+            <div *ngIf="addByName">
+              <label>Nazwa obiektu
+                <input list="name" name="myBrowser" placeholder="np. Sadzawki" formControlName="address"/></label>
+              <datalist id="name">
+                <option *ngFor="let sportObject of sportObjects" value="{{sportObject.name}}">
+              </datalist>
+            </div>
+            <div *ngIf="(addByName || addByAddress) && !showAddObjectForm">
+              <button class="btn btn-default" (click)="showAddObjectForm = !showAddObjectForm" *ngIf="!objectAdded">Brak obiektu?</button>
+            </div>
+            <app-sport-object *ngIf="showAddObjectForm" (addedObjectEmitter)="showSuccessForm()"></app-sport-object>
+            <div class="alert alert-success" *ngIf="objectAdded"><p>Pomyślnie oddano obiekt</p></div>
             <div class="form-group">
               <label for="players">Liczba graczy</label>
               <input type="text" placeholder="*" id="players"

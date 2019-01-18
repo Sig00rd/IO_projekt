@@ -1,0 +1,23 @@
+<form [formGroup]="sportObjectForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="name">Nazwa obiektu</label>
+    <input type="text" id="name"
+           formControlName="name">
+  </div>
+  <div class="form-group">
+    <label for="address">Adres</label>
+    <input type="text" id="address"
+           formControlName="address">
+  </div>
+  <div class="form-group">
+    <label for="city">Miasto</label>
+    <input type="text" id="city"
+           formControlName="city">
+  </div>
+  <div class="form-group">
+    <label for="type">Typ obiektu</label>
+    <input type="text" id="type" placeholder="np. hala"
+           formControlName="type">
+  </div>
+  <button class="btn btn-success" type="submit">Dodaj obiekt</button>
+</form>

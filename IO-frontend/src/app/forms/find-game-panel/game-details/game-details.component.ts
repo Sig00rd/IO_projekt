@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GameLobby} from '../../../shared/game.lobby';
 import {GamesService} from '../../../services/games.service';
 import {FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'app-game-details',
@@ -14,13 +15,15 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class GameDetailsComponent implements OnInit, OnChanges {
   private API = 'http://localhost:8080/api/games/';
+  private LOBBY_API = 'http://localhost:8080/api/lobby/';
   private MESSAGES_API = 'http://localhost:8080/api/messages/lobby/';
 
-  @Input() selectedGame: GameLobby;
-  @Input() public lat: number;
-  @Input() public lng: number;
+  selectedGame: GameLobby;
+  public lat: number;
+  public lng: number;
   prioritiesForm: FormGroup;
 
+  showGame = false;
   roleNotChosen = false;
   registeredToGame = false;
 
@@ -45,11 +48,45 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     'SETTER': 'rozgrywający',
   };
 
-  constructor(private sportsService: SportsService, private gamesService: GamesService, private http: HttpClient) {
+  constructor(private sportsService: SportsService, private gamesService: GamesService,
+              private http: HttpClient, private route: ActivatedRoute, private mapsService: MapsService) {
   }
 
 
   ngOnInit() {
+    this.http.get<GameLobby>(this.LOBBY_API + this.route.snapshot.params['id']).subscribe(
+      data => {
+        this.selectedGame = data;
+        this.refreshGame();
+      },
+      error => console.log(error)
+    );
+    this.route.params
+      .subscribe(
+        (params: Params) => {
+          this.http.get<GameLobby>(this.LOBBY_API + params['id']).subscribe(
+            data => {
+              this.showGame = false;
+              this.selectedGame = data;
+              this.refreshGame();
+            },
+            error => console.log(error)
+          );
+        }
+      );
+  }
+
+  refreshGame() {
+    this.showGame = false;
+    this.mapsService.getLocation(this.selectedGame.sportObject.address, this.selectedGame.sportObject.city).subscribe(
+        (response) => {
+          this.mapsService.location = response['results'][0]['geometry']['location'];
+          this.lat = this.mapsService.location['lat'];
+          this.lng = this.mapsService.location['lng'];
+        },
+          error => console.log(error)
+    );
+
     this.registeredToGame = false;
     if (Object.keys(this.selectedGame.prioritiesNeeded).length !== 0) {
       this.priorities = true;
@@ -64,6 +101,7 @@ export class GameDetailsComponent implements OnInit, OnChanges {
       this.priorities = false;
     }
     this.refreshMessages();
+    this.showGame = true;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
