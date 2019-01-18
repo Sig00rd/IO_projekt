@@ -25,9 +25,10 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   public lat: number;
   public lng: number;
   prioritiesForm: FormGroup;
+  givingUpButtons: FormGroup;
   showInviteForm = false;
   inviteSent = false;
-
+  myRoles = [];
 
   userNotExisting = false;
   showGame = false;
@@ -35,6 +36,7 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   registeredToGame = false;
   givenUp = false;
   notSignedIn = false;
+  showGivingUpButtons = false;
 
   defaultsNeeded = 0;
   prioritiesNeeded: string[] = [];
@@ -91,8 +93,10 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   }
 
   refreshGame() {
+    this.showGivingUpButtons = false;
     this.showGame = false;
     this.notSignedIn = false;
+    this.myRoles = [];
     this.mapsService.getLocation(this.selectedGame.sportObject.address, this.selectedGame.sportObject.city).subscribe(
       (response) => {
         this.mapsService.location = response['results'][0]['geometry']['location'];
@@ -238,17 +242,51 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   }
 
   onGiveUpClicked() {
-    this.http.delete(this.API + this.selectedGame.id).subscribe(
-      data => {
-        this.givenUp = true;
-        this.ngOnChanges(null);
-        window.scroll(0, 0);
+    if (this.prioritiesNeeded.length === 0) {
+      this.http.delete(this.API + this.selectedGame.id).subscribe(
+        data => {
+          this.givenUp = true;
+          this.ngOnChanges(null);
+          window.scroll(0, 0);
 
-      },
-      error => {
-        this.notSignedIn = true;
-        this.givenUp = false;
-      }
-    );
+        },
+        error => {
+          this.notSignedIn = true;
+          this.givenUp = false;
+        }
+      );
+    } else if (!this.showGivingUpButtons && this.prioritiesNeeded.length > 0) {
+      console.log('jedynka');
+      this.http.get<any[]>('http://localhost:8080/api/games/signedUp').subscribe(
+        data => {
+          data.forEach(
+            key => {
+              console.log(key);
+              if (key['gameId'] === this.selectedGame.id) {
+                this.myRoles.push(key['myPitchRole']);
+              }
+            }
+          );
+          this.myRoles = this.myRoles.map(item => item)
+            .filter((value, index, self) => self.indexOf(value) === index);
+          this.givingUpButtons = new FormGroup({'gRole': new FormControl(null)});
+          this.showGivingUpButtons = true;
+        }
+      );
+    } else if (this.showGivingUpButtons) {
+      const request = ('/' + this.givingUpButtons.get('gRole').value);
+      this.http.delete(this.API + this.selectedGame.id + request).subscribe(
+        data => {
+          this.givenUp = true;
+          this.ngOnChanges(null);
+          window.scroll(0, 0);
+
+        },
+        error => {
+          this.notSignedIn = true;
+          this.givenUp = false;
+        }
+      );
+    }
   }
 }

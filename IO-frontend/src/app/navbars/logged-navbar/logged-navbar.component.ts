@@ -29,7 +29,7 @@ export class LoggedNavbarComponent implements OnInit {
       data => {
         this.user.setEmail(data['email']).setDescription('totalny kozak')
           .setPhotoUrl('https://i.ytimg.com/vi/5-32LWcqQkU/hqdefault.jpg').setID(data['id']).setGames([]);
-        this.http.get<string[]>(this.MESSAGES_API + this.userService.user.id).subscribe(
+        this.http.get<string[]>(this.MESSAGES_API).subscribe(
           messages => this.user.setMessages(messages),
           error => console.log(error)
         );

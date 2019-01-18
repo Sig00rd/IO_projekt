@@ -15,6 +15,13 @@
       <p>Pomyślnie wypisano z gry</p>
     </div>
 
+    <div class="alert alert-danger" *ngIf="userNotExisting" style="width: 450px"><p>Podany użytkownik nie istnieje</p>
+    </div>
+
+
+    <div class="alert alert-danger" style="width: 450px" *ngIf="notSignedIn">
+      <p>Nie jesteś zapisany do tej gry</p>
+    </div>
 
     <agm-map [latitude]="this.lat" [longitude]="this.lng">
       <agm-marker [latitude]="this.lat" [longitude]="this.lng">
@@ -81,17 +88,19 @@
   </div>
 
 
-  <div class="alert alert-danger" *ngIf="userNotExisting" style="width: 450px"><p>Podany użytkownik nie istnieje</p>
-  </div>
-  <div class="alert alert-danger" style="width: 450px" *ngIf="notSignedIn">
-    <p>Nie jesteś zapisany do tej gry</p>
-  </div>
-
   <div>
     <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
     <input type="text" [(ngModel)]="invitedUser" style="margin: 10px"
            placeholder="Podaj nazwę użytkownika" *ngIf="showInviteForm">
     <input type="button" class="btn btn-lg btn-primary" value="Zaproś" (click)="onInviteClicked()">
+    <div *ngIf="showGivingUpButtons && myRoles.length > 0">
+      <form [formGroup]="givingUpButtons">
+        <div class="form-group" *ngFor="let gRole of myRoles">
+          <label for="{{gRole}}">{{roles[gRole]}}</label>
+          <input type="radio" value="{{gRole}}" name="gRole" id="{{gRole}}" formControlName="gRole">
+        </div>
+      </form>
+    </div>
     <input type="button" class="btn btn-lg btn-danger" value="Zrezygnuj" (click)="onGiveUpClicked()">
   </div>
 
