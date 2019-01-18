@@ -9,7 +9,7 @@ export class GamesService {
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
-  gameList: GameInfo[] = [];
+  gameList: GameInfo[];
   private API = 'http://localhost:8080';
   private GAMES_API = this.API + '/api/games';
 
@@ -23,5 +23,9 @@ export class GamesService {
       data => {
         this.gameList = data;
       });
+  }
+
+  getGames() {
+    return this.http.get<GameInfo[]>(this.GAMES_API, this.httpOptions);
   }
 }

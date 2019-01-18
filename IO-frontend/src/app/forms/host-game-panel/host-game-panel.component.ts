@@ -17,7 +17,6 @@ export class HostGamePanelComponent implements OnInit {
   fee: number;
   players: number;
   address: string;
-  city: string;
   date: string;
   invalidForm = false;
   sportIsChosen = true;
@@ -33,6 +32,14 @@ export class HostGamePanelComponent implements OnInit {
   priorityDate: string;
 
   pitchRoles = {};
+
+  sportObjects = [];
+
+  addByName = false;
+  addByAddress = false;
+
+  showAddObjectForm = false;
+  objectAdded = false;
 
   roles = {
     'FOOTBALL': {
@@ -61,6 +68,8 @@ export class HostGamePanelComponent implements OnInit {
   private API = 'http://localhost:8080';
   private GAMES_API = this.API + '/api/games';
 
+  private SPORTOBJECTS_API = this.API + '/api/sportObjects';
+
 
   constructor(private tokenStorage: TokenStorage, private http: HttpClient) {
   }
@@ -73,10 +82,16 @@ export class HostGamePanelComponent implements OnInit {
       'fee': new FormControl(null, [Validators.required, Validators.min(0)]),
       'players': new FormControl(null, [Validators.required, Validators.min(1)]),
       'address': new FormControl(null, [Validators.required]),
-      'city': new FormControl(null, [Validators.required]),
       'date': new FormControl(null, [Validators.required]), // TODO refuse if time is past
-
     });
+    this.http.get<any[]>(this.SPORTOBJECTS_API).subscribe(
+      data => {
+        this.sportObjects = data;
+      },
+      error => console.log(error)
+    );
+    this.showAddObjectForm = false;
+    this.objectAdded = false;
   }
 
 
@@ -86,7 +101,6 @@ export class HostGamePanelComponent implements OnInit {
       this.players = Math.round(this.hostGameForm.get('players').value);
       this.date = this.hostGameForm.get('date').value;
       this.address = this.hostGameForm.get('address').value;
-      this.city = this.hostGameForm.get('city').value;
       this.level = this.hostGameForm.get('level').value;
       this.chosenSport = this.hostGameForm.get('chosenSport').value;
 
@@ -104,18 +118,18 @@ export class HostGamePanelComponent implements OnInit {
       }
       if (!this.priorityDateAfterDate) {
         if (this.prioritiesForm != null) {
-        this.showPriorities = false;
-        Object.keys(this.roles[this.chosenSport.toUpperCase()]).forEach(
-          key => {
-            const value = this.prioritiesForm.get(this.roles[this.chosenSport.toUpperCase()][key]).value;
-            if (value > 0) {
-              this.pitchRoles[this.roles[this.chosenSport.toUpperCase()][key]] = value;
+          this.showPriorities = false;
+          Object.keys(this.roles[this.chosenSport.toUpperCase()]).forEach(
+            key => {
+              const value = this.prioritiesForm.get(this.roles[this.chosenSport.toUpperCase()][key]).value;
+              if (value > 0) {
+                this.pitchRoles[this.roles[this.chosenSport.toUpperCase()][key]] = value;
+              }
             }
-          }
-        );
+          );
         }
         const newGame = new GameForm(this.fee, this.players, this.date, this.priorityDate,
-          (this.address + ', ' + this.city), this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
+          this.address, this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
         this.http.post(this.GAMES_API, newGame).subscribe(
           () => {
             this.gameWasAdded = true;
@@ -161,6 +175,11 @@ export class HostGamePanelComponent implements OnInit {
       this.showPriorities = true;
       this.preparePriorites = false;
     }
-
   }
+
+  showSuccessForm() {
+    this.objectAdded = true;
+    this.showAddObjectForm = false;
+  }
+
 }

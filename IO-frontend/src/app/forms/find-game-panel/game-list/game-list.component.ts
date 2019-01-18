@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {GameInfo} from '../../../shared/game.info';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GameLobby} from '../../../shared/game.lobby';
 import {GamesService} from '../../../services/games.service';
