@@ -1,7 +1,7 @@
 import { AppPage } from './app.po';
 import {browser} from 'protractor';
 
-describe('znajdź meczora app', () => {
+describe('welcome page content', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -20,57 +20,83 @@ describe('znajdź meczora app', () => {
   it('should show login link', () => {
     expect(page.getLoginLink().getText()).toEqual('Login');
   });
+});
 
-  it('should show login window after clicking login', () => {
+describe('after clicking login', () => {
+    let page: AppPage;
+
+    beforeEach( () => {
+      page = new AppPage();
+      page.navigateTo();
+      page.getLoginLink().click();
+      browser.pause();
+    });
+
+
+  it('should show login window', () => {
     page.getLoginLink().click();
     browser.pause();
     page.getLoginWindow();
   });
 
-  it('should show register window after clicking register', () => {
-    page.getRegisterLink().click();
+  it('should show username and password fields', () => {
+    page.getLoginLink().click();
     browser.pause();
-    page.getRegisterWindow();
+    page.getUsernameField();
+    page.getPasswordField();
   });
 
-  it('should show register button after clicking register', () => {
-    page.getRegisterLink().click();
-    browser.pause();
-    expect(page.getRegisterButton().getText()).toEqual('Zarejestruj');
-  });
-
-  it('should show login button after clicking register', () => {
+  it('should show login button', () => {
     page.getLoginLink().click();
     browser.pause();
     expect(page.getLoginButton().getText()).toEqual('Login');
   });
+});
 
-  it('should show username and email fields on register form', () => {
+describe('after clicking register', () => {
+  let page: AppPage;
+
+  beforeEach( () => {
+    page = new AppPage();
+    page.navigateTo();
     page.getRegisterLink().click();
     browser.pause();
+  });
+
+
+  it('should show register window', () => {
+    page.getRegisterWindow();
+  });
+
+  it('should show register button', () => {
+    expect(page.getRegisterButton().getText()).toEqual('Zarejestruj');
+  });
+
+  it('should show username and email fields', () => {
     page.getUsernameField();
     page.getEmailField();
   });
 
-  it('should show password and retype password fields on register form', () => {
-    page.getRegisterLink().click();
-    browser.pause();
+  it('should show password and retype password', () => {
     page.getPasswordField();
     page.getRePasswordField();
   });
+});
 
-  it('should show username and password fields on login form', () => {
-    page.getLoginLink().click();
-    browser.pause();
-    page.getUsernameField();
-    page.getPasswordField();
-  });
+describe('after entering valid credentials in login form', () => {
+  let page: AppPage;
 
-  it('should show user navbar after entering valid credentials and logging in', () => {
+  beforeEach( () => {
+    page = new AppPage();
+    page.navigateTo();
     page.getLoginLink().click();
-    browser.pause();
     page.getUsernameField().sendKeys('julo');
     page.getPasswordField().sendKeys('julo');
+    page.getLoginButton().click();
+  });
+
+
+  it('should show user navbar after entering valid credentials and logging in', () => {
     expect(page.getLoggedNavbar);
   });
 });
