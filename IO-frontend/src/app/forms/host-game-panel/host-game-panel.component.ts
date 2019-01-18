@@ -173,13 +173,14 @@ export class HostGamePanelComponent implements OnInit {
       this.sportIsChosen = true;
       this.prioritiesForm = new FormGroup({'priorityDate': new FormControl(null, [])});
       this.chosenSport = this.hostGameForm.get('chosenSport').value;
+
       Object.keys(this.roles[this.chosenSport.toUpperCase()]).forEach(
         key => {
           this.prioritiesForm.addControl(
             this.roles[this.chosenSport.toUpperCase()][key], new FormControl(0, []));
         });
       this.showPriorities = true;
-      this.preparePriorites = false;
+
     }
   }
 
