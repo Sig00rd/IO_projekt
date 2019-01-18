@@ -46,10 +46,12 @@ public class EarthDist {
 		if (results != null) {
 			coords = (results[0].geometry.location);
 		}
-		Double[] result = new Double[2];
-		result[0] = coords.lat;
-		result[1] = coords.lng;
-
+		Double[] result = null;
+		if (coords != null) {
+			result = new Double[2];
+			result[0] = coords.lat;
+			result[1] = coords.lng;
+		}
 		return result;
 	}
 }

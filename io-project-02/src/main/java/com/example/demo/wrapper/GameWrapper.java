@@ -24,8 +24,10 @@ public class GameWrapper {
 		this.discipline = discipline;
 		this.cost = cost;
 		this.stillNeeded = stillNeeded;
-		this.date = date;
-		this.priorityDate = priorityDate;
+		this.date = (Date) date.clone();
+		if (priorityDate != null) {
+			this.priorityDate = (Date) priorityDate.clone();
+		}
 		this.level = level;
 		this.sportObject = sportObject;
 		this.owner = owner;
@@ -44,10 +46,10 @@ public class GameWrapper {
 	}
 
 	public Date getDate() {
-		return date;
+		return (Date) date.clone();
 	}
 	public void setDate(Date date) {
-		this.date = date;
+		this.date = (Date) date.clone();
 	}
 	public LevelType getLevel() {
 		return level;
@@ -75,10 +77,16 @@ public class GameWrapper {
 	}
 
 	public Date getPriorityDate() {
-		return priorityDate;
+		if (priorityDate != null) {
+			return (Date) priorityDate.clone();
+		}
+		return null;
 	}
+
 	public void setPriorityDate(Date priorityDate) {
-		this.priorityDate = priorityDate;
+		if (priorityDate != null) {
+			this.priorityDate = (Date) priorityDate.clone();
+		}
 	}
 	public Integer getStillNeeded() {
 		return stillNeeded;

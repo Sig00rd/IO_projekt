@@ -41,16 +41,26 @@ public class GameFilterForm {
 	}
 
 	public Date getFromDate() {
-		return fromDate;
+		if (fromDate != null) {
+			return (Date) fromDate.clone();
+		}
+		return null;
 	}
 	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+		if (fromDate != null) {
+			this.fromDate = (Date) fromDate.clone();
+		}
 	}
 	public Date getToDate() {
-		return toDate;
+		if (toDate != null) {
+			return (Date) toDate.clone();
+		}
+		return null;
 	}
 	public void setToDate(Date toDate) {
-		this.toDate = toDate;
+		if (toDate != null) {
+			this.toDate = (Date) toDate.clone();
+		}
 	}
 	public String getPitchRole() {
 		return pitchRole;

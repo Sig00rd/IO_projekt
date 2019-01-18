@@ -98,4 +98,8 @@ public class UserPrinciple implements UserDetails {
 		UserPrinciple user = (UserPrinciple) o;
 		return Objects.equals(id, user.id);
 	}
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
+	}
 }

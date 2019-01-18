@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.transaction.Transactional;
 
@@ -47,8 +46,6 @@ import com.google.maps.errors.ApiException;
 
 @Service
 public class GameServiceImpl implements GameService {
-
-	private Logger logger = Logger.getLogger(getClass().getName());
 
 	@Autowired
 	private GameDao gameDao;

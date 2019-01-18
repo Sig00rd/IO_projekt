@@ -85,11 +85,11 @@ public class GameForm {
 	}
 
 	public Date getDate() {
-		return date;
+		return (Date) date.clone();
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.date = (Date) date.clone();
 	}
 
 	public Map<String, Integer> getPitchRoles() {
@@ -101,13 +101,17 @@ public class GameForm {
 	}
 
 	public Date getPriorityDate() {
-		return priorityDate;
+		if (priorityDate != null) {
+			return (Date) priorityDate.clone();
+		}
+		return null;
 	}
 
 	public void setPriorityDate(Date priorityDate) {
-		this.priorityDate = priorityDate;
+		if (priorityDate != null) {
+			this.priorityDate = (Date) priorityDate.clone();
+		}
 	}
-
 	public LevelType getLevel() {
 		return level;
 	}
