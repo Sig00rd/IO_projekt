@@ -54,8 +54,7 @@ public class UserDaoIntegrationTest
         Optional<User> found = userDao.findByUserName(absentUserName);
 
         // then
-        assertThat(found.isPresent())
-                .isFalse();
+        assertThat(found).isEmpty();
     }
 
     @Test
