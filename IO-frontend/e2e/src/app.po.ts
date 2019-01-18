@@ -53,4 +53,8 @@ export class AppPage {
   getRePasswordField() {
     return this.getFormField('rpassword');
   }
+
+  getLoggedNavbar() {
+    return element(by.css('app-logged-navbar'));
+  }
 }
