@@ -1,7 +1,7 @@
 import { AppPage } from './app.po';
 import {browser} from 'protractor';
 
-describe('meczyki app', () => {
+describe('znajdź meczora app', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -49,5 +49,29 @@ describe('meczyki app', () => {
     page.getLoginLink().click();
     browser.pause();
     expect(page.getLoginButton().getText()).toEqual('Login');
+  });
+
+  it('should show username and email fields on register form', () => {
+    page.navigateTo();
+    page.getRegisterLink().click();
+    browser.pause();
+    page.getUsernameField();
+    page.getEmailField();
+  });
+
+  it('should show password and retype password fields on register form', () => {
+    page.navigateTo();
+    page.getRegisterLink().click();
+    browser.pause();
+    page.getPasswordField();
+    page.getRePasswordField();
+  });
+
+  it('should show username and password fields on login form', () => {
+    page.navigateTo();
+    page.getLoginLink().click();
+    browser.pause();
+    page.getUsernameField();
+    page.getPasswordField();
   });
 });

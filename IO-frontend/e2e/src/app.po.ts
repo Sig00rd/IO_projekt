@@ -5,6 +5,11 @@ export class AppPage {
     return browser.get('/');
   }
 
+  private getFormField(fieldname) {
+    const fieldcss = 'input[formcontrolname=' + fieldname + ']';
+    return element(by.css(fieldcss));
+  }
+
   getTitleText() {
     return element(by.css('a.navbar-brand')).getText();
   }
@@ -31,5 +36,21 @@ export class AppPage {
 
   getLoginButton() {
     return element(by.css('button.btn-primary'));
+  }
+
+  getUsernameField() {
+    return this.getFormField('username');
+  }
+
+  getEmailField() {
+    return this.getFormField('email');
+  }
+
+  getPasswordField() {
+    return this.getFormField('password');
+  }
+
+  getRePasswordField() {
+    return this.getFormField('rpassword');
   }
 }
