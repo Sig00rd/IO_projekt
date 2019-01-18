@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.form.InvitationForm;
+import com.example.demo.form.NotificationForm;
 import com.example.demo.service.UserService;
-import com.example.demo.wrapper.InvitationWrapper;
+import com.example.demo.wrapper.NotificationWrapper;
 
 @RestController
 @RequestMapping("/api")
@@ -24,18 +24,19 @@ public class InvitationRestController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("/invitations/{id}") // parametr id to identyfikator gry
-	public ResponseEntity<?> sendInvitation(@PathVariable Long id,
-			@RequestBody InvitationForm invitationForm) {
+	@PostMapping("/notifications")
+	public ResponseEntity<?> sendNotification(
+			@RequestBody NotificationForm notificationForm) {
 
-		return userService.sendInvitation(id, invitationForm);
+		return userService.sendNotification(notificationForm);
 
 	}
-	@GetMapping("/invitations/{id}") // parametr id to identyfikator uzytkownika
-	public List<InvitationWrapper> showInvitationWrappers(
+	@GetMapping("/notifications/{id}") // parametr id to identyfikator
+										// uzytkownika
+	public List<NotificationWrapper> showNotificationWrappers(
 			@PathVariable Long id) {
 
-		return userService.showInvitationWrappers(id);
+		return userService.showNotificationWrappers(id);
 
 	}
 

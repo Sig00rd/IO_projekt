@@ -36,6 +36,7 @@ import com.example.demo.exception.UserNotOwnerOfGameException;
 import com.example.demo.exception.UserNotSignedUpForGameException;
 import com.example.demo.form.GameFilterForm;
 import com.example.demo.form.GameForm;
+import com.example.demo.form.NotificationForm;
 import com.example.demo.response.ResponseMessage;
 import com.example.demo.utils.EarthDist;
 import com.example.demo.utils.LevelType;
@@ -63,6 +64,9 @@ public class GameServiceImpl implements GameService {
 
 	@Autowired
 	private PitchRoleDao pitchRoleDao;
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public Optional<Game> getGame(Long id) {
@@ -354,7 +358,7 @@ public class GameServiceImpl implements GameService {
 		User user = userDao.findByUserName(SecurityContextHolder.getContext()
 				.getAuthentication().getName()).orElse(null);
 		UserGames player = null;
-		List<UserGames> players = game.getUserGames();
+		List<UserGames> players = new ArrayList<>(game.getUserGames());
 		players.removeIf(n -> (n.getUser() != user));
 		players.sort(Comparator.comparing(UserGames::getCreated));
 		if (players.isEmpty()) {
@@ -370,6 +374,9 @@ public class GameServiceImpl implements GameService {
 		player = players.get(players.size() - 1);
 		game.remove(player);
 		user.remove(player);
+
+		userService.sendNotification(new NotificationForm(
+				game.getUser().getId(), gameId, "sorry", "INFORMATION", false));
 		return new ResponseEntity<>(
 				new ResponseMessage("Successfully signed off from the game."),
 				HttpStatus.OK);
@@ -386,6 +393,15 @@ public class GameServiceImpl implements GameService {
 			throw new UserNotOwnerOfGameException();
 		}
 		gameDao.delete(game);
+		List<User> seenUsers = new ArrayList<>();
+		for (UserGames player : game.getUserGames()) {
+			if (!seenUsers.contains(player.getUser())) {
+				userService.sendNotification(new NotificationForm(
+						player.getUser().getId(), (long) -1,
+						"sorry for cancelling", "INFORMATION", false));
+				seenUsers.add(player.getUser());
+			}
+		}
 
 		return new ResponseEntity<>(
 				new ResponseMessage("Successfully deleted the game."),
@@ -395,7 +411,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	@Transactional
 	public List<GameWrapper> getMyGames() {
-		List<Game> games = getGames();
+		List<Game> games = new ArrayList<>(getGames());
 		List<GameWrapper> gameWrappers = new ArrayList<>();
 		User user = userDao.findByUserName(SecurityContextHolder.getContext()
 				.getAuthentication().getName()).orElse(null);

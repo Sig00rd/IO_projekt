@@ -5,16 +5,15 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.example.demo.entity.User;
-import com.example.demo.form.InvitationForm;
-import com.example.demo.wrapper.InvitationWrapper;
+import com.example.demo.form.NotificationForm;
+import com.example.demo.wrapper.NotificationWrapper;
 
 public interface UserService {
 
 	User findUserByUserName(String userName);
 
-	ResponseEntity<?> sendInvitation(Long game_id,
-			InvitationForm invitationForm);
+	List<NotificationWrapper> showNotificationWrappers(Long id);
 
-	List<InvitationWrapper> showInvitationWrappers(Long id);
+	ResponseEntity<?> sendNotification(NotificationForm notificationForm);
 
 }

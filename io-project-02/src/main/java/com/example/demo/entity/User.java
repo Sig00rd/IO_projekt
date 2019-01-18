@@ -50,7 +50,7 @@ public class User {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "receiver")
-	private List<Invitation> invitationsReceived;
+	private List<Notification> notificationsReceived;
 
 	public User() {
 	}
@@ -108,12 +108,12 @@ public class User {
 
 	}
 
-	public void addInvitiation(Invitation invitation) {
+	public void addNotification(Notification notification) {
 
-		if (invitationsReceived == null) {
-			invitationsReceived = new ArrayList<>();
+		if (notificationsReceived == null) {
+			notificationsReceived = new ArrayList<>();
 		}
-		invitationsReceived.add(invitation);
+		notificationsReceived.add(notification);
 
 	}
 
@@ -133,12 +133,13 @@ public class User {
 		this.games = games;
 	}
 
-	public List<Invitation> getInvitationsReceived() {
-		return invitationsReceived;
+	public List<Notification> getNotificationsReceived() {
+		return notificationsReceived;
 	}
 
-	public void setInvitationsReceived(List<Invitation> invitationsReceived) {
-		this.invitationsReceived = invitationsReceived;
+	public void setInvitationsReceived(
+			List<Notification> notificationsReceived) {
+		this.notificationsReceived = notificationsReceived;
 	}
 
 	public void remove(UserGames player) {

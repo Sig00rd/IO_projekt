@@ -80,9 +80,12 @@ public class Game {
 	@JoinColumn(name = "game_id")
 	private List<GamePriorities> gamePriorities = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "game_id")
 	private List<GameMessage> gameMessages;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game", orphanRemoval = true)
+	private List<Notification> notifications;
 
 	public Game(Float cost, Integer needed, Date date, LevelType level,
 			SportObject sportObject, User user, Discipline discipline) {
@@ -266,6 +269,14 @@ public class Game {
 			}
 		}
 
+	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 
 }

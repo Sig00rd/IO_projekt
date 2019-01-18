@@ -14,11 +14,12 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dao.GameDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.Game;
-import com.example.demo.entity.Invitation;
+import com.example.demo.entity.Notification;
 import com.example.demo.entity.User;
-import com.example.demo.form.InvitationForm;
+import com.example.demo.form.NotificationForm;
 import com.example.demo.response.ResponseMessage;
-import com.example.demo.wrapper.InvitationWrapper;
+import com.example.demo.utils.NotificationType;
+import com.example.demo.wrapper.NotificationWrapper;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,36 +39,44 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<?> sendInvitation(Long game_id,
-			InvitationForm invitationForm) {
-		User receiver = userDao.findById(invitationForm.getReceiverId())
+	public ResponseEntity<?> sendNotification(
+			NotificationForm notificationForm) {
+		User receiver = userDao.findById(notificationForm.getReceiverId())
 				.orElse(null);
 
 		User sender = userDao.findByUserName(SecurityContextHolder.getContext()
 				.getAuthentication().getName()).orElse(null);
-		Game game = gameDao.findById(game_id).orElse(null);
+		Game game = gameDao.findById(notificationForm.getGameId()).orElse(null);
 
-		Invitation invitation = new Invitation(sender, receiver, game,
-				invitationForm.getRead());
-		receiver.addInvitiation(invitation);
+		Notification notification = new Notification(sender, receiver, game,
+				NotificationType.valueOf(notificationForm.getType()),
+				notificationForm.getBody(), notificationForm.getRead());
+		receiver.addNotification(notification);
 		return new ResponseEntity<>(
-				new ResponseMessage("Message sent successfully!"),
+				new ResponseMessage("Notification sent successfully!"),
 				HttpStatus.OK);
 	}
 
 	@Override
 	@Transactional
-	public List<InvitationWrapper> showInvitationWrappers(Long id) {
+	public List<NotificationWrapper> showNotificationWrappers(Long id) {
 		User receiver = userDao.findById(id).orElse(null);
-		List<Invitation> invitations = receiver.getInvitationsReceived();
-		List<InvitationWrapper> invitationWrappers = new ArrayList<>();
+		List<Notification> notifications = receiver.getNotificationsReceived();
+		List<NotificationWrapper> notificationWrappers = new ArrayList<>();
+		Long gameId;
 
-		for (Invitation invitation : invitations) {
-			invitationWrappers.add(new InvitationWrapper(
-					invitation.getGame().getId(),
-					invitation.getSender().getId(), invitation.getRead()));
+		for (Notification notification : notifications) {
+			if (notification.getGame() == null) {
+				gameId = (long) -1;
+			} else {
+				gameId = notification.getGame().getId();
+			}
+			notificationWrappers.add(new NotificationWrapper(gameId,
+					notification.getSender().getId(),
+					notification.getType().name(),
+					notification.getMessageBody(), notification.getRead()));
 		}
-		return invitationWrappers;
+		return notificationWrappers;
 	}
 
 }
