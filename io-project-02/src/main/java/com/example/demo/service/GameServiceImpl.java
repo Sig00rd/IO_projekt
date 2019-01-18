@@ -1,25 +1,48 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.*;
-import com.example.demo.entity.*;
-import com.example.demo.form.GameFilterForm;
-import com.example.demo.form.GameForm;
-import com.example.demo.response.ResponseMessage;
-import com.example.demo.utils.EarthDist;
-import com.example.demo.utils.LevelType;
-import com.example.demo.wrapper.GameWrapper;
-import com.example.demo.wrapper.LobbyWrapper;
-import com.google.maps.errors.ApiException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Logger;
+import com.example.demo.dao.DisciplineDao;
+import com.example.demo.dao.GameDao;
+import com.example.demo.dao.PitchRoleDao;
+import com.example.demo.dao.SportObjectDao;
+import com.example.demo.dao.UserDao;
+import com.example.demo.entity.Discipline;
+import com.example.demo.entity.Game;
+import com.example.demo.entity.GameMessage;
+import com.example.demo.entity.GamePriorities;
+import com.example.demo.entity.PitchRole;
+import com.example.demo.entity.SportObject;
+import com.example.demo.entity.User;
+import com.example.demo.entity.UserGames;
+import com.example.demo.exception.BadPitchRoleSpecifiedException;
+import com.example.demo.exception.GameNotFoundException;
+import com.example.demo.exception.UserNotOwnerOfGameException;
+import com.example.demo.exception.UserNotSignedUpForGameException;
+import com.example.demo.form.GameFilterForm;
+import com.example.demo.form.GameForm;
+import com.example.demo.response.ResponseMessage;
+import com.example.demo.utils.EarthDist;
+import com.example.demo.utils.LevelType;
+import com.example.demo.wrapper.GameWithMyRoleWrapper;
+import com.example.demo.wrapper.GameWrapper;
+import com.example.demo.wrapper.LobbyWrapper;
+import com.google.maps.errors.ApiException;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -277,7 +300,7 @@ public class GameServiceImpl implements GameService {
 					.getRadius()) {
 				if (gameFilterForm.getPitchType() != null
 						&& !sportObject.getType().name()
-						.equals(gameFilterForm.getPitchType())) {
+								.equals(gameFilterForm.getPitchType())) {
 					continue;
 				}
 				acceptedObjects.add(sportObject);
@@ -285,7 +308,6 @@ public class GameServiceImpl implements GameService {
 		}
 		return acceptedObjects;
 	}
-
 
 	@Override
 	@Transactional
@@ -321,6 +343,81 @@ public class GameServiceImpl implements GameService {
 			messages.add(message.getMessage());
 		}
 		return messages;
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<?> signOffFromTheGame(Long gameId, String role) {
+		Game game = gameDao.findById(gameId)
+				.orElseThrow(() -> new GameNotFoundException());
+
+		User user = userDao.findByUserName(SecurityContextHolder.getContext()
+				.getAuthentication().getName()).orElse(null);
+		UserGames player = null;
+		List<UserGames> players = game.getUserGames();
+		players.removeIf(n -> (n.getUser() != user));
+		players.sort(Comparator.comparing(UserGames::getCreated));
+		if (players.isEmpty()) {
+			throw new UserNotSignedUpForGameException();
+		}
+		if (role != null) {
+			players.removeIf(n -> (n.getPitchRole() == null));
+			players.removeIf(n -> (!n.getPitchRole().getName().equals(role)));
+			if (players.isEmpty()) {
+				throw new BadPitchRoleSpecifiedException();
+			}
+		}
+		player = players.get(players.size() - 1);
+		game.remove(player);
+		user.remove(player);
+		return new ResponseEntity<>(
+				new ResponseMessage("Successfully signed off from the game."),
+				HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<?> removeGame(Long gameId) {
+		Game game = gameDao.findById(gameId)
+				.orElseThrow(() -> new GameNotFoundException());
+
+		if (!SecurityContextHolder.getContext().getAuthentication().getName()
+				.equals(game.getUser().getUserName())) {
+			throw new UserNotOwnerOfGameException();
+		}
+		gameDao.delete(game);
+
+		return new ResponseEntity<>(
+				new ResponseMessage("Successfully deleted the game."),
+				HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public List<GameWrapper> getMyGames() {
+		List<Game> games = getGames();
+		List<GameWrapper> gameWrappers = new ArrayList<>();
+		User user = userDao.findByUserName(SecurityContextHolder.getContext()
+				.getAuthentication().getName()).orElse(null);
+		games.removeIf(
+				n -> (!n.getUser().getUserName().equals(user.getUserName())));
+		for (Game game : games) {
+			gameWrappers.add(getGameWrapper(game.getId()));
+		}
+		return gameWrappers;
+	}
+
+	@Override
+	@Transactional
+	public List<GameWithMyRoleWrapper> getGamesISignedUp() {
+		User user = userDao.findByUserName(SecurityContextHolder.getContext()
+				.getAuthentication().getName()).orElse(null);
+		List<GameWithMyRoleWrapper> gameWithMyRoleWrappers = new ArrayList<>();
+		for (UserGames userGame : user.getGames()) {
+			gameWithMyRoleWrappers.add(new GameWithMyRoleWrapper(
+					userGame.getGame().getId(), userGame.getPitchRole()));
+		}
+		return gameWithMyRoleWrappers;
 	}
 
 }
