@@ -3,13 +3,13 @@ package com.example.demo.wrapper;
 public class NotificationWrapper {
 
 	private Long game;
-	private Long sender;
+	private String sender;
 	private String type;
 	private String body;
 	private Boolean read;
 
-	public NotificationWrapper(Long game, Long sender, String type, String body,
-			Boolean read) {
+	public NotificationWrapper(Long game, String sender, String type,
+			String body, Boolean read) {
 		this.game = game;
 		this.sender = sender;
 		this.type = type;
@@ -22,10 +22,10 @@ public class NotificationWrapper {
 	public void setGame(Long game) {
 		this.game = game;
 	}
-	public Long getSender() {
+	public String getSender() {
 		return sender;
 	}
-	public void setSender(Long sender) {
+	public void setSender(String sender) {
 		this.sender = sender;
 	}
 	public Boolean getRead() {

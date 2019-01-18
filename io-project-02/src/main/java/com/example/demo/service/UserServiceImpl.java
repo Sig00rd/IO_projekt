@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 				gameId = notification.getGame().getId();
 			}
 			notificationWrappers.add(new NotificationWrapper(gameId,
-					notification.getSender().getId(),
+					notification.getSender().getUserName(),
 					notification.getType().name(),
 					notification.getMessageBody(), notification.getRead()));
 		}
