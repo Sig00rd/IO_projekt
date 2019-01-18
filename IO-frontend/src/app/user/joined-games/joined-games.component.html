@@ -1,0 +1,23 @@
+<div class="col-md-6">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Rozegrane</h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <div *ngIf="games.length > 0">
+        <div *ngFor="let game of games">
+          <a
+            class="list-group-item clearfix" [routerLink]="['/find', game['gameId']]">
+            <div class="pull-left">
+              <h4 class="list-group-item-heading" *ngIf="game['myPitchRole']">{{ roles[game['myPitchRole']] }}</h4>
+              <h4 class="list-group-item-heading" *ngIf="game['myPitchRole'] == null">Bez roli</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

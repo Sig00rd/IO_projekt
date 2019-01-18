@@ -7,6 +7,7 @@ import {GameLobby} from '../../../shared/game.lobby';
 import {GamesService} from '../../../services/games.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-game-details',
@@ -17,18 +18,29 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   private API = 'http://localhost:8080/api/games/';
   private LOBBY_API = 'http://localhost:8080/api/lobby/';
   private MESSAGES_API = 'http://localhost:8080/api/messages/lobby/';
+  private INVITATIONS_API = 'http://localhost:8080/api/notifications';
+  private USERS_API = 'http://localhost:8080/api/users/';
 
   selectedGame: GameLobby;
   public lat: number;
   public lng: number;
   prioritiesForm: FormGroup;
+  showInviteForm = false;
+  inviteSent = false;
 
+
+  userNotExisting = false;
   showGame = false;
   roleNotChosen = false;
   registeredToGame = false;
+  givenUp = false;
+  notSignedIn = false;
 
+  defaultsNeeded = 0;
   prioritiesNeeded: string[] = [];
+  rolesAmounts = {};
 
+  invitedUser = '';
   message = '';
   messages = [];
 
@@ -46,10 +58,12 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     'LIBERO': 'libero',
     'RECIEVER': 'przyjmujący',
     'SETTER': 'rozgrywający',
+    'DEFAULT': 'dowolnie'
   };
 
   constructor(private sportsService: SportsService, private gamesService: GamesService,
-              private http: HttpClient, private route: ActivatedRoute, private mapsService: MapsService) {
+              private http: HttpClient, private route: ActivatedRoute, private mapsService: MapsService,
+              private userService: UserService) {
   }
 
 
@@ -78,13 +92,14 @@ export class GameDetailsComponent implements OnInit, OnChanges {
 
   refreshGame() {
     this.showGame = false;
+    this.notSignedIn = false;
     this.mapsService.getLocation(this.selectedGame.sportObject.address, this.selectedGame.sportObject.city).subscribe(
-        (response) => {
-          this.mapsService.location = response['results'][0]['geometry']['location'];
-          this.lat = this.mapsService.location['lat'];
-          this.lng = this.mapsService.location['lng'];
-        },
-          error => console.log(error)
+      (response) => {
+        this.mapsService.location = response['results'][0]['geometry']['location'];
+        this.lat = this.mapsService.location['lat'];
+        this.lng = this.mapsService.location['lng'];
+      },
+      error => console.log(error)
     );
 
     this.registeredToGame = false;
@@ -100,12 +115,33 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     } else {
       this.priorities = false;
     }
+    let sum = 0;
+    for (const role of this.prioritiesNeeded) {
+      const active = this.selectedGame.playerRoles[role] != null ? this.selectedGame.playerRoles[role].length : 0;
+      this.rolesAmounts[role] = this.selectedGame.prioritiesNeeded[role] - active;
+      sum += this.rolesAmounts[role];
+    }
+    if (sum > 0) {
+      this.defaultsNeeded = this.selectedGame.stillNeeded - sum;
+    } else {
+      this.defaultsNeeded = 0;
+    }
+
     this.refreshMessages();
     this.showGame = true;
+    this.selectedGame.firstSquad.forEach(
+      (item, index) => this.selectedGame.firstSquad[index] = this.replaceRole(item)
+    );
+    this.selectedGame.reserve.forEach(
+      (item, index) => this.selectedGame.reserve[index] = this.replaceRole(item)
+    );
+    console.log(this.selectedGame);
   }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     this.ngOnInit();
+
   }
 
 
@@ -123,8 +159,11 @@ export class GameDetailsComponent implements OnInit, OnChanges {
         data => {
           this.selectedGame = data;
           this.gamesService.updateGames();
+          this.refreshGame();
           window.scroll(0, 0);
           this.registeredToGame = true;
+          this.notSignedIn = false;
+          this.givenUp = false;
         },
         error => console.log(error)
       );
@@ -150,4 +189,66 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     );
   }
 
+  replaceRole(role: string): string {
+    Object.keys(this.roles).forEach(
+      key => {
+        if (role.includes(key)) {
+          role = role.replace(key, this.roles[key]);
+          return role;
+        }
+      }
+    );
+    return role;
+  }
+
+
+  onInviteClicked() {
+    if (!this.showInviteForm) {
+      this.showInviteForm = true;
+    } else if (this.invitedUser !== '') {
+      this.http.get(this.USERS_API + this.invitedUser).subscribe(
+        data => {
+          if (data === null) {
+            this.userNotExisting = true;
+          } else {
+            this.inviteUser(data['id']);
+          }
+        }
+      )
+      ;
+    }
+
+  }
+
+  inviteUser(id: number) {
+    const invite = {
+      'receiverId': id, 'gameId':
+      this.selectedGame.id, 'type': 'INVITATION', 'read': true
+    };
+    this.http.post(this.INVITATIONS_API, invite).subscribe(
+      data => {
+        this.inviteSent = true;
+        window.scroll(0, 0);
+        this.showInviteForm = false;
+        this.userNotExisting = false;
+        this.invitedUser = '';
+      },
+      error => console.log(error)
+    );
+  }
+
+  onGiveUpClicked() {
+    this.http.delete(this.API + this.selectedGame.id).subscribe(
+      data => {
+        this.givenUp = true;
+        this.ngOnChanges(null);
+        window.scroll(0, 0);
+
+      },
+      error => {
+        this.notSignedIn = true;
+        this.givenUp = false;
+      }
+    );
+  }
 }

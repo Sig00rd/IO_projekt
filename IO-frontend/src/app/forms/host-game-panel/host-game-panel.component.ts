@@ -117,6 +117,7 @@ export class HostGamePanelComponent implements OnInit {
         }
       }
       if (!this.priorityDateAfterDate) {
+        let sum = 0;
         if (this.prioritiesForm != null) {
           this.showPriorities = false;
           Object.keys(this.roles[this.chosenSport.toUpperCase()]).forEach(
@@ -124,22 +125,27 @@ export class HostGamePanelComponent implements OnInit {
               const value = this.prioritiesForm.get(this.roles[this.chosenSport.toUpperCase()][key]).value;
               if (value > 0) {
                 this.pitchRoles[this.roles[this.chosenSport.toUpperCase()][key]] = value;
+                sum += value;
+
               }
             }
           );
         }
-        const newGame = new GameForm(this.fee, this.players, this.date, this.priorityDate,
-          this.address, this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
-        this.http.post(this.GAMES_API, newGame).subscribe(
-          () => {
-            this.gameWasAdded = true;
-            this.hostGameForm.reset();
-            if (this.prioritiesForm != null) {
-              this.prioritiesForm.reset();
-            }
+        if (sum > this.pitchRoles) {
+          console.log('more roles than players');
+        } else {
+          const newGame = new GameForm(this.fee, this.players, this.date, this.priorityDate,
+            this.address, this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
+          this.http.post(this.GAMES_API, newGame).subscribe(
+            () => {
+              this.gameWasAdded = true;
+              this.hostGameForm.reset();
+              if (this.prioritiesForm != null) {
+                this.prioritiesForm.reset();
+              }
 
-          });
-
+            });
+        }
       }
 
     } else {

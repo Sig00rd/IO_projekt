@@ -6,7 +6,8 @@
 
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-4 col-lg-4 " align="center"><img alt="Obraz" [src]="userService.user.photo_url" class="img-responsive"></div>
+        <div class="col-md-4 col-lg-4 " align="center"><img alt="Obraz" [src]="userService.user.photo_url"
+                                                            class="img-responsive"></div>
         <div class="col-md-8 col-lg-8">
           <table class="table table-user-information">
             <tbody>
@@ -14,15 +15,14 @@
               <td>Opis:</td>
               <td>{{userService.user.description}}</td>
             </tr>
-            <tr>
-              <td>Historia gier:</td>
-              <td>Użytkownik nie rozegrał jeszcze żadnej gry</td> <!-- TODO fill with actual games-->
-            </tr>
-
-
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div>
+        <app-hosted-games [games]="gamesHosted"></app-hosted-games>
+        <app-joined-games [games]="gamesJoined"></app-joined-games>
       </div>
     </div>
   </div>

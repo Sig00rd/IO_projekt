@@ -29,6 +29,9 @@ import {UserService} from './services/user.service';
 import {NotificationDirective} from './shared/notification.directive';
 import {GamesService} from './services/games.service';
 import {SportObjectComponent} from './forms/sport-object/sport-object.component';
+import { HostedGamesComponent } from './user/hosted-games/hosted-games.component';
+import { JoinedGamesComponent } from './user/joined-games/joined-games.component';
+import { GamesElementComponent } from './user/games-element/games-element.component';
 
 // TODO add routing details
 // TODO add routing guards
@@ -63,6 +66,9 @@ registerLocaleData(localePl);
     FilterComponent,
     UserComponent,
     SportObjectComponent,
+    HostedGamesComponent,
+    JoinedGamesComponent,
+    GamesElementComponent
   ],
   imports: [
     BrowserModule,

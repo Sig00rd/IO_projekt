@@ -1,4 +1,5 @@
 import {GameLobby} from './game.lobby';
+import {HttpClient} from '@angular/common/http';
 
 export class User {
   name: string;
@@ -8,6 +9,7 @@ export class User {
   games: any[];
   id: string;
   messages = [];
+
   // messages = ['Użytkownik julo zaprasza cię do gry', 'Użytkownik bodek zaprasza cię do gry'];
 
   constructor(name: string) {
@@ -40,9 +42,25 @@ export class User {
     return this;
   }
 
-  setMessages(messages: string[]): User {
-    this.messages = messages;
+  setMessages(messages: any[]): User {
+    messages.forEach(
+      message => this.messages.push(this.buildMessages(message))
+    );
     return this;
   }
 
+  buildMessages(message: any[]) {
+    if (message['type'] === 'INVITATION') {
+      return {
+        'body': 'Użytkownik ' + message['sender'] + ' zaprasza cię do gry',
+        'gameId': message['game'], 'header': 'Zaproszenie do gry'
+      };
+    } else if (message['type'] === 'INFORMATION') {
+      return {
+        'header': 'Wypisanie z gry', 'gameId': message['game'], 'body': 'Użytkownik '
+          + message['sender'] + ' wypisał się z gry'
+      };
+    }
+    return {'body': '', 'gameId': '', 'header': ''};
+  }
 }

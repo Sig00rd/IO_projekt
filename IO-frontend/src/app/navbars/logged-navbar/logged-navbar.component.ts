@@ -13,7 +13,7 @@ import {HttpClient} from '@angular/common/http';
 export class LoggedNavbarComponent implements OnInit {
   private user: User;
   private USERS_API = 'http://localhost:8080/api/users/';
-  private MESSAGES_API = 'http://localhost:8080/api/invitations/';
+  private MESSAGES_API = 'http://localhost:8080/api/notifications/';
   userReady = false;
   @Output() private logOutEvent = new EventEmitter();
 

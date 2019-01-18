@@ -3,9 +3,16 @@
     <div class="alert alert-success" style="width: 450px" *ngIf="registeredToGame">
       <p>Pomyślnie zapisano do gry</p>
     </div>
+    <div class="alert alert-success" *ngIf="inviteSent" style="width: 450px">
+      <p>Pomyślnie zaproszono użytkownika</p>
+    </div>
 
     <div class="alert alert-danger" style="width: 450px" *ngIf="roleNotChosen">
       <p>Należy wybrać rolę</p>
+    </div>
+
+    <div class="alert alert-success" style="width: 450px" *ngIf="givenUp">
+      <p>Pomyślnie wypisano z gry</p>
     </div>
 
 
@@ -24,7 +31,7 @@
     </div>
     <div *ngIf="selectedGame.firstSquad.length > 0 && priorities">
       <h4>Aktualnie w pierwszym składzie grają: </h4>
-      <h5 *ngFor="let role of prioritiesNeeded">{{roles[role]}} {{selectedGame.playerRoles[role]}}</h5>
+      <h5 *ngFor="let role of selectedGame.firstSquad">{{role}}</h5>
     </div>
     <div *ngIf="selectedGame.reserve.length > 0">
       <h4>Aktualna rezerwa: </h4>
@@ -60,15 +67,33 @@
     <h4>Wybierz pozycję</h4>
     <form [formGroup]="prioritiesForm">
       <div class="form-group" *ngFor="let role of prioritiesNeeded">
-        <label for="{{role}}">{{capitalizeFirstLetter(roles[role])}} (potrzeba {{selectedGame.prioritiesNeeded[role]}}
-          )</label>
+        <label for="{{role}}" *ngIf="rolesAmounts[role] > 0">{{capitalizeFirstLetter(roles[role])}}
+          (potrzeba {{rolesAmounts[role]}})</label>
+        <label for="{{role}}" *ngIf="rolesAmounts[role] <= 0">{{capitalizeFirstLetter(roles[role])}} (rezerwa)</label>
         <input type="radio" name="priority" id="{{role}}" value="{{role}}"
                formControlName="priority">
       </div>
+      <label for="default" *ngIf="defaultsNeeded > 0">{{'Dowolna rola'}} (potrzeba {{defaultsNeeded}})</label>
+      <label for="default" *ngIf="defaultsNeeded <= 0">{{'Dowolna rola'}} (rezerwa)</label>
+      <input type="radio" name="priority" id="default" value="{{ {} }}"
+             formControlName="priority">
     </form>
   </div>
 
-  <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
+
+  <div class="alert alert-danger" *ngIf="userNotExisting" style="width: 450px"><p>Podany użytkownik nie istnieje</p>
+  </div>
+  <div class="alert alert-danger" style="width: 450px" *ngIf="notSignedIn">
+    <p>Nie jesteś zapisany do tej gry</p>
+  </div>
+
+  <div>
+    <input type="button" class="btn btn-lg btn-success" value="Zagram!" (click)="onButtonClicked()">
+    <input type="text" [(ngModel)]="invitedUser" style="margin: 10px"
+           placeholder="Podaj nazwę użytkownika" *ngIf="showInviteForm">
+    <input type="button" class="btn btn-lg btn-primary" value="Zaproś" (click)="onInviteClicked()">
+    <input type="button" class="btn btn-lg btn-danger" value="Zrezygnuj" (click)="onGiveUpClicked()">
+  </div>
 
 </div>
 
