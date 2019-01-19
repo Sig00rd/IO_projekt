@@ -44,7 +44,7 @@ public class UserDetailsServiceImplTest
         when(userDao.findByUserName("seba")).thenReturn(Optional.empty());
 
         // when
-        UserDetails userDetails = userDetailsService.loadUserByUsername("seba");
+        userDetailsService.loadUserByUsername("seba");
     }
 
 
