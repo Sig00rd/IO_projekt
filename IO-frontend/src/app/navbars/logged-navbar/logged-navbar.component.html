@@ -23,7 +23,6 @@
 
         <ul class="dropdown-menu dropdown-cart" role="menu">
           <li *ngFor="let message of user.messagesUnread">
-
             <a
               class="list-group-item clearfix" [routerLink]="['/find', message.gameId]" (click)="setMessageAsRead(message.id)">
               <div class="pull-left">

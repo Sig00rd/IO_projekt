@@ -227,7 +227,7 @@ export class GameDetailsComponent implements OnInit, OnChanges {
   inviteUser(id: number) {
     const invite = {
       'receiverId': id, 'gameId':
-      this.selectedGame.id, 'type': 'INVITATION', 'read': true
+      this.selectedGame.id, 'type': 'INVITATION', 'read': false
     };
     this.http.post(this.INVITATIONS_API, invite).subscribe(
       data => {

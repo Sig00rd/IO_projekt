@@ -56,7 +56,7 @@
                 <p style="margin-left: 10px">{{message}}</p>
               </div>
             </div>
-            <div class="panel-footer">
+            <div class="panel-footer" *ngIf="userService.user.name === selectedGame.owner">
               <div class="input-group">
                 <input type="text" class="form-control" [(ngModel)]="message">
                 <span class="input-group-btn">

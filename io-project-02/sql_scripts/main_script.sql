@@ -210,13 +210,23 @@ CREATE TABLE IF NOT EXISTS `pitch_role` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-INSERT INTO `pitch_role` (`id`, `name`, `discipline_id`) 
-VALUES 
+INSERT INTO pitch_role (id, name, discipline_id)
+VALUES
 ('1', 'GOALKEEPER', '1'),
 ('2', 'DEFENDER', '1'),
 ('3', 'STRIKER', '1'),
-('4', 'LIBERO', '2'),
-('5', 'MIDFIELDER', '1');
+('4', 'MIDFIELDER', '1'),
+
+('5', 'SPIKER', '2'),
+('6', 'LIBERO', '2'),
+('7', 'RECIEVER', '2'),
+('8', 'SETTER', '2'),
+('9', 'CENTER', '2'),
+
+('10', 'POINT_GUARD', '3'),
+('11', 'SHOOTING_GUARD', '3'),
+('12', 'POWER_FORWARD', '3'),
+('13', 'CENTER', '3');
 
 -- -----------------------------------------------------
 -- Table `games_priorities`

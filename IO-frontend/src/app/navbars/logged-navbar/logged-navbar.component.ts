@@ -28,7 +28,7 @@ export class LoggedNavbarComponent implements OnInit {
     this.userService.user = this.user;
     this.http.get(this.USERS_API + this.tokenStorage.getUsername()).subscribe(
       data => {
-        this.user.setEmail(data['email']).setDescription('totalny kozak')
+        this.user.setEmail(data['email']).setDescription('Piłkarski amator')
           .setPhotoUrl('https://i.ytimg.com/vi/5-32LWcqQkU/hqdefault.jpg').setID(data['id']).setGames([]);
         this.refreshMessages();
         this.userReady = true;
@@ -39,8 +39,10 @@ export class LoggedNavbarComponent implements OnInit {
 
   refreshMessages() {
     this.http.get<string[]>(this.MESSAGES_API).subscribe(
-      messages => this.user.setMessages(messages),
-      error => console.log(error)
+      messages => {
+        this.user.setMessages(messages);
+        },
+          error => console.log(error)
     );
   }
 
