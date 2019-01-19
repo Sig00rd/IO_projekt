@@ -1,3 +1,6 @@
+Projekt zrealizowany w ramach przedmiotu Inżynieria Oprogramowania.<br>
+Autorzy: Szymon Fugas, Juliusz Ryłko, Miłosz Szwedo, Bartłomiej Zachariasz
+
 # SPIS TREŚCI:
 [1. Architektura systemu](#architektura-systemu)
 <br>
