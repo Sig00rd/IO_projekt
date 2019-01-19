@@ -46,7 +46,7 @@ public class UserPrincipleTest
         UserPrinciple sebaPrinciple = UserPrinciple.build(seba);
 
         // then
-        assertThat(this.userPrincipleHasAuthority(sebaPrinciple, "ROLE_USER"));
+        assertThat(this.userPrincipleHasAuthority(sebaPrinciple, "ROLE_USER")).isTrue();
         //assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_USER));
         //assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
     }
@@ -63,7 +63,7 @@ public class UserPrincipleTest
         UserPrinciple sebaPrinciple = UserPrinciple.build(seba);
 
         // then
-        assertThat(this.userPrincipleHasAuthority(sebaPrinciple, "ROLE_ADMIN"));
+        assertThat(this.userPrincipleHasAuthority(sebaPrinciple, "ROLE_ADMIN")).isTrue();
         //assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_ADMIN));
         //assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
     }
