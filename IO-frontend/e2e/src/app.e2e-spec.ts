@@ -10,7 +10,7 @@ describe('welcome page', () => {
   });
 
   it('should display correct title', () => {
-    expect(page.getTitleText()).toEqual('Meczyki');
+    expect(page.getTitle().getText()).toEqual('Meczyki');
   });
 
   it('should show register link', () => {
@@ -86,20 +86,27 @@ describe('after clicking register', () => {
 describe('after entering valid credentials in login form', () => {
   let page: AppPage;
   const username = 'julo';
+  const password = 'julo';
 
   beforeEach( () => {
     page = new AppPage();
-    page.navigateTo();
-    page.getLoginLink().click();
-    browser.pause();
-    page.getUsernameField().sendKeys(username);
-    page.getPasswordField().sendKeys(username);
-    page.getLoginButton().click();
-    browser.pause();
+    page.login(username, password);
+  });
+
+  afterEach( () => {
+    browser.executeScript('window.sessionStorage.clear();');
   });
 
   it('should show user navbar after entering valid credentials and logging in', () => {
-    expect(page.getLoggedNavbar);
+    expect(page.getLoggedNavbar());
+  });
+
+  it('should show arrange match button', () => {
+    expect(page.getArrangeMatchButton());
+  });
+
+  it('should show find match button', () => {
+    expect(page.getFindMatchButton());
   });
 
   it('should show correct username on the navbar', () => {
@@ -107,7 +114,7 @@ describe('after entering valid credentials in login form', () => {
   });
 
   it('should More button', () => {
-    page.getMoreButton();
+    page.getMoreButton().isPresent();
   });
 
   it('show Account settings and Logout buttons after clicking More button', () => {
@@ -116,4 +123,35 @@ describe('after entering valid credentials in login form', () => {
     page.getAccountSettingsButton();
     page.getLogoutButton();
   });
+
+  it('should log out after clicking logout', () => {
+    page.getMoreButton().click();
+    browser.pause();
+    page.getLogoutButton().click();
+    browser.pause();
+    page.getTitle().click();
+    expect(page.getArrangeMatchButton().isPresent()).toBeFalsy();
+  });
 });
+
+  describe('arrange match screen', () => {
+    let page: AppPage;
+    const username = 'julo';
+    const password = 'julo';
+
+    beforeEach( () => {
+      page = new AppPage();
+      page.login(username, password);
+    });
+  });
+
+  describe('find match screen', () => {
+    let page: AppPage;
+    const username = 'julo';
+    const password = 'julo';
+
+    beforeEach( () => {
+      page = new AppPage();
+      page.login(username, password);
+    });
+  });

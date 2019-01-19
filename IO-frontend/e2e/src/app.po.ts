@@ -10,8 +10,8 @@ export class AppPage {
     return element(by.css(fieldcss));
   }
 
-  getTitleText() {
-    return element(by.css('a.navbar-brand')).getText();
+  getTitle() {
+    return element(by.css('a.navbar-brand'));
   }
 
   getRegisterLink() {
@@ -72,5 +72,23 @@ export class AppPage {
 
   getLogoutButton() {
     return element(by.linkText('Wyloguj'));
+  }
+
+  getFindMatchButton() {
+    return element(by.css('btn-primary'));
+  }
+
+  getArrangeMatchButton() {
+    return element(by.css('btn-success'));
+  }
+
+  login(username, password) {
+    this.navigateTo();
+    this.getLoginLink().click();
+    browser.pause();
+    this.getUsernameField().sendKeys(username);
+    this.getPasswordField().sendKeys(password);
+    this.getLoginButton().click();
+    browser.pause();
   }
 }
