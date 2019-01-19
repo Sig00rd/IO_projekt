@@ -105,7 +105,7 @@ Przy większych zmianach projektu uruchamiano obecne wtedy testy automatyczne w 
 
 ## Uruchamianie testów
 Testy backendu uruchamiano w IDE Intellij IDEA za pomocą polecenia Run All Test dostępnego z menu kontekstowego po kliknięciu PPM na katalog zawierający moduł testowy. Wszystkie zależności niezbędne do uruchomienia testów są wyszczególnione w pliku z zależnościami projektu z Mavena i zainstalują się wraz z resztą aplikacji po zastosowaniu się do opisanej niżej procedury instalacyjnej.
-Do uruchomienia automatycznych testów funkcjonalnych potrzebny jest Protractor, którego można zainstalować z npma. Automatyczne testy funkcjonalne uruchamia się wchodząc do katalogu e2e we frontendzie i wywołując "protractor app.e2e-spec.ts" w konsoli.
+Do uruchomienia automatycznych testów funkcjonalnych potrzebny jest Protractor, którego można zainstalować z npma. Automatyczne testy funkcjonalne uruchamia się wchodząc do katalogu e2e we frontendzie i wywołując `protractor app.e2e-spec.ts` w konsoli, po uprzednim uruchomieniu frontu i backendu aplikacji.
 
 # LISTA NARZĘDZI
 W projekcie zostanie użyty system kontroli wersji - <b>git</b>. Repozytorium będzie hostowane na serwisie <b>GitHub</b> co umożliwi m. in. na issue tracking lub to-do list.
@@ -152,14 +152,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Further help
 
