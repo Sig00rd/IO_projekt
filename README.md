@@ -1,3 +1,6 @@
+Projekt zrealizowany w ramach przedmiotu Inżynieria Oprogramowania.<br>
+Autorzy: Szymon Fugas, Juliusz Ryłko, Miłosz Szwedo, Bartłomiej Zachariasz
+
 # SPIS TREŚCI:
 [1. Architektura systemu](#architektura-systemu)
 <br>
@@ -16,10 +19,10 @@
 [8. Instrukcja obsługi](#instrukcja-obslugi)
 
 # ARCHITEKTURA SYSTEMU
-<img src="https://images.tinypic.pl/i/00974/t5dnp3l8q4fu.png">
+<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/interfaces.png?token=AgBz_ArC_fgIwoadw_VqptcIXehmk7qzks5cTMnpwA%3D%3D">
 
 # PRZYPADKI UŻYCIA
-<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project/master/use_cases.png?token=ArA1VHIGytvLByIJcdzL8oGqQYKlp2eqks5b_sw1wA%3D%3D">
+<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/use_cases_final.png?token=AgBz_JtZMDuMSfYDywIZsMs5xn4UaAuOks5cTMsBwA%3D%3D">
 
 # LISTA WYMAGAŃ
 
@@ -85,7 +88,7 @@ Użytkownik w panelu własnej utworzonej gry ma możliwość wysłania komunikat
 </il>
 
 # STOS TECHNOLOGICZNY 
-<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project/master/stack.png?token=ArA1VBRu2QEumY91ZK3-wn1bpJpj71MWks5b_xCTwA%3D%3D">
+<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/stack.png?token=AgBz_HtJqWxW0ah_0sHgSIBJ_5AGULNcks5cTMnnwA%3D%3D">
 
 # PROJEKT TESTÓW
 W projekcie testów wydzielono 4 etapy testowania w trakcie cyklu powstawania aplikacji: fazy testów jednostkowych, integracyjnych, systemowych oraz akceptacyjnych.
@@ -113,7 +116,7 @@ Aplikacja będzie posiadała interfejs webowy. Użytkownik będzie miał możliw
 
 # INSTRUKCJA OBSŁUGI
 
-# IOBackend
+## IOBackend
 
 ## Importing project
 
@@ -134,7 +137,7 @@ After that, you are ready to execute SQL script which generate database. Locatio
 
 To run spring boot application execute the `main` method in the `io-project-02/src/main/java/com/example/demo/SpringBootRestRegistrationApplication.java` class from your IDE.
 
-# IOFrontend
+## IOFrontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
 
