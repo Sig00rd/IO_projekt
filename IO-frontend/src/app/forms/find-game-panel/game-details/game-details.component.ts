@@ -73,6 +73,7 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     this.http.get<GameLobby>(this.LOBBY_API + this.route.snapshot.params['id']).subscribe(
       data => {
         this.selectedGame = data;
+        console.log(this.selectedGame);
         this.refreshGame();
       },
       error => console.log(error)
@@ -139,7 +140,6 @@ export class GameDetailsComponent implements OnInit, OnChanges {
     this.selectedGame.reserve.forEach(
       (item, index) => this.selectedGame.reserve[index] = this.replaceRole(item)
     );
-    console.log(this.selectedGame);
   }
 
 
@@ -256,12 +256,10 @@ export class GameDetailsComponent implements OnInit, OnChanges {
         }
       );
     } else if (!this.showGivingUpButtons && this.prioritiesNeeded.length > 0) {
-      console.log('jedynka');
       this.http.get<any[]>('http://localhost:8080/api/games/signedUp').subscribe(
         data => {
           data.forEach(
             key => {
-              console.log(key);
               if (key['gameId'] === this.selectedGame.id) {
                 this.myRoles.push(key['myPitchRole']);
               }

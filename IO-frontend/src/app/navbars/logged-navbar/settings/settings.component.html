@@ -1,0 +1,34 @@
+<div class="col-xs-4 col-xs-offset-4">
+  <div class="well login-box">
+    <form [formGroup]="editUserForm" (ngSubmit)="onSubmitForm()">
+      <div class="col-xs-offset-3">
+        <h1>Edytuj profil</h1>
+      </div>
+      <div class="col-xs-offset-1">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input class="form-control" type="email" id="email" formControlName="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Hasło</label>
+          <input class="form-control" type="password" id="password" formControlName="password">
+        </div>
+        <div class="form-group">
+          <label for="rPassoword">Powtórz hasło</label>
+          <input class="form-control" type="password" id="rPassoword" formControlName="rPassword">
+        </div>
+        <div class="form-group">
+          <label for="description">Opis</label>
+          <input class="form-control" type="text" id="description" formControlName="description">
+        </div>
+        <div class="form-group">
+          <label for="avatar">Obraz</label>
+          <input class="form-control" type="file" id="avatar">
+        </div>
+      </div>
+      <div class="col-xs-offset-1">
+      <button type="submit" class="btn btn-lg btn-primary">Zastosuj</button>
+      </div>
+    </form>
+  </div>
+</div>

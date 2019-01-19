@@ -16,23 +16,23 @@
       <li><a (click)="showUserInfo()"><i class="glyphicon glyphicon-user"></i> {{user.name}}</a></li>
       <li appNotificationDirective><a class="dropdown-toggle" data-toggle="dropdown"><i
         class="glyphicon glyphicon-comment"></i>
-        <span class="badge badge-notify">{{user.messages.length}}</span>
+        <span class="badge badge-notify">{{user.messagesUnread.length}}</span>
       </a>
 
         <!------------>
 
         <ul class="dropdown-menu dropdown-cart" role="menu">
-          <li *ngFor="let message of user.messages">
+          <li *ngFor="let message of user.messagesUnread">
 
             <a
-              class="list-group-item clearfix" [routerLink]="['/find', message.gameId]">
+              class="list-group-item clearfix" [routerLink]="['/find', message.gameId]" (click)="setMessageAsRead(message.id)">
               <div class="pull-left">
                 <h4 class="list-group-item-heading">{{message.header}}</h4>
                 <p class="list-group-item-text">{{message.body}}</p>
               </div>
             </a>
           </li>
-          <li><a class="text-center" href="">Pokaż wszystkie powiadomienia</a></li>
+          <li><a class="text-center" [routerLink]="['/messages']" >Pokaż wszystkie powiadomienia</a></li>
         </ul>
 
         <!---------------->
@@ -42,7 +42,7 @@
       <li class="dropdown" appSettingsDirective>
         <a class="dropdown-toggle" data-toggle="dropdown">Więcej <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a>Ustawienia konta</a></li>
+          <li><a [routerLink]="['/settings']">Ustawienia konta</a></li>
           <li><a (click)="logOutUser()">Wyloguj</a></li>
         </ul>
       </li>

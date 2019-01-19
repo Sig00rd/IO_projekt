@@ -1,6 +1,3 @@
-import {GameLobby} from './game.lobby';
-import {HttpClient} from '@angular/common/http';
-
 export class User {
   name: string;
   email: string;
@@ -8,9 +5,9 @@ export class User {
   photo_url: string;
   games: any[];
   id: string;
-  messages = [];
+  messagesRead = [];
+  messagesUnread = [];
 
-  // messages = ['Użytkownik julo zaprasza cię do gry', 'Użytkownik bodek zaprasza cię do gry'];
 
   constructor(name: string) {
     this.name = name;
@@ -44,7 +41,14 @@ export class User {
 
   setMessages(messages: any[]): User {
     messages.forEach(
-      message => this.messages.push(this.buildMessages(message))
+      message => {
+        if (message.read) {
+          this.messagesRead.push(this.buildMessages(message));
+        } else {
+          this.messagesUnread.push(this.buildMessages(message));
+        }
+
+      }
     );
     return this;
   }
@@ -53,14 +57,15 @@ export class User {
     if (message['type'] === 'INVITATION') {
       return {
         'body': 'Użytkownik ' + message['sender'] + ' zaprasza cię do gry',
-        'gameId': message['game'], 'header': 'Zaproszenie do gry'
+        'gameId': message['game'], 'header': 'Zaproszenie do gry', 'id': message['id']
       };
     } else if (message['type'] === 'INFORMATION') {
       return {
         'header': 'Wypisanie z gry', 'gameId': message['game'], 'body': 'Użytkownik '
-          + message['sender'] + ' wypisał się z gry'
+          + message['sender'] + ' wypisał się z gry', 'id': message['id']
       };
     }
     return {'body': '', 'gameId': '', 'header': ''};
   }
 }
+

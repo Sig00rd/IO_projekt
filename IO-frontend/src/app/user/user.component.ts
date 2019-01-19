@@ -25,6 +25,7 @@ export class UserComponent implements OnInit {
     );
     this.http.get<any>(this.HOSTED_GAME).subscribe(
       data => this.gamesHosted = data,
+
       error => console.log(error)
     );
   }

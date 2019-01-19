@@ -1,23 +1,31 @@
 <form [formGroup]="sportObjectForm" (ngSubmit)="onSubmit()">
+  <div class="alert alert-danger" *ngIf="wrongType">
+    <p *ngIf="wrongType">Wybierz poprawny rodzaj obiektu</p>
+    <p *ngIf="sportObjectForm.invalid">Wypełnij wszystkie pola</p>
+  </div>
+
   <div class="form-group">
     <label for="name">Nazwa obiektu</label>
-    <input type="text" id="name"
+    <input type="text" class="form-control" id="name"
            formControlName="name">
   </div>
   <div class="form-group">
     <label for="address">Adres</label>
-    <input type="text" id="address"
+    <input type="text" class="form-control" id="address"
            formControlName="address">
   </div>
   <div class="form-group">
     <label for="city">Miasto</label>
-    <input type="text" id="city"
+    <input type="text" class="form-control" id="city"
            formControlName="city">
   </div>
   <div class="form-group">
     <label for="type">Typ obiektu</label>
-    <input type="text" id="type" placeholder="np. hala"
+    <input type="text" class="form-control" id="type" placeholder="np. hala" list="typeList"
            formControlName="type">
   </div>
+  <datalist id="typeList">
+    <option *ngFor="let type of objectTypes" value="{{type}}"></option>
+  </datalist>
   <button class="btn btn-success" type="submit">Dodaj obiekt</button>
 </form>

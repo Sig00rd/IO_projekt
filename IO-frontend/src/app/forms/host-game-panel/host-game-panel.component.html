@@ -1,10 +1,10 @@
 <div class="container" id="host">
   <div class="row">
-    <div class="col-md-16">
+    <div class="col-md-8 col-md-offset-2">
       <div class="well login-box">
         <form [formGroup]="hostGameForm" (ngSubmit)="onSubmitButton()">
           <h1 style="text-align: center">Zbierz ekipę</h1>
-          <div class="alert alert-danger" *ngIf="invalidForm || priorityDateAfterDate">
+          <div class="alert alert-danger" *ngIf="(invalidForm || priorityDateAfterDate) && !gameWasAdded">
             <p>Błędne dane:</p>
             <ul>
               <li *ngIf="hostGameForm.get('chosenSport').invalid">sport nie został wybrany</li>
@@ -12,10 +12,11 @@
               <li *ngIf="hostGameForm.get('fee').invalid">nieprawidłowa opłata za grę</li>
               <li *ngIf="hostGameForm.get('players').invalid">określenie poziomu jest wymagane</li>
               <li *ngIf="priorityDateAfterDate">data wygaśnięcia priorytetu następuje po dacie gry</li>
+              <li *ngIf="tooManyPlayers">więcej roli priorytetowych niż graczy</li>
             </ul>
           </div>
           <div class="alert alert-success" *ngIf="gameWasAdded">
-            <p>Pomyślnie dodano grę</p> <!-- TODO redirect to game -->
+            <p>Pomyślnie dodano grę</p>
           </div>
           <div class="col-md-offset-1">
             <div class="btn-group" style="alignment: center" data-toggle="buttons" id="chooseSport">
@@ -29,7 +30,6 @@
               <input type="radio" formControlName="chosenSport" name="chosenSport"
                      id="volleyball" value="volleyball" (ngModelChange)="adjustPriorities()">
               <label for="volleyball"> Siatkówka</label>
-              <!-- TODO add other sports -->
             </div>
           </div>
 
@@ -43,7 +43,7 @@
 
             <div *ngIf="addByAddress">
               <label>Adres
-                <input list="address" name="myBrowser" placeholder="np. Babińskiego 10, Kraków"
+                <input class="form-control" list="address" name="myBrowser" placeholder="np. Pachońskiego 10, Kraków"
                        formControlName="address"/></label>
               <datalist id="address">
                 <option *ngFor="let sportObject of sportObjects"
@@ -52,7 +52,7 @@
             </div>
             <div *ngIf="addByName">
               <label>Nazwa obiektu
-                <input list="name" name="myBrowser" placeholder="np. Sadzawki" formControlName="address"/></label>
+                <input class="form-control" list="name" name="myBrowser" placeholder="np. Sadzawki" formControlName="address"/></label>
               <datalist id="name">
                 <option *ngFor="let sportObject of sportObjects" value="{{sportObject.name}}">
               </datalist>
@@ -64,24 +64,27 @@
             <div class="alert alert-success" *ngIf="objectAdded"><p>Pomyślnie oddano obiekt</p></div>
             <div class="form-group">
               <label for="players">Liczba graczy</label>
-              <input type="text" placeholder="*" id="players"
+              <input type="text" class="form-control" placeholder="*" id="players"
                      formControlName="players">
             </div>
             <div class="form-group">
               <label for="date">Data</label>
-              <input type="datetime-local" placeholder="" id="date"
+              <input class="form-control" type="datetime-local" placeholder="" id="date"
                      formControlName="date">
             </div>
             <div class="form-group">
               <label for="fee">Opłata</label>
-              <input type="text" placeholder="*" id="fee"
+              <input type="text" class="form-control" placeholder="*" id="fee"
                      formControlName="fee">
             </div>
             <div class="form-group">
               <label for="level">Poziom</label>
-              <input type="text" placeholder="*" id="level"
+              <input class="form-control" type="text" placeholder="*" id="level" list="levelList"
                      formControlName="level">
             </div>
+            <datalist id="levelList">
+              <option *ngFor="let level of levels" value="{{level}}"></option>
+            </datalist>
             <div class="alert alert-danger" *ngIf="!sportIsChosen">
               <p>Wybierz sport</p>
             </div>
@@ -93,12 +96,12 @@
               <form [formGroup]="prioritiesForm">
                 <div class="form-group" *ngIf="showPriorities">
                   <label>Data wygaśnięcia</label>
-                  <input type="datetime-local"
+                  <input  class="form-control" type="datetime-local"
                          formControlName="priorityDate">
                 </div>
                 <div class="form-group" *ngFor="let role of Object.keys(roles[chosenSport.toUpperCase()])">
                   <label [for]="roles[role]">{{capitalizeFirstLetter(role)}}</label>
-                  <input type="number" formControlName="{{roles[chosenSport.toUpperCase()][role]}}">
+                  <input  class="form-control" type="number" formControlName="{{roles[chosenSport.toUpperCase()][role]}}">
                 </div>
                 <div>
                   <button class="btn btn-default" (click)="showPriorities = false">Anuluj priorytety</button>

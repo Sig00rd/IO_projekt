@@ -7,4 +7,11 @@ export class UserService {
   constructor() {
   }
 
+  isLoggedIn () {
+    const promise = new Promise(
+      resolve => resolve(this.user != null)
+    );
+    return promise;
+  }
+
 }

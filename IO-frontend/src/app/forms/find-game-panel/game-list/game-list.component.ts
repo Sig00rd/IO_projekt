@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GameLobby} from '../../../shared/game.lobby';
 import {GamesService} from '../../../services/games.service';
@@ -22,6 +22,8 @@ export class GameListComponent implements OnInit {
   ngOnInit() {
     this.gamesService.updateGames();
   }
+
+
 
   chosenGame(gameLobby: GameLobby) {
     this.selectedGameEvent.emit(gameLobby);
