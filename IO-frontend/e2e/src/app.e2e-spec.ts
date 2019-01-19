@@ -85,14 +85,17 @@ describe('after clicking register', () => {
 
 describe('after entering valid credentials in login form', () => {
   let page: AppPage;
+  const username = 'julo';
 
   beforeEach( () => {
     page = new AppPage();
     page.navigateTo();
     page.getLoginLink().click();
-    page.getUsernameField().sendKeys('julo');
-    page.getPasswordField().sendKeys('julo');
+    browser.pause();
+    page.getUsernameField().sendKeys(username);
+    page.getPasswordField().sendKeys(username);
     page.getLoginButton().click();
+    browser.pause();
   });
 
   it('should show user navbar after entering valid credentials and logging in', () => {
@@ -100,6 +103,17 @@ describe('after entering valid credentials in login form', () => {
   });
 
   it('should show correct username on the navbar', () => {
-    expect(page.);
+    expect(page.getUserProfileLink(username));
+  });
+
+  it('should More button', () => {
+    page.getMoreButton();
+  });
+
+  it('show Account settings and Logout buttons after clicking More button', () => {
+    page.getMoreButton().click();
+    browser.pause();
+    page.getAccountSettingsButton();
+    page.getLogoutButton();
   });
 });

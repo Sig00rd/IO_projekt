@@ -57,4 +57,20 @@ export class AppPage {
   getLoggedNavbar() {
     return element(by.css('app-logged-navbar'));
   }
+
+  getUserProfileLink(username) {
+    return element(by.linkText(username));
+  }
+
+  getMoreButton() {
+    return element(by.linkText('Więcej'));
+  }
+
+  getAccountSettingsButton() {
+    return element(by.linkText('Ustawienia konta'));
+  }
+
+  getLogoutButton() {
+    return element(by.linkText('Wyloguj'));
+  }
 }
