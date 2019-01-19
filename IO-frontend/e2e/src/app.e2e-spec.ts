@@ -10,7 +10,7 @@ describe('welcome page', () => {
   });
 
   it('should display correct title', () => {
-    expect(page.getTitle().getText()).toEqual('Meczyki');
+    expect(page.getTitle().isPresent()).toEqual(true);
   });
 
   it('should show register link', () => {
@@ -165,5 +165,17 @@ describe('after entering valid credentials in login form', () => {
     beforeEach( () => {
       page = new AppPage();
       page.login(username, password);
+      page.getFindMatchButton().click();
+      browser.pause();
+    });
+
+    afterEach( () => {
+      page.getTitle().click();
+      browser.pause();
+      browser.executeScript('window.sessionStorage.clear();');
+    });
+
+    it('should show panel for finding games', () => {
+      expect(page.getFindGamePanel().isPresent()).toEqual(true);
     });
   });

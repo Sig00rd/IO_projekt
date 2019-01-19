@@ -103,4 +103,8 @@ export class AppPage {
   getAddByNameButton() {
     return element(by.buttonText('Dodaj po nazwie'));
   }
+
+  getFindGamePanel() {
+    return element(by.css('app-find-game-panel'));
+  }
 }
