@@ -107,4 +107,4 @@ W projekcie zostanie użyty system kontroli wersji - <b>git</b>. Repozytorium b�
 
 # OPIS INTERFEJSÓW
 
-Aplikacja będzie posiadała interfejs webowy oraz mobilny. Użytkownik będzie miał możliwość utworzenia własnego konta oraz w razie potrzeby odzyskania hasła. Po zalogowaniu i wyborze trybu szukania gry, aplikacja wyświetli mapę oraz listę dostępnych gier, spełniających wymagania podane przez użytkownika. W przypadku chęci założenia gry, wyświelony zostanie formularz z danymi niezbędnymi do utworzenia nowej grupy.
+Aplikacja będzie posiadała interfejs webowy. Użytkownik będzie miał możliwość utworzenia własnego konta. Po zalogowaniu i wyborze trybu szukania gry, aplikacja wyświetli mapę oraz listę dostępnych gier, spełniających wymagania podane przez użytkownika. W przypadku chęci założenia gry, wyświelony zostanie formularz z danymi niezbędnymi do utworzenia nowej grupy.
