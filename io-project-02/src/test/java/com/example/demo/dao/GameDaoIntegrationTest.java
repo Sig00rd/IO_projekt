@@ -6,7 +6,6 @@ import com.example.demo.entity.SportObject;
 import com.example.demo.entity.User;
 import com.example.demo.test_utils.TestUtils;
 import com.example.demo.utils.LevelType;
-import com.example.demo.utils.SportObjectType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class GameDaoIntegrationTest
 
         Game game = new Game(
                 new Float(0.0), 4, data,
-                LevelType.ADVANCED, mosir, seba, kosz
+                LevelType.ZAAWANSOWANY, mosir, seba, kosz
         );
 
         entityManager.persist(game);
@@ -51,7 +50,7 @@ public class GameDaoIntegrationTest
         // when
         List<Game> found = gameDao.getFilteredGames(
                 accepted, "koszykówka",
-                LevelType.GOOD, LevelType.ADVANCED,
+                LevelType.DOBRY, LevelType.ZAAWANSOWANY,
                 data, new Date()
         );
 
