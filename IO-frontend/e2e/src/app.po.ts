@@ -23,11 +23,11 @@ export class AppPage {
   }
 
   getLoginWindow() {
-    return element(by.css('login'));
+    return element(by.id('login'));
   }
 
   getRegisterWindow() {
-    return element(by.css('register'));
+    return element(by.id('login'));
   }
 
   getRegisterButton() {
@@ -51,7 +51,7 @@ export class AppPage {
   }
 
   getRePasswordField() {
-    return this.getFormField('rpassword');
+    return this.getFormField('rPassword');
   }
 
   getLoggedNavbar() {
@@ -75,11 +75,11 @@ export class AppPage {
   }
 
   getFindMatchButton() {
-    return element(by.css('btn-primary'));
+    return element(by.buttonText('znaleźć ekipę'));
   }
 
   getArrangeMatchButton() {
-    return element(by.css('btn-success'));
+    return element(by.buttonText('zebrać ekipę'));
   }
 
   login(username, password) {
@@ -90,5 +90,17 @@ export class AppPage {
     this.getPasswordField().sendKeys(password);
     this.getLoginButton().click();
     browser.pause();
+  }
+
+  getArrangeMatchForm() {
+    return element(by.id('host'));
+  }
+
+  getAddByAddressButton() {
+    return element(by.buttonText('Dodaj po adresie'));
+  }
+
+  getAddByNameButton() {
+    return element(by.buttonText('Dodaj po nazwie'));
   }
 }
