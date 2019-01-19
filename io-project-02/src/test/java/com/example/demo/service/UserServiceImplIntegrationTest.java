@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.GameDao;
+import com.example.demo.dao.NotificationDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.test_utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -33,6 +36,12 @@ public class UserServiceImplIntegrationTest
 
     @MockBean
     private UserDao userDao;
+
+    @MockBean
+    private GameDao gameDao;
+
+    @MockBean
+    private NotificationDao notificationDao;
 
     @Before
     public void setUp() {
