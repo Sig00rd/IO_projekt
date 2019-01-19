@@ -7,7 +7,7 @@ import com.example.demo.test_utils.TestUtils;
 import com.example.demo.utils.RoleName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashSet;
@@ -18,6 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserPrincipleTest
 {
+
     @Test
     public void whenBuildUserPrinciple_thenResultUserPrincipleShouldRetainUserData() {
         // given
@@ -45,8 +46,9 @@ public class UserPrincipleTest
         UserPrinciple sebaPrinciple = UserPrinciple.build(seba);
 
         // then
-        assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_USER));
-        assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
+        assertThat(this.userPrincipleHasAuthority(sebaPrinciple, "ROLE_USER"));
+        //assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_USER));
+        //assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
     }
 
     @Test
@@ -61,7 +63,17 @@ public class UserPrincipleTest
         UserPrinciple sebaPrinciple = UserPrinciple.build(seba);
 
         // then
-        assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_ADMIN));
-        assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
+        assertThat(this.userPrincipleHasAuthority(sebaPrinciple, "ROLE_ADMIN"));
+        //assertThat(sebaPrinciple.getAuthorities().contains(RoleName.ROLE_ADMIN));
+        //assertThat(sebaPrinciple.getAuthorities().size()).isEqualTo(1);
+    }
+
+    private boolean userPrincipleHasAuthority(UserPrinciple userPrinciple, String authority) {
+        for(GrantedAuthority grantedAuthority : userPrinciple.getAuthorities()) {
+            if(authority.equals(grantedAuthority.getAuthority())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
