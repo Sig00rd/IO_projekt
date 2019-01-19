@@ -90,22 +90,22 @@ Użytkownik w panelu własnej utworzonej gry ma możliwość wysłania komunikat
 # STOS TECHNOLOGICZNY 
 <img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/stack.png?token=AgBz_HtJqWxW0ah_0sHgSIBJ_5AGULNcks5cTMnnwA%3D%3D">
 
-# PROJEKT TESTÓW
-W projekcie testów wydzielono 4 etapy testowania w trakcie cyklu powstawania aplikacji: fazy testów jednostkowych, integracyjnych, systemowych oraz akceptacyjnych.
+# RAPORT Z TESTÓW
 
-## Testy jednostkowe.
-W tej fazie automatycznym testom będą poddawane wyizolowane jednostki kodu należące przede wszystkim do logiki aplikacji. Kod Javy i Springa będzie testowany za pomocą JUnit i Mockito, zaś do Javascriptowego użyty zostanie Jest.
-## Testy integracyjne.
-Będą sprawdzać komunikację między interfejsami poszczególnych modułów. Plan zakłada testy integracyjne najpierw kontrolera z logiką aplikacji, a następnie dołączanie kolejno modułu odpowiedzialnego za bazę danych, warstwy widoku i interfejsu graficznego, do sprawdzenia integracji całego systemu i wykrycia oraz korekcji błędów na poszczególnych wcześniejszych etapach. Zespół będzie wykorzystywał MockMVC oraz Protractor.
+## Testy jednostkowe i integracyjne.
+W tej fazie przeprowadzano testy jednostkowe i integracyjne backendu aplikacji wykorzystując JUnit, Mockito, Mockmvc, AssertJ i Hamcrest. Testy sprawdzające komunikację z bazą danych wykonywano najpierw na bazie w pamięci H2, później na bazie danych MySQL środowiska testowego.
+
 ## Testy systemowe.
-Na tym etapie zastosowane zostaną testy funkcjonalne i niefunkcjonalne dzięki którym możliwa będzie ocena w jakim stopniu system spełnia postawione mu wymagania funkcjonalne i niefunkcjonalne. Zostanie sprawdzona m.in. wydajność i odporność na przeciążenia systemu. Zespół zakłada używanie Protractora i Selenium, choć jest możliwym, że w tej fazie stosowane będą głównie testy manualne.
+W fazie testów systemowych korzystano ze zautomatyzowanych za pomocą frameworka Protractor testów funkcjonalnych mających na celu zweryfikowanie poprawności działania aplikacji przy wybranych scenariuszach testowych. Funkcjonalności których nie udało się przetestować w sposób automatyczny przetestowano manualnie.
+
 ## Testy akceptacyjne.
-W tej fazie przeprowadzone będą głównie manualne, czarnoskrzynkowe testy całego systemu ukierunkowane na sprawdzenie użyteczności systemu dla jego potencjalnego użytkownika oraz zgodności działania aplikacji z wymaganiami w stopniu satysfakcjonującym osobę która z aplikacji mogłaby korzystać. W tę fazę testów zaangażowane będą osoby które wcześniej nie odpowiadały za testy aby “zasymulować” przeprowadzanie takich testów przez klienta.
+Polegały zgodnie z projektem na testach manualnych wykonywanych przez wcześniej niezaangażowanych w testowanie członków zespołu ukierunkowanych na sprawdzenie zgodności aplikacji z wymaganiami funkcjonalnymi i niefunkcjonalnymi zdefiniowanymi na etapie projektowym.
 
+Przy większych zmianach projektu uruchamiano obecne wtedy testy automatyczne w charakterze testów regresyjnych aby upewnić się o nie naruszeniu poprawności działania zaimplementowanych dotychczas funkcjonalności.
 
-Oprócz tego przy wprowadzaniu większych zmian używane będą testy regresyjne.
-
-Pokrycie kodu testami będzie sprawdzane za pomocą Jesta oraz Codecov.
+## Uruchamianie testów
+Testy backendu uruchamiano w IDE Intellij IDEA za pomocą polecenia Run All Test dostępnego z menu kontekstowego po kliknięciu PPM na katalog zawierający moduł testowy. Wszystkie zależności niezbędne do uruchomienia testów są wyszczególnione w pliku z zależnościami projektu z Mavena i zainstalują się wraz z resztą aplikacji po zastosowaniu się do opisanej niżej procedury instalacyjnej.
+Do uruchomienia automatycznych testów funkcjonalnych potrzebny jest Protractor, którego można zainstalować z npma. Automatyczne testy funkcjonalne uruchamia się wchodząc do katalogu e2e we frontendzie i wywołując "protractor app.e2e-spec.ts" w konsoli.
 
 # LISTA NARZĘDZI
 W projekcie zostanie użyty system kontroli wersji - <b>git</b>. Repozytorium będzie hostowane na serwisie <b>GitHub</b> co umożliwi m. in. na issue tracking lub to-do list.
