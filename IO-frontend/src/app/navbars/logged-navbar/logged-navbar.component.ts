@@ -14,6 +14,7 @@ export class LoggedNavbarComponent implements OnInit {
   private user: User;
   private USERS_API = 'http://localhost:8080/api/users/';
   private MESSAGES_API = 'http://localhost:8080/api/notifications/';
+
   userReady = false;
   @Output() private logOutEvent = new EventEmitter();
 
@@ -29,12 +30,16 @@ export class LoggedNavbarComponent implements OnInit {
       data => {
         this.user.setEmail(data['email']).setDescription('totalny kozak')
           .setPhotoUrl('https://i.ytimg.com/vi/5-32LWcqQkU/hqdefault.jpg').setID(data['id']).setGames([]);
-        this.http.get<string[]>(this.MESSAGES_API).subscribe(
-          messages => this.user.setMessages(messages),
-          error => console.log(error)
-        );
+        this.refreshMessages();
         this.userReady = true;
       },
+      error => console.log(error)
+    );
+  }
+
+  refreshMessages() {
+    this.http.get<string[]>(this.MESSAGES_API).subscribe(
+      messages => this.user.setMessages(messages),
       error => console.log(error)
     );
   }
@@ -53,4 +58,10 @@ export class LoggedNavbarComponent implements OnInit {
     this.router.navigate(['/user']);
   }
 
+  setMessageAsRead(id: number) {
+    this.http.put(this.MESSAGES_API + id, null).subscribe(
+      data => this.refreshMessages(),
+      error => console.log(error)
+    );
+  }
 }

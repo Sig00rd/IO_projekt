@@ -5,5 +5,8 @@
     <p class="list-group-item-text">{{ game.sportObject.address + ' ' + game.sportObject.city}}</p>
     <p class="list-group-item-text">{{ 'Potrzeba ' + game.stillNeeded + ' graczy'}}</p>
   </div>
+  <div class="pull-right">
+    <button class="btn btn-danger" (click)="onCancelClicked()">Odwołaj</button>
+  </div>
 </a>
 

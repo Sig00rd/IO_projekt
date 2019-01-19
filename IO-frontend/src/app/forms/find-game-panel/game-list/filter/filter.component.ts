@@ -30,7 +30,7 @@ export class FilterComponent implements OnInit {
       'distance': new FormControl(null),
       'maxLevel': new FormControl(null),
       'fromDate': new FormControl(null),
-      'toDate': new FormControl(null) // TODO add filter roles
+      'toDate': new FormControl(null)
     });
   }
 

@@ -1,6 +1,4 @@
-import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {GameInfo} from '../../shared/game.info';
-import {SportObject} from '../../shared/sport.object';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {TokenStorage} from '../../auth/token.storage';
 import {GameForm} from '../../shared/game.form';
@@ -34,6 +32,9 @@ export class HostGamePanelComponent implements OnInit {
   pitchRoles = {};
 
   sportObjects = [];
+  levels = ['REKREACJA', 'ŚREDNI', 'DOBRY', 'ZAAWANSOWANY'];
+
+  tooManyPlayers = false;
 
   addByName = false;
   addByAddress = false;
@@ -76,22 +77,27 @@ export class HostGamePanelComponent implements OnInit {
 
 
   ngOnInit() {
+    this.tooManyPlayers = false;
     this.hostGameForm = new FormGroup({
       'chosenSport': new FormControl(null, [Validators.required]),
-      'level': new FormControl(null, [Validators.required]), // TODO add level enums
+      'level': new FormControl(null, [Validators.required]),
       'fee': new FormControl(null, [Validators.required, Validators.min(0)]),
       'players': new FormControl(null, [Validators.required, Validators.min(1)]),
       'address': new FormControl(null, [Validators.required]),
-      'date': new FormControl(null, [Validators.required]), // TODO refuse if time is past
+      'date': new FormControl(null, [Validators.required]),
     });
+    this.refreshSportObjects();
+    this.showAddObjectForm = false;
+    this.objectAdded = false;
+  }
+
+  refreshSportObjects() {
     this.http.get<any[]>(this.SPORTOBJECTS_API).subscribe(
       data => {
         this.sportObjects = data;
       },
       error => console.log(error)
     );
-    this.showAddObjectForm = false;
-    this.objectAdded = false;
   }
 
 
@@ -105,7 +111,7 @@ export class HostGamePanelComponent implements OnInit {
       this.chosenSport = this.hostGameForm.get('chosenSport').value;
 
 
-      if (this.prioritiesForm != null) { // TODO make it prettier
+      if (this.prioritiesForm != null) {
         this.priorityDate = this.prioritiesForm.get('priorityDate').value;
         if (this.priorityDate === null) {
           this.priorityDate = this.date;
@@ -132,8 +138,9 @@ export class HostGamePanelComponent implements OnInit {
           );
         }
         if (sum > this.pitchRoles) {
-          console.log('more roles than players');
+          this.tooManyPlayers = true;
         } else {
+          this.tooManyPlayers = false;
           const newGame = new GameForm(this.fee, this.players, this.date, this.priorityDate,
             this.address, this.chosenSport.toUpperCase(), this.pitchRoles, this.level);
           this.http.post(this.GAMES_API, newGame).subscribe(
@@ -187,6 +194,7 @@ export class HostGamePanelComponent implements OnInit {
   showSuccessForm() {
     this.objectAdded = true;
     this.showAddObjectForm = false;
+    this.refreshSportObjects();
   }
 
 }

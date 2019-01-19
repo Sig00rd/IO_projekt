@@ -1,5 +1,4 @@
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {GameLobby} from './game.lobby';
 import {Observable} from 'rxjs';
 import {GamesService} from '../services/games.service';
 import {GameInfo} from './game.info';

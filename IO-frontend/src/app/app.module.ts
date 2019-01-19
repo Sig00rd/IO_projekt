@@ -32,19 +32,27 @@ import {SportObjectComponent} from './forms/sport-object/sport-object.component'
 import { HostedGamesComponent } from './user/hosted-games/hosted-games.component';
 import { JoinedGamesComponent } from './user/joined-games/joined-games.component';
 import { GamesElementComponent } from './user/games-element/games-element.component';
-
-// TODO add routing details
-// TODO add routing guards
+import { GameNotExistingComponent } from './game-not-existing/game-not-existing.component';
+import { MessagesComponent } from './navbars/logged-navbar/messages/messages.component';
+import { SettingsComponent } from './navbars/logged-navbar/settings/settings.component';
+import {AuthGuardService} from './services/authguard.service';
+import { WelcomeComponent } from './welcome/welcome.component';
+import {HomePageGuard} from './services/home.page.guard';
 
 const appRoutes: Routes = [
+  {path: '', canActivate: [HomePageGuard], component: WelcomeComponent},
   {path: 'login', component: LoginPageComponent},
   {path: 'register', component: RegisterPageComponent},
-  {path: 'home', component: FeatureChoicePanelComponent},
-  {path: 'find', component: FindGamePanelComponent, children: [
+  {path: 'home', component: FeatureChoicePanelComponent, canActivate: [AuthGuardService]},
+  {path: 'find', component: FindGamePanelComponent, canActivate: [AuthGuardService], children: [
+      {path: '-1', component: GameNotExistingComponent},
       {path: ':id', component: GameDetailsComponent}
     ]},
-  {path: 'host', component: HostGamePanelComponent},
-  {path: 'user', component: UserComponent}
+  {path: 'host', component: HostGamePanelComponent, canActivate: [AuthGuardService]},
+  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
+  {path: 'messages', component: MessagesComponent, canActivate: [AuthGuardService]},
+  {path: 'user', component: UserComponent, canActivate: [AuthGuardService]},
+  {path: '**', redirectTo: ''}
 ];
 registerLocaleData(localePl);
 
@@ -68,7 +76,11 @@ registerLocaleData(localePl);
     SportObjectComponent,
     HostedGamesComponent,
     JoinedGamesComponent,
-    GamesElementComponent
+    GamesElementComponent,
+    GameNotExistingComponent,
+    MessagesComponent,
+    SettingsComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +99,8 @@ registerLocaleData(localePl);
     GamesService,
     TokenStorage,
     UserService,
+    AuthGuardService,
+    HomePageGuard,
     {provide: LOCALE_ID, useValue: 'pl'},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

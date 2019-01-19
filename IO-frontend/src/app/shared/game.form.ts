@@ -1,4 +1,4 @@
-import {SportObject} from './sport.object';
+
 
 export class GameForm {
   cost: number;
