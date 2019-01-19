@@ -12,6 +12,8 @@
 [6. Lista narzędzi](#lista-narzędzi)
 <br>
 [7. Opis interfejsów](#opis-interfejsów)
+<br>
+[8. Instrukcja obsługi](#instrukcja-obslugi)
 
 # ARCHITEKTURA SYSTEMU
 <img src="https://images.tinypic.pl/i/00974/t5dnp3l8q4fu.png">
@@ -107,4 +109,55 @@ W projekcie zostanie użyty system kontroli wersji - <b>git</b>. Repozytorium b�
 
 # OPIS INTERFEJSÓW
 
-Aplikacja będzie posiadała interfejs webowy oraz mobilny. Użytkownik będzie miał możliwość utworzenia własnego konta oraz w razie potrzeby odzyskania hasła. Po zalogowaniu i wyborze trybu szukania gry, aplikacja wyświetli mapę oraz listę dostępnych gier, spełniających wymagania podane przez użytkownika. W przypadku chęci założenia gry, wyświelony zostanie formularz z danymi niezbędnymi do utworzenia nowej grupy.
+Aplikacja będzie posiadała interfejs webowy. Użytkownik będzie miał możliwość utworzenia własnego konta. Po zalogowaniu i wyborze trybu szukania gry, aplikacja wyświetli mapę oraz listę dostępnych gier, spełniających wymagania podane przez użytkownika. W przypadku chęci założenia gry, wyświelony zostanie formularz z danymi niezbędnymi do utworzenia nowej grupy.
+
+# INSTRUKCJA OBSŁUGI
+
+# IOBackend
+
+## Importing project
+
+After you unzip project file, switch to your IDE, and import this project as a Maven project. After that, update Maven project to be sure that every dependency was injected. Then, you are ready to setup database.
+
+## Setting up database
+
+Application expect MySQL 8.0 database to work as intended. Next, it is necessary to create user assigned to localhost: 
+
+`CREATE USER 'hbstudent'@'localhost' IDENTIFIED BY 'hbstudent';`
+
+`GRANT ALL PRIVILEGES ON * . * TO 'hbstudent'@'localhost';`
+
+After that, you are ready to execute SQL script which generate database. Location of script: `io-project-02/sql_scripts/main_script.sql`
+
+
+## Running the application locally
+
+To run spring boot application execute the `main` method in the `io-project-02/src/main/java/com/example/demo/SpringBootRestRegistrationApplication.java` class from your IDE.
+
+# IOFrontend
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
