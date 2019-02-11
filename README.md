@@ -92,13 +92,13 @@ Użytkownik w panelu własnej utworzonej gry ma możliwość wysłania komunikat
 
 # RAPORT Z TESTÓW
 
-## Testy jednostkowe i integracyjne.
+## Testy jednostkowe i integracyjne
 W tej fazie przeprowadzano testy jednostkowe i integracyjne backendu aplikacji wykorzystując JUnit, Mockito, Mockmvc, AssertJ i Hamcrest. Testy sprawdzające komunikację z bazą danych wykonywano najpierw na bazie w pamięci H2, później na bazie danych MySQL środowiska testowego.
 
-## Testy systemowe.
+## Testy systemowe
 W fazie testów systemowych korzystano ze zautomatyzowanych za pomocą frameworka Protractor testów funkcjonalnych mających na celu zweryfikowanie poprawności działania aplikacji przy wybranych scenariuszach testowych. Funkcjonalności których nie udało się przetestować w sposób automatyczny przetestowano manualnie.
 
-## Testy akceptacyjne.
+## Testy akceptacyjne
 Polegały zgodnie z projektem na testach manualnych wykonywanych przez wcześniej niezaangażowanych w testowanie członków zespołu ukierunkowanych na sprawdzenie zgodności aplikacji z wymaganiami funkcjonalnymi i niefunkcjonalnymi zdefiniowanymi na etapie projektowym.
 
 Przy większych zmianach projektu uruchamiano obecne wtedy testy automatyczne w charakterze testów regresyjnych aby upewnić się o nie naruszeniu poprawności działania zaimplementowanych dotychczas funkcjonalności.
