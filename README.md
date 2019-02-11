@@ -10,19 +10,19 @@ Autorzy: Szymon Fugas, Juliusz Ryłko, Miłosz Szwedo, Bartłomiej Zachariasz
 <br>
 [4. Stos technologicny](#stos-technologiczny)
 <br>
-[5. Projekt testów](#projekt-testów)
+[5. Raport z testów](#raport-z-testów)
 <br>
 [6. Lista narzędzi](#lista-narzędzi)
 <br>
 [7. Opis interfejsów](#opis-interfejsów)
 <br>
-[8. Instrukcja obsługi](#instrukcja-obslugi)
+[8. Instrukcja obsługi](#instrukcja-obsługi)
 
 # ARCHITEKTURA SYSTEMU
-<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/interfaces.png?token=AgBz_ArC_fgIwoadw_VqptcIXehmk7qzks5cTMnpwA%3D%3D">
+<img src="https://raw.githubusercontent.com/Sig00rd/IO_projekt/master/interfaces.png">
 
 # PRZYPADKI UŻYCIA
-<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/use_cases_final.png?token=AgBz_JtZMDuMSfYDywIZsMs5xn4UaAuOks5cTMsBwA%3D%3D">
+<img src="https://raw.githubusercontent.com/Sig00rd/IO_projekt/master/use_cases_final.png">
 
 # LISTA WYMAGAŃ
 
@@ -88,7 +88,7 @@ Użytkownik w panelu własnej utworzonej gry ma możliwość wysłania komunikat
 </il>
 
 # STOS TECHNOLOGICZNY 
-<img src="https://raw.githubusercontent.com/bartlomiejzachariasz/IO_project_2/master/stack.png?token=AgBz_HtJqWxW0ah_0sHgSIBJ_5AGULNcks5cTMnnwA%3D%3D">
+<img src="https://raw.githubusercontent.com/Sig00rd/IO_projekt/master/stack.png">
 
 # RAPORT Z TESTÓW
 
